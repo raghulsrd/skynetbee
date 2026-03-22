@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Globe</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Arial", sans-serif;
+        background: rgb(7, 7, 7);
+        color: white;
+        overflow-x: hidden;
+      }
+
+      /* Background */
+      .bg {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: -2;
+      }
+      .hex {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: url("https://image.ibb.co/jguO0J/hexa_tiling_transparent.png");
+        background-size: 300px 229px;
+      }
+      .fx {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .light {
+        position: absolute;
+        transform: translate(-150px, -150px);
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          #ffc100,
+          #ffc100 100px,
+          rgba(0, 160, 255, 0) 150px
+        );
+        opacity: 1;
+        transition: opacity 800ms;
+      }
+
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background: #ffc100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        border-bottom: 1px solid #333;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      .logo-img {
+        height: 40px;
+        width: 40px;
+        margin-right: 10px;
+      }
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 10px;
+        border-radius: 8px;
+      }
+      .nav-links a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #00ffff;
+      }
+
+      /* Mobile Hamburger Menu */
+      .hamburger {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: white;
+      }
+      .mobile-menu {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        background-color: #111;
+        padding: 10px;
+        z-index: 999;
+      }
+      .mobile-menu a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        border-bottom: 1px solid #333;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .hamburger {
+          display: block;
+        }
+        .mobile-menu.active {
+          display: flex;
+        }
+      }
+
+      /* 3D Tag Cloud */
+      #container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .tag-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0);
+        color: white;
+        font-size: 13px;
+        font-weight: bold;
+
+        white-space: nowrap;
+      }
+
+      .tag-item img {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      /* Cards Section */
+      .cards-section {
+        margin-top: 100vh;
+        padding: 50px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      .card {
+        width: 180px;
+        height: 250px;
+        background-color: #1e1e1e;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+      }
+
+      .card img.bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      .card .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.3s;
+        opacity: 0;
+        z-index: 2;
+      }
+
+      .card:hover .overlay {
+        opacity: 1;
+      }
+
+      .card .overlay img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+      }
+
+      .card .overlay h4 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .card .overlay p {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background -->
+    <div class="bg">
+      <div class="fx"></div>
+      <div class="hex"></div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="logo">
+        <img src="img/skynetbeepng.png" alt="Logo" class="logo-img" />
+        <span class="logo-text">SKYNETBEE</span>
+      </div>
+      <nav class="nav-links">
+        <a href="../index.html" class="hover:text-black">HOME</a>
+        <a href="web.html" class="hover:text-black">WEB</a>
+        <a href="robotics.html" class="hover:text-black">ROBOTICS</a>
+        <a href="apple.html" class="hover:text-black">APPLE</a>
+        <a href="android.html" class="hover:text-black">ANDROID</a>
+        <a href="dotnet.html" class="hover:text-black">DOTNET</a>
+        <a href="https://www.skynetbee.com/skynetbee/">DEVZONE</a>
+        <a href="spider.html">CONTACT</a>
+      </nav>
+      <div class="hamburger" id="hamburger">☰</div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="../index.html" class="hover:text-black">HOME</a>
+      <a href="web.html" class="hover:text-black">WEB</a>
+      <a href="robotics.html" class="hover:text-black">ROBOTICS</a>
+      <a href="apple.html" class="hover:text-black">APPLE</a>
+      <a href="android.html" class="hover:text-black">ANDROID</a>
+      <a href="dotnet.html" class="hover:text-black">DOTNET</a>
+      <a href="https://www.skynetbee.com/skynetbee/">DEVZONE</a>
+      <a href="spider.html">CONTACT</a>
+    </div>
+
+    <!-- 3D Tag Cloud -->
+    <div id="container"></div>
+
+    <!-- Cards Section -->
+    <section class="cards-section">
+      <div class="card">
+        <img src="s-img/yogashree.jpg" class="bg" />
+        <div class="overlay">
+          <img src="s-img/yogashree.jpg" />
+          <h4>Yoga Shree</h4>
+          <p>ECE Dept</p>
+        </div>
+      </div>
+      <!-- Add more cards -->
+    </section>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- 3D Tag Cloud Globe -->
+    <script type="module">
+      import * as THREE from "https://cdn.skypack.dev/three@0.129.0";
+      import {
+        CSS2DRenderer,
+        CSS2DObject,
+      } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/renderers/CSS2DRenderer.js";
+
+      const students = [
+        { name: "Yoga Shree", img: "s-img/yogashree.jpg" },
+        { name: "Madhavan", img: "s-img/madhavan.jpeg" },
+        { name: "Harrish", img: "images/harrish.jpg" },
+        { name: "Sudhakar", img: "images/sudhakar.jpg" },
+        { name: "Barath", img: "images/barath.jpg" },
+        { name: "Rithik", img: "images/rithik.jpg" },
+        { name: "Kesavan", img: "images/kesavan.jpg" },
+        { name: "Taakifa", img: "images/taakifa.jpg" },
+        { name: "Hemalatha", img: "images/hemalatha.jpg" },
+        { name: "Shakthi", img: "images/shakthi.jpg" },
+        { name: "Devi Priya", img: "images/devipriya.jpg" },
+        { name: "Sridharan", img: "images/sridharan.jpg" },
+        { name: "Rathish", img: "images/rathish.jpg" },
+        { name: "Logeshwaran", img: "images/logesh.jpg" },
+        { name: "Boopalan", img: "images/boopalan.jpg" },
+      ];
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        1,
+        1000,
+      );
+      camera.position.z = 400;
+
+      const renderer = new CSS2DRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.domElement.style.position = "absolute";
+      renderer.domElement.style.top = "0";
+      document.getElementById("container").appendChild(renderer.domElement);
+
+      const group = new THREE.Group();
+      scene.add(group);
+      let radius = window.innerWidth < 768 ? 100 : 150;
+
+      students.forEach((student, i) => {
+        const phi = Math.acos(1 - (2 * (i + 0.5)) / students.length);
+        const theta = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
+
+        const div = document.createElement("div");
+        div.className = "tag-item";
+        div.innerHTML = `<img src="${student.img}" /><span>${student.name}</span>`;
+
+        const label = new CSS2DObject(div);
+        label.position.setFromSphericalCoords(radius, phi, theta);
+        group.add(label);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        group.rotation.y += 0.002;
+        group.rotation.x += 0.001;
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+
+    <!-- Glow Cursor Effect -->
+    <script>
+      $(function () {
+        const fx = $(".fx");
+        let pos = null;
+        $(window).mousemove((e) => (pos = { x: e.pageX, y: e.pageY }));
+        function loop() {
+          if (pos) {
+            const light = $('<div class="light">')
+              .css({ left: pos.x + "px", top: pos.y + "px" })
+              .appendTo(fx);
+            setTimeout(() => light.css("opacity", 0), 0);
+            setTimeout(() => light.remove(), 800);
+          }
+          requestAnimationFrame(loop);
+        }
+        loop();
+      });
+
+      // Hamburger toggle
+      document.getElementById("hamburger").onclick = () => {
+        document.getElementById("mobileMenu").classList.toggle("active");
+      };
+    </script>
+  </body>
+</html>

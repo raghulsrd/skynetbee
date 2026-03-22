@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('img/vec.jpg'); /* Replace with your image */
+      background-size: cover;
+      background-position: center;
+      filter: blur(15px);
+      z-index: -1;
+    }
+
+    .tagcloud {
+      font-size: 20px;
+      width: 50%;
+      color: #ffffff;
+      font-weight: 900;
+      margin: auto;
+    }
+
+    .tagcloud--item:hover {
+      color: #ffd000;
+    }
+
+    .student-card {
+      width: 200px;
+      height: 250px;
+      perspective: 1000px;
+      flex-shrink: 0;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .student-card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      padding: 1rem;
+      text-align: center;
+    }
+    .card-front img {
+  border-radius: 1rem; /* You can adjust to 50% for full circle or smaller like 0.5rem */
+}
+.card-front img,
+.card-back img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0.75rem; /* Optional: Rounded square look */
+}
+
+
+    .card-back {
+      transform: rotateY(180deg);
+      flex-direction: column;
+      background: linear-gradient(to bottom, #33322e, #ffd632, #ffcc00);
+
+      color: #000000;
+      
+    }
+
+    .card-back img {
+      width: 80px;
+      height: 80px;
+      border-radius: 9999px;
+      margin-bottom: 0.5rem;
+      background-color: #ffffff;
+    }
+
+   
+
+
+    @media (max-width: 768px) {
+      .arrow-btn {
+        display: none;
+      }
+
+      
+
+      .student-card {
+        transition: all 0.3s ease;
+        transform-origin: center center;
+      }
+
+      .highlight {
+        transform: scale(1.1);
+        opacity: 1;
+        z-index: 10;
+      }
+
+      .dimmed {
+        transform: scale(0.95);
+        opacity: 0.6;
+        z-index: 1;
+      }
+    }
+    @media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+  }
+}
+.tagcloud {
+  width: 130%; /* instead of 50% */
+  text-align: center;
+}
+
+  .wing {
+  
+  padding: 0rem;
+  border-radius: 0.9rem;
+  margin-top: 0rem;
+
+  color: #ffffff;
+    font-size: small;
+}
+.card-front {
+  border: 1px solid #ffcc00; /* bright yellow */
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #000000, #1a1a1a, #2e2e2e);
+
+}
+/* Full yellow navbar */
+.full-yellow-nav {
+  background-color: #ffcc00 !important;
+  color: rgb(0, 0, 0) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile sliding menu full yellow */
+#mobileMenu {
+  background-color: #000000 !important;
+  color: #ffcc00 !important;
+}
+nav a:hover,
+#mobileMenu a:hover {
+  color: rgb(0, 0, 0) !important;
+}
+/*contact ui*/
+/* Contact Form Styles from Uiverse.io by Smit-Prajapati */
+.orange {
+  color: #ffcc00;
+}
+
+.form-container {
+  max-width: 700px;
+  margin: 30px auto;
+  background-color: #020202;
+  padding: 30px;
+  border-left: 5px solid #ffcc00;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+}
+
+.heading {
+  display: block;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.form-container .form .input {
+  color: #ffffff;
+  width: 100%;
+  background-color: #343434;
+  border: none;
+  outline: none;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  border-left: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-container .form .input:focus {
+  border-left: 5px solid #ffcc00;
+}
+
+.form-container .form .textarea {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: #343434;
+  color: #ffcc00;
+  font-weight: bold;
+  resize: none;
+  max-height: 150px;
+  margin-bottom: 20px;
+  border-left: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-container .form .textarea:focus {
+  border-left: 5px solid #ffcc00;
+}
+
+.form-container .form .button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.form-container .form .button-container .send-button {
+  flex-basis: 70%;
+  background: #ffcc00;
+  padding: 10px;
+  color: #696969;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-container .form .button-container .send-button:hover {
+  background: transparent;
+  border: 1px solid #ffcc00;
+  color: #ffcc00;
+}
+
+.form-container .form .button-container .reset-button-container {
+  filter: drop-shadow(1px 1px 0px #ffcc00);
+  flex-basis: 30%;
+}
+
+.form-container .form .button-container .reset-button-container .reset-button {
+  position: relative;
+  text-align: center;
+  padding: 10px;
+  color: #ffcc00;
+  font-weight: bold;
+  background: #343434;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  transition: all 0.2s ease-in-out;
+}
+
+.form-container .form .button-container .reset-button-container .reset-button:hover {
+  background: #ffcc00;
+  color: #343434;
+}
+
+/*contact ui*/
