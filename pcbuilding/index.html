@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Westeros PC Championship</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Game of Thrones realistic theme */
+        :root {
+            --stark: #394049;
+            --lannister: #9e0b0f;
+            --baratheon: #f9e20d;
+            --tyrell: #3a8a3a;
+            --martell: #e67e22;
+            --greyjoy: #2c3e50;
+            --targaryen: #9e0b0f;
+            --whitewalker: #a0d6e8;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+            --parchment: #f5e7c1;
+            --blood-red: #660000;
+            --iron: #5a5a5a;
+            --leather: #8B4513;
+            --current-round: rgba(74, 107, 255, 0.2);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Game of Thrones', 'Times New Roman', serif;
+            background: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #e1d9c3;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: -1;
+        }
+        
+        @font-face {
+            font-family: 'Game of Thrones';
+            src: url('https://fonts.cdnfonts.com/css/game-of-thrones') format('woff2');
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Parchment-style header */
+        header {
+            background: url('https://www.transparenttextures.com/patterns/old-paper.png'), linear-gradient(to bottom, rgba(245, 231, 193, 0.9), rgba(210, 180, 140, 0.9));
+            color: #3a3226;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            border: 15px solid transparent;
+            border-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png') 30 round;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            height: 20px;
+            background: url('https://www.transparenttextures.com/patterns/fabric-of-squares.png'), linear-gradient(to bottom, rgba(139, 69, 19, 0.8), rgba(101, 67, 33, 0.5));
+            border-radius: 0 0 5px 5px;
+            z-index: -1;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            position: relative;
+            letter-spacing: 3px;
+            color: var(--blood-red);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            margin-top: 10px;
+            position: relative;
+            letter-spacing: 2px;
+            color: #5a3921;
+        }
+        
+        .total-points {
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), linear-gradient(to bottom, var(--blood-red), #330000);
+            color: var(--parchment);
+            padding: 10px 25px;
+            display: inline-block;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            position: relative;
+            border: 2px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
+        }
+        
+        .total-points::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+        }
+        
+        .live-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), linear-gradient(to bottom, #9e0b0f, #660000);
+            color: white;
+            padding: 3px 10px;
+            font-size: 0.8rem;
+            animation: pulse 2s infinite;
+            border: 1px solid var(--gold);
+            letter-spacing: 1px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .leaderboard-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        /* Leather-bound leaderboard */
+        .teams-leaderboard {
+            flex: 2;
+            background: url('https://www.transparenttextures.com/patterns/leather.png'), linear-gradient(to bottom, var(--leather), #5a3921);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border: 8px solid #3a3226;
+        }
+        
+        .teams-leaderboard::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.2), rgba(0,0,0,0.4));
+            pointer-events: none;
+        }
+        
+        /* Iron-wrought winner display */
+        .winner-display {
+            flex: 1;
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), linear-gradient(to bottom, #3a3a3a, #1a1a1a);
+            border-radius: 5px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border: 1px solid var(--iron);
+        }
+        
+        .winner-display::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--gold), var(--silver), var(--bronze));
+        }
+        
+        .winner-display::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+        }
+        
+        .trophy {
+            font-size: 5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+            animation: shine 3s infinite;
+            position: relative;
+        }
+        
+        @keyframes shine {
+            0% { filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)) brightness(1); }
+            50% { filter: drop-shadow(0 5px 5px rgba(212, 175, 55, 0.3)) brightness(1.2); }
+            100% { filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)) brightness(1); }
+        }
+        
+        .winner-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .winner-points {
+            font-size: 1.8rem;
+            color: var(--parchment);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .winner-subtext {
+            color: #b5a27a;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        /* Iron and leather header */
+        .leaderboard-header {
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), linear-gradient(to bottom, #3a3a3a, #1a1a1a);
+            color: var(--parchment);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--gold);
+            position: relative;
+        }
+        
+        .leaderboard-header::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.5;
+        }
+        
+        .leaderboard-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .leaderboard-title::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: var(--gold);
+        }
+        
+        .leaderboard-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), linear-gradient(to bottom, #5a3921, #3a3226);
+            color: var(--parchment);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gold);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .control-btn:hover {
+            background: linear-gradient(to bottom, #6a4a31, #4a4236);
+            transform: scale(1.1);
+            color: var(--gold);
+        }
+        
+        .team-list {
+            list-style-type: none;
+        }
+        
+        /* Parchment-style team items */
+        .team-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            background: url('https://www.transparenttextures.com/patterns/old-paper.png'), rgba(245, 231, 193, 0.7);
+            color: #3a3226;
+        }
+        
+        .team-item:nth-child(odd) {
+            background: url('https://www.transparenttextures.com/patterns/old-paper.png'), rgba(230, 215, 175, 0.7);
+        }
+        
+        .team-item:hover {
+            background: url('https://www.transparenttextures.com/patterns/old-paper.png'), rgba(255, 240, 200, 0.9);
+            transform: translateX(5px);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        
+        .team-rank {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-family: 'Game of Thrones', serif;
+            font-size: 1.2rem;
+            border: 2px solid var(--leather);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        .rank-1 {
+            background: url('https://www.transparenttextures.com/patterns/gold-scales.png'), var(--gold);
+            color: #3a3226;
+            border-color: #d4af37;
+        }
+        
+        .rank-2 {
+            background: url('https://www.transparenttextures.com/patterns/silver-scales.png'), var(--silver);
+            color: #3a3226;
+            border-color: #c0c0c0;
+        }
+        
+        .rank-3 {
+            background: url('https://www.transparenttextures.com/patterns/bronze-scales.png'), var(--bronze);
+            color: #3a3226;
+            border-color: #cd7f32;
+        }
+        
+        .rank-4, .rank-5, .rank-6, .rank-7, .rank-8 {
+            background: url('https://www.transparenttextures.com/patterns/iron-grip.png'), var(--iron);
+            color: var(--parchment);
+            border-color: #5a5a5a;
+        }
+        
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), #1a1a1a;
+            border: 3px solid var(--leather);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .team-logo::after {
+            content: "";
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .team-logo img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+        
+        .team-info {
+            flex: 1;
+        }
+        
+        .team-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 1px;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .stark { color: var(--stark); }
+        .lannister { color: var(--lannister); }
+        .baratheon { color: var(--baratheon); }
+        .tyrell { color: var(--tyrell); }
+        .martell { color: var(--martell); }
+        .greyjoy { color: var(--greyjoy); }
+        .targaryen { color: var(--targaryen); }
+        .whitewalker { color: var(--whitewalker); }
+        
+        .team-score {
+            display: flex;
+            align-items: center;
+        }
+        
+        .score-value {
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: #3a3226;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .score-progress {
+            flex: 1;
+            height: 10px;
+            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #d4af37;
+            border-radius: 5px;
+            overflow: hidden;
+            max-width: 250px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .score-progress::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+            pointer-events: none;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0));
+            pointer-events: none;
+        }
+        
+        .stark-progress { background: linear-gradient(to right, var(--stark), #5d6b7a); }
+        .lannister-progress { background: linear-gradient(to right, var(--lannister), #e74c3c); }
+        .baratheon-progress { background: linear-gradient(to right, var(--baratheon), #f1c40f); }
+        .tyrell-progress { background: linear-gradient(to right, var(--tyrell), #2ecc71); }
+        .martell-progress { background: linear-gradient(to right, var(--martell), #e67e22); }
+        .greyjoy-progress { background: linear-gradient(to right, var(--greyjoy), #34495e); }
+        .targaryen-progress { background: linear-gradient(to right, var(--targaryen), #c0392b); }
+        .whitewalker-progress { background: linear-gradient(to right, var(--whitewalker), #3498db); }
+        
+        .team-points-change {
+            margin-left: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 3px 10px;
+            border-radius: 15px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .positive-change {
+            background: url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png'), linear-gradient(to right, #28a745, #218838);
+            color: white;
+            opacity: 1;
+            transform: translateY(0);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .negative-change {
+            background: url('https://www.transparenttextures.com/patterns/red-dust-and-scratches.png'), linear-gradient(to right, #dc3545, #c82333);
+            color: white;
+            opacity: 1;
+            transform: translateY(0);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        /* Parchment points table */
+        .points-table-container {
+            background: url('https://www.transparenttextures.com/patterns/old-paper.png'), linear-gradient(to bottom, rgba(245, 231, 193, 0.9), rgba(210, 180, 140, 0.9));
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            border: 15px solid transparent;
+            border-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png') 30 round;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            color: #3a3226;
+        }
+        
+        .points-table-container::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            height: 20px;
+            background: url('https://www.transparenttextures.com/patterns/fabric-of-squares.png'), linear-gradient(to bottom, rgba(139, 69, 19, 0.8), rgba(101, 67, 33, 0.5));
+            border-radius: 0 0 5px 5px;
+            z-index: -1;
+        }
+        
+        .points-table-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--blood-red);
+            display: flex;
+            align-items: center;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .points-table-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(to right, var(--blood-red), transparent);
+        }
+        
+        .points-table-title i {
+            margin-right: 15px;
+            color: var(--blood-red);
+        }
+        
+        .points-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .points-table th {
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), linear-gradient(to bottom, #5a3921, #3a3226);
+            color: var(--parchment);
+            padding: 12px 15px;
+            text-align: left;
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 1px;
+            border: 1px solid var(--leather);
+        }
+        
+        .points-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(90, 57, 33, 0.3);
+            font-size: 1.1rem;
+        }
+        
+        .points-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .points-table tr:hover {
+            background-color: rgba(210, 180, 140, 0.5);
+        }
+        
+        .category-name {
+            font-weight: bold;
+            color: #5a3921;
+        }
+        
+        .points-value {
+            font-weight: bold;
+            color: var(--blood-red);
+            font-family: 'Game of Thrones', serif;
+        }
+        
+        .bonus-points {
+            color: #3a8a3a;
+            font-weight: bold;
+        }
+        
+        .current-round {
+            background-color: var(--current-round);
+            position: relative;
+        }
+        
+        .current-round::after {
+            content: "Current Round";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-family: 'Game of Thrones', serif;
+        }
+        
+        /* Iron and leather admin controls */
+        .admin-controls {
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), linear-gradient(to bottom, #3a3a3a, #1a1a1a);
+            border-radius: 5px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--iron);
+            position: relative;
+        }
+        
+        .admin-controls::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+        }
+        
+        .admin-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .admin-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(to right, var(--gold), transparent);
+        }
+        
+        .admin-title i {
+            margin-right: 15px;
+            color: var(--gold);
+        }
+        
+        .control-panel {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .team-select, .category-select, .points-input {
+            padding: 12px 15px;
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), #1a1a1a;
+            color: var(--parchment);
+            border: 1px solid var(--leather);
+            border-radius: 5px;
+            font-size: 1rem;
+            min-width: 200px;
+            font-family: 'Times New Roman', serif;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .team-select option {
+            background: #1a1a1a;
+            color: var(--parchment);
+        }
+        
+        .add-points-btn {
+            background: url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png'), linear-gradient(to bottom, #28a745, #218838);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .add-points-btn:hover {
+            background: linear-gradient(to bottom, #34ce57, #269f42);
+            transform: translateY(-2px);
+        }
+        
+        .end-battle-btn {
+            background: url('https://www.transparenttextures.com/patterns/red-dust-and-scratches.png'), linear-gradient(to bottom, #9e0b0f, #660000);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .end-battle-btn:hover {
+            background: linear-gradient(to bottom, #b00c11, #770000);
+            transform: translateY(-2px);
+        }
+        
+        .reset-btn {
+            background: url('https://www.transparenttextures.com/patterns/gold-scales.png'), linear-gradient(to bottom, #d4af37, #b5942e);
+            color: #3a3226;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .reset-btn:hover {
+            background: linear-gradient(to bottom, #e8c04a, #c9a533);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #b5a27a;
+            font-size: 1rem;
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), rgba(26, 26, 26, 0.8);
+            border-radius: 5px;
+            border: 1px solid var(--iron);
+            font-style: italic;
+        }
+        
+        /* Winner animation overlay - Iron Throne style */
+        .winner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/black-paper.png'), rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+        
+        .winner-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .winner-crown {
+            font-size: 10rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            animation: shine 2s infinite, float 3s infinite ease-in-out;
+            filter: drop-shadow(0 10px 10px rgba(212, 175, 55, 0.5));
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .winner-title {
+            font-size: 5rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            font-family: 'Game of Thrones', serif;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+            letter-spacing: 5px;
+            position: relative;
+        }
+        
+        .winner-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+        }
+        
+        .winner-team {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 40px;
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        .winner-logo {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid var(--gold);
+            margin-bottom: 40px;
+            object-fit: cover;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.7);
+            animation: pulse 2s infinite;
+            background: black;
+        }
+        
+        .winner-points-display {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 40px;
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 2px;
+        }
+        
+        .close-winner-btn {
+            background: url('https://www.transparenttextures.com/patterns/red-dust-and-scratches.png'), linear-gradient(to bottom, #9e0b0f, #660000);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            font-family: 'Game of Thrones', serif;
+            letter-spacing: 2px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        
+        .close-winner-btn:hover {
+            background: linear-gradient(to bottom, #b00c11, #770000);
+            transform: scale(1.05);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            opacity: 0;
+            z-index: 10;
+        }
+        
+        /* House sigil animations */
+        .house-sigil {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.7;
+            z-index: 5;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+       @media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .leaderboard-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .winner-display {
+        order: -1;
+        margin-bottom: 20px;
+        padding: 15px;
+        text-align: center;
+    }
+    
+    header {
+        padding: 10px 0;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        line-height: 1.2;
+        margin-bottom: 5px;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    
+    .total-points {
+        font-size: 0.9rem;
+    }
+    
+    .control-panel {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .team-select, 
+    .category-select, 
+    .points-input,
+    .add-points-btn,
+    .end-battle-btn,
+    .reset-btn {
+        width: 100%;
+        margin: 5px 0;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .points-table-container {
+        overflow-x: auto;
+    }
+    
+    .points-table {
+        font-size: 0.8rem;
+    }
+    
+    .team-item {
+        padding: 8px 5px;
+    }
+    
+    .team-rank {
+        font-size: 0.9rem;
+        min-width: 25px;
+    }
+    
+    .team-logo img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .team-name {
+        font-size: 0.9rem;
+    }
+    
+    /* Winner overlay adjustments */
+    .winner-overlay {
+        padding: 20px;
+    }
+    
+    .winner-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    
+    .winner-team {
+        font-size: 1.8rem;
+        margin: 10px 0;
+    }
+    
+    .winner-logo {
+        width: 150px;
+        height: 150px;
+        margin: 10px auto;
+    }
+    
+    .winner-points-display {
+        font-size: 1.2rem;
+    }
+    
+    .close-winner-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+        margin-top: 15px;
+    }
+    
+    /* Fix for text overflow in team names */
+    .team-info {
+        min-width: 0; /* Allows text truncation */
+    }
+    
+    .team-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .winner-title {
+        font-size: 1.5rem;
+    }
+    
+    .winner-team {
+        font-size: 1.3rem;
+    }
+    
+    .winner-logo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .team-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WESTEROS PC CHAMPIONSHIP</h1>
+            <div class="subtitle">The Great Tournament of Technologies</div>
+            <div class="total-points">
+                <span>Total Points: 1000</span>
+                <span class="live-badge">LIVE</span>
+            </div>
+        </header>
+        
+        <div class="leaderboard-container">
+            <div class="teams-leaderboard">
+                <div class="leaderboard-header">
+                    <div class="leaderboard-title">Great Houses Ranking</div>
+                    <div class="leaderboard-controls">
+                        <button class="control-btn"><i class="fas fa-sync-alt"></i></button>
+                        <button class="control-btn"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                </div>
+                <ul class="team-list" id="teamList">
+                    <!-- Teams will be dynamically inserted here -->
+                </ul>
+            </div>
+            
+            <div class="winner-display">
+                <div class="trophy">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="winner-name" id="winnerName">-</div>
+                <div class="winner-points" id="winnerPoints">0 points</div>
+                <div class="winner-subtext">No Leader Yet</div>
+            </div>
+        </div>
+        
+        <div class="points-table-container">
+            <h3 class="points-table-title"><i class="fas fa-scroll"></i> Points Distribution</h3>
+            <table class="points-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Points</th>
+                        <th>Bonus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="current-round" id="aestheticsRow">
+                        <td class="category-name">Aesthetics</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for special case</td>
+                    </tr>
+                    <tr id="storageRow">
+                        <td class="category-name">Storage Performance</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for biggest storage</td>
+                    </tr>
+                    <tr id="ramRow">
+                        <td class="category-name">RAM Performance</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for RAM overclock</td>
+                    </tr>
+                    <tr id="motherboardRow">
+                        <td class="category-name">Motherboard Features</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for built-in I/O shield</td>
+                    </tr>
+                    <tr id="graphicsRow">
+                        <td class="category-name">Graphics Performance</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for DeepSeek performance</td>
+                    </tr>
+                    <tr id="processorRow">
+                        <td class="category-name">Processor Performance</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for PSU efficiency</td>
+                    </tr>
+                    <tr id="coolingRow">
+                        <td class="category-name">Cooling & Lighting</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for in-display screens</td>
+                    </tr>
+                    <tr id="teamRow">
+                        <td class="category-name">Team & Build Quality</td>
+                        <td class="points-value">100 pts</td>
+                        <td class="bonus-points">+25 for latest generation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="admin-controls">
+            <h3 class="admin-title"><i class="fas fa-chess-queen"></i> Maester's Control Panel</h3>
+            <div class="control-panel">
+                <select class="team-select" id="teamSelect">
+                    <option value="">Select House</option>
+                    <option value="0">House Stark</option>
+                    <option value="1">House Lannister</option>
+                    <option value="2">House Baratheon</option>
+                    <option value="3">House Tyrell</option>
+                    <option value="4">House Martell</option>
+                    <option value="5">House Greyjoy</option>
+                    <option value="6">House Targaryen</option>
+                    <option value="7">White Walkers</option>
+                </select>
+                
+                <select class="category-select" id="categorySelect">
+                    <option value="aesthetics" selected>Aesthetics</option>
+                    <option value="storage">Storage Performance</option>
+                    <option value="ram">RAM Performance</option>
+                    <option value="motherboard">Motherboard Features</option>
+                    <option value="graphics">Graphics Performance</option>
+                    <option value="processor">Processor Performance</option>
+                    <option value="cooling">Cooling & Lighting</option>
+                    <option value="team">Team & Build Quality</option>
+                    <option value="bonus">Bonus Points</option>
+                </select>
+                
+                <input type="number" class="points-input" id="pointsInput" placeholder="Points to add" value="100">
+                
+                <button class="add-points-btn" id="addPointsBtn"><i class="fas fa-plus"></i> Add Points</button>
+                <button class="end-battle-btn" id="endBattleBtn"><i class="fas fa-flag-checkered"></i> DECLARE THE WINNER</button>
+                <button class="reset-btn" id="resetBtn"><i class="fas fa-redo"></i> Reset All</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>The Great Tournament of Technologies &copy; MURUGAN | Specially made for Skynetbee </p>
+        </footer>
+    </div>
+
+    <!-- Winner Animation Overlay - Iron Throne Style -->
+    <div class="winner-overlay" id="winnerOverlay">
+        <div class="winner-crown"><i class="fas fa-crown"></i></div>
+        <h2 class="winner-title">LONG MAY THEY REIGN</h2>
+        <div class="winner-team" id="finalWinnerName">House Stark</div>
+        <img class="winner-logo" id="finalWinnerLogo" src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Stark_Logo.png" alt="Winner Logo">
+        <div class="winner-points-display" id="finalWinnerPoints">0 Points</div>
+        <button class="close-winner-btn" id="closeWinnerBtn">RETURN TO THE REALM</button>
+    </div>
+
+    <script>
+    // Team data with Game of Thrones houses - all starting at 0 points
+    const teams = [
+        { 
+            id: 0, 
+            name: "House Stark", 
+            score: 0, 
+            logo: "images/stark.png",
+            colorClass: "stark",
+            progressClass: "stark-progress",
+            words: "Winter is Coming"
+        },
+        { 
+            id: 1, 
+            name: "House Lannister", 
+            score: 0, 
+            logo: "images/lamiester-removebg-preview.png",
+            colorClass: "lannister",
+            progressClass: "lannister-progress",
+            words: "Hear Me Roar!"
+        },
+        { 
+            id: 2, 
+            name: "House Baratheon", 
+            score: 0, 
+            logo: "images/bharatheon-removebg-preview.png",
+            colorClass: "baratheon",
+            progressClass: "baratheon-progress",
+            words: "Ours is the Fury"
+        },
+        { 
+            id: 3, 
+            name: "House Tyrell", 
+            score: 0, 
+            logo: "images/tyrell-removebg-preview.png",
+            colorClass: "tyrell",
+            progressClass: "tyrell-progress",
+            words: "Growing Strong"
+        },
+        { 
+            id: 4, 
+            name: "House Martell", 
+            score: 0, 
+            logo: "images/martell-removebg-preview.png",
+            colorClass: "martell",
+            progressClass: "martell-progress",
+            words: "Unbowed, Unbent, Unbroken"
+        },
+        { 
+            id: 5, 
+            name: "House Greyjoy", 
+            score: 0, 
+            logo: "images/greyjoy-removebg-preview.png",
+            colorClass: "greyjoy",
+            progressClass: "greyjoy-progress",
+            words: "We Do Not Sow"
+        },
+        { 
+            id: 6, 
+            name: "House Targaryen", 
+            score: 0, 
+            logo: "images/targariyan-removebg-preview.png",
+            colorClass: "targaryen",
+            progressClass: "targaryen-progress",
+            words: "Fire and Blood"
+        },
+        { 
+            id: 7, 
+            name: "White Walkers", 
+            score: 0, 
+            logo: "images/arryn-removebg-preview.png",
+            colorClass: "whitewalker",
+            progressClass: "whitewalker-progress",
+            words: "Winter is Here"
+        }
+    ];
+
+    // Categories in order of judging
+    const categories = [
+        { id: "aesthetics", name: "Aesthetics", points: 100, bonus: 25 },
+        { id: "storage", name: "Storage Performance", points: 100, bonus: 25 },
+        { id: "ram", name: "RAM Performance", points: 100, bonus: 25 },
+        { id: "motherboard", name: "Motherboard Features", points: 100, bonus: 25 },
+        { id: "graphics", name: "Graphics Performance", points: 100, bonus: 25 },
+        { id: "processor", name: "Processor Performance", points: 100, bonus: 25 },
+        { id: "cooling", name: "Cooling & Lighting", points: 100, bonus: 25 },
+        { id: "team", name: "Team & Build Quality", points: 100, bonus: 25 }
+    ];
+
+    // Track current category and team
+    let currentCategoryIndex = 0;
+    let currentTeamIndex = 0;
+    let bonusAwarded = false;
+    let scoredTeams = []; // Track which teams have been scored in current category
+
+    // DOM elements
+    const teamList = document.getElementById('teamList');
+    const winnerName = document.getElementById('winnerName');
+    const winnerPoints = document.getElementById('winnerPoints');
+    const teamSelect = document.getElementById('teamSelect');
+    const categorySelect = document.getElementById('categorySelect');
+    const pointsInput = document.getElementById('pointsInput');
+    const addPointsBtn = document.getElementById('addPointsBtn');
+    const endBattleBtn = document.getElementById('endBattleBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const winnerOverlay = document.getElementById('winnerOverlay');
+    const finalWinnerName = document.getElementById('finalWinnerName');
+    const finalWinnerLogo = document.getElementById('finalWinnerLogo');
+    const finalWinnerPoints = document.getElementById('finalWinnerPoints');
+    const closeWinnerBtn = document.getElementById('closeWinnerBtn');
+
+    // Category rows
+    const categoryRows = {
+        aesthetics: document.getElementById('aestheticsRow'),
+        storage: document.getElementById('storageRow'),
+        ram: document.getElementById('ramRow'),
+        motherboard: document.getElementById('motherboardRow'),
+        graphics: document.getElementById('graphicsRow'),
+        processor: document.getElementById('processorRow'),
+        cooling: document.getElementById('coolingRow'),
+        team: document.getElementById('teamRow')
+    };
+
+    // Initialize the UI for the current category
+    function initCurrentCategory() {
+        // Reset scored teams for new category
+        scoredTeams = [];
+        
+        // Highlight current category in table
+        Object.values(categoryRows).forEach(row => row.classList.remove('current-round'));
+        const currentCategory = categories[currentCategoryIndex];
+        categoryRows[currentCategory.id].classList.add('current-round');
+        
+        // Set up the form for the current category
+        categorySelect.value = currentCategory.id;
+        pointsInput.value = currentCategory.points;
+        
+        // Auto-select the first team for this category
+        currentTeamIndex = 0;
+        teamSelect.value = teams[currentTeamIndex].id;
+        
+        // Reset bonus flag for new category
+        bonusAwarded = false;
+    }
+
+    // Render teams
+    function renderTeams() {
+        // Sort teams by score (descending)
+        const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
+        
+        // Update winner display
+        if (sortedTeams[0].score > 0) {
+            winnerName.textContent = sortedTeams[0].name;
+            winnerName.className = sortedTeams[0].colorClass;
+            winnerPoints.textContent = `${sortedTeams[0].score} points`;
+        } else {
+            winnerName.textContent = "-";
+            winnerName.className = "";
+            winnerPoints.textContent = "0 points";
+        }
+        
+        // Clear team list
+        teamList.innerHTML = '';
+        
+        // Add teams to list
+        sortedTeams.forEach((team, index) => {
+            const teamItem = document.createElement('li');
+            teamItem.className = 'team-item';
+            
+            // Calculate progress percentage (assuming max score is 1000)
+            const progressPercent = (team.score / 1000) * 100;
+            
+            teamItem.innerHTML = `
+                <div class="team-rank rank-${index + 1}">${index + 1}</div>
+                <div class="team-logo">
+                    <img src="${team.logo}" alt="${team.name}">
+                </div>
+                <div class="team-info">
+                    <div class="team-name ${team.colorClass}">${team.name}</div>
+                    <div class="team-score">
+                        <span class="score-value">${team.score}</span>
+                        <div class="score-progress">
+                            <div class="progress-bar ${team.progressClass}" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <span class="team-points-change"></span>
+                    </div>
+                </div>
+            `;
+            
+            teamList.appendChild(teamItem);
+        });
+    }
+
+    // Add points to team
+    function addPoints(teamId, points) {
+        const teamIndex = teams.findIndex(team => team.id === parseInt(teamId));
+        if (teamIndex === -1) return;
+        
+        // Check if this team has already been scored in this category
+        if (scoredTeams.includes(parseInt(teamId))) {
+            alert(`${teams[teamIndex].name} has already been scored for ${categories[currentCategoryIndex].name}`);
+            return;
+        }
+        
+        // Add points
+        const oldScore = teams[teamIndex].score;
+        teams[teamIndex].score += parseInt(points);
+        
+        // Mark team as scored
+        scoredTeams.push(parseInt(teamId));
+        
+        renderTeams();
+        
+        // Highlight the team that got points
+        const teamItems = document.querySelectorAll('.team-item');
+        const changedTeam = teamItems[teams.findIndex(team => team.id === parseInt(teamId))];
+        
+        const pointsChange = changedTeam.querySelector('.team-points-change');
+        pointsChange.textContent = `+${points}`;
+        pointsChange.classList.add('positive-change');
+        
+        // Scroll to the team
+        changedTeam.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Flash animation
+        changedTeam.style.backgroundColor = 'rgba(40, 167, 69, 0.3)';
+        setTimeout(() => {
+            changedTeam.style.backgroundColor = '';
+        }, 1000);
+        
+        // Remove the change indicator after 3 seconds
+        setTimeout(() => {
+            pointsChange.classList.remove('positive-change');
+            pointsChange.textContent = '';
+        }, 3000);
+        
+        // Move to next team or category
+        advanceToNext();
+    }
+
+    // Advance to next team or category
+    function advanceToNext() {
+        // Find next unscored team
+        let nextTeamIndex = -1;
+        for (let i = 0; i < teams.length; i++) {
+            if (!scoredTeams.includes(teams[i].id)) {
+                nextTeamIndex = i;
+                break;
+            }
+        }
+        
+        if (nextTeamIndex >= 0) {
+            // There are still unscored teams in this category
+            currentTeamIndex = nextTeamIndex;
+            teamSelect.value = teams[currentTeamIndex].id;
+        } else {
+            // All teams scored for this category - move to next category
+            currentCategoryIndex = (currentCategoryIndex + 1) % categories.length;
+            
+            // If we've completed all categories, allow declaring winner
+            if (currentCategoryIndex === 0) {
+                if (confirm('All categories have been judged! Would you like to declare the winner?')) {
+                    endBattle();
+                    return;
+                }
+            } else {
+                alert(`Moving to next category: ${categories[currentCategoryIndex].name}`);
+            }
+            
+            // Initialize next category
+            initCurrentCategory();
+        }
+    }
+
+    // Reset all scores
+    function resetScores() {
+        if (confirm('By the Old Gods and the New, reset all scores to zero?')) {
+            teams.forEach(team => {
+                team.score = 0;
+            });
+            currentCategoryIndex = 0;
+            currentTeamIndex = 0;
+            initCurrentCategory();
+            renderTeams();
+        }
+    }
+
+    // End the battle and show winner
+    function endBattle() {
+        // Sort teams to get the winner
+        const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
+        const winner = sortedTeams[0];
+        
+        if (winner.score === 0) {
+            alert('The tournament has not yet begun! No house has earned any points.');
+            return;
+        }
+        
+        if (confirm('Do you solemnly swear to declare the winner and end this tournament?')) {
+            // Play victory sound
+            const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+            audio.volume = 0.3;
+            audio.play();
+            
+            // Update winner overlay
+            finalWinnerName.textContent = winner.name;
+            finalWinnerName.className = winner.colorClass;
+            finalWinnerLogo.src = winner.logo;
+            finalWinnerPoints.textContent = `${winner.score} Points`;
+            
+            // Show winner overlay
+            winnerOverlay.classList.add('active');
+            
+            // Create confetti
+            createConfetti();
+            
+            // Create floating house sigils
+            createHouseSigils();
+        }
+    }
+
+    // Create confetti effect
+    function createConfetti() {
+        const colors = ['#d4af37', '#c0c0c0', '#cd7f32', '#9e0b0f', '#3a8a3a', '#e67e22', '#2c3e50', '#a0d6e8'];
+        
+        for (let i = 0; i < 150; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = -10 + 'px';
+            confetti.style.width = Math.random() * 15 + 5 + 'px';
+            confetti.style.height = Math.random() * 15 + 5 + 'px';
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            winnerOverlay.appendChild(confetti);
+            
+            // Animate confetti
+            const animationDuration = Math.random() * 3 + 2;
+            confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+            
+            // Keyframes for falling animation
+            const keyframes = `
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                        opacity: 1;
+                    }
+                }
+            `;
+            
+            // Add keyframes to style
+            const style = document.createElement('style');
+            style.innerHTML = keyframes;
+            document.head.appendChild(style);
+        }
+    }
+
+    // Create floating house sigils
+    function createHouseSigils() {
+        const sigils = [
+            'stark', 'lannister', 'baratheon', 'tyrell', 
+            'martell', 'greyjoy', 'targaryen', 'whitewalker'
+        ];
+        
+        sigils.forEach((house, index) => {
+            const sigil = document.createElement('div');
+            sigil.className = 'house-sigil';
+            sigil.style.backgroundImage = `url(https://upload.wikimedia.org/wikipedia/commons/8/8a/Stark_Logo.png)`;
+            sigil.style.left = Math.random() * 80 + 10 + 'vw';
+            sigil.style.top = Math.random() * 80 + 10 + 'vh';
+            sigil.style.animationDelay = index * 0.5 + 's';
+            winnerOverlay.appendChild(sigil);
+            
+            // Set correct logo for each house
+            switch(house) {
+                case 'stark':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/8/8a/Stark_Logo.png)';
+                    break;
+                case 'lannister':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/8/8a/House_Lannister.svg)';
+                    break;
+                case 'baratheon':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/House_Baratheon.svg/1200px-House_Baratheon.svg.png)';
+                    break;
+                case 'tyrell':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/House_Tyrell.svg/1200px-House_Tyrell.svg.png)';
+                    break;
+                case 'martell':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/House_Martell.svg/1200px-House_Martell.svg.png)';
+                    break;
+                case 'greyjoy':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/House_Greyjoy.svg/1200px-House_Greyjoy.svg.png)';
+                    break;
+                case 'targaryen':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/House_Targaryen.svg/1200px-House_Targaryen.svg.png)';
+                    break;
+                case 'whitewalker':
+                    sigil.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/White_Walker_Symbol.png/1200px-White_Walker_Symbol.png)';
+                    break;
+            }
+        });
+    }
+
+    // Event listeners
+    addPointsBtn.addEventListener('click', () => {
+        const teamId = teamSelect.value;
+        const points = pointsInput.value;
+        
+        if (!teamId || !points) {
+            alert('By decree of the Hand, select a house and enter points!');
+            return;
+        }
+        
+        addPoints(teamId, points);
+    });
+
+    endBattleBtn.addEventListener('click', endBattle);
+    resetBtn.addEventListener('click', resetScores);
+    closeWinnerBtn.addEventListener('click', () => {
+        winnerOverlay.classList.remove('active');
+        // Remove all confetti and sigils
+        document.querySelectorAll('.confetti, .house-sigil').forEach(el => el.remove());
+    });
+
+    // Initialize with all teams at 0 points
+    initCurrentCategory();
+    renderTeams();
+</script>
+</body>
+</html>

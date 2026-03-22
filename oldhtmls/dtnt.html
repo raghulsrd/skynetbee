@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skynet Developers</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="s-style.css">
+
+  
+</head>
+<body>
+<!-- navindev -->
+<header class="full-yellow-nav fixed w-full z-50 top-0 left-0">
+
+
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex items-center space-x-3">
+      
+      <span class="text-xl font-semibold">DOTNET DEVELOPERS</span>
+    </div>
+
+    <!-- Nav Links (Desktop) -->
+    <nav class="hidden md:flex space-x-6 font-medium">
+  <a href="index.html" class="hover:text-black">HOME</a>
+  <a href="web.html" class="hover:text-black">WEB</a>
+  <a href="robotics.html" class="hover:text-black">ROBOTICS</a>
+  <a href="apple.html" class="hover:text-black">APPLE</a>
+  <a href="android.html" class="hover:text-black">ANDROID</a>
+  <a href="dotnet.html" class="hover:text-black">DOTNET</a>
+  <a href="https://www.skynetbee.com/skynetbee/">DEVZONE</a>
+  <a href="spider.html">CONTACT</a>
+</nav>
+
+
+    <!-- Hamburger (Mobile) -->
+    <button class="md:hidden focus:outline-none" id="menuToggle">
+      <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Sliding Menu -->
+  <div id="mobileMenu" class="fixed top-0 right-0 h-full w-64 bg-black bg-opacity-90 backdrop-blur-lg transform translate-x-full transition-transform duration-300 z-40">
+    <div class="p-6 flex flex-col space-y-6 text-lg font-semibold">
+      <button id="closeMenu" class="self-end text-white">
+        ✕
+      </button>
+      
+      <a href="index.html" class="hover:text-yellow-400">HOME</a>
+      <a href="web.html" class="hover:text-yellow-400">WEB</a>
+      <a href="robotics.html" class="hover:text-yellow-400">ROBOTICS</a>
+      <a href="apple.html" class="hover:text-yellow-400">APPLE</a>
+      <a href="android.html" class="hover:text-yellow-400">ANDROID</a>
+      <a href="dotnet.html" class="hover:text-yellow-400">DOTNET</a>
+      <a href="https://www.skynetbee.com/skynetbee/">DEVZONE</a>
+  <a href="spider.html">CONTACT</a>
+    </div>
+  </div>
+</header>
+</header>
+<!-- navindev -->
+  <!-- Background -->
+  <div class="background"></div>
+
+  <!-- Name Sphere -->
+  <section class="flex items-center justify-center h-screen px-4">
+  <span class="content tagcloud"></span>
+</section>
+
+
+  <!-- Student Cards Section -->
+  <section class="relative px-4 py-8">
+    <!-- Left Arrow (desktop only) -->
+    
+
+    <!-- Card Slider -->
+    <div id="slider" class="flex overflow-x-auto scroll-smooth gap-4 py-4 snap-x snap-mandatory">
+      <!-- Example Cards -->
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/shabari.JPG" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/shabari.JPG" alt="">
+            <div>Shabari.M</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/Nalan.JPG" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/Nalan.JPG" alt="">
+            <div>Nalan.M</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/bharanidharan.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/bharanidharan.jpeg" alt="">
+            <div>Bharanidharan.G</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/s.JPG" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/s.JPG" alt="">
+            <div>Ayesha Sydhika.R</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/g.JPG" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/g.JPG" alt="">
+            <div>Govardhini.B</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/Sasikanth V.jpg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/Sasikanth V.jpg" alt="">
+            <div>Sasikanth.V</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/sud.JPG" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/sud.JPG" alt="">
+            <div>Sudharsanan.M</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/Karthi Vishal S.jpg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/Karthi Vishal S.jpg" alt="">
+            <div>Karthi Vishal.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/jackson.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/jackson.jpeg" alt="">
+            <div>Jackson.A</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/prabhuram.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/prabhuram.jpeg" alt="">
+            <div>Prabhuram.M</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/ss.JPG" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/ss.JPG" alt="">
+            <div>Subhasri.M</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/rith.JPG" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/rith.JPG" alt="">
+            <div>Rithika.M</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/Nishadu K.jpg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/Nishadu K.jpg" alt="">
+            <div>Nishadu.K</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/noimg-removebg-preview.png" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/noimg-removebg-preview.png" alt="">
+            <div>Indhuja.B</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/clyton.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/clyton.jpeg" alt="">
+            <div>Maria Clyton.R</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/kks.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/kks.jpeg" alt="">
+            <div>Kavin Kumar.R</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/nivas.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/nivas.jpeg" alt="">
+            <div>Nivash.A</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/logasri.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/logasri.jpeg" alt="">
+            <div>Logasri.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/" alt="">
+            <div>Deepika.J</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/by.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/by.jpeg" alt="">
+            <div>Bharanitharan.Y</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/kavinkumar.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/kavinkumar.jpeg" alt="">
+            <div>Kavin Kumar.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/dhanush.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/dhanush.jpeg" alt="">
+            <div>Dhanush.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/noimg-removebg-preview.png" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/noimg-removebg-preview.png" alt="">
+            <div>Pavadharanisha.K</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/velumani.jpg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/velumani.jpg" alt="">
+            <div>Velumani.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/sharanya.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/sharanya.jpeg" alt="">
+            <div>Sharanya.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/noimg-removebg-preview.png" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/noimg-removebg-preview.png" alt="">
+            <div>Anuvarshitha.A</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/deepika.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/deepika.jpeg" alt="">
+            <div>Deepika.P</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/mahalakshmi.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/mahalakshmi.jpeg" alt="">
+            <div>Mahalakshmi.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/vidhyashri.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/vidhyashri.jpeg" alt="">
+            <div>VidhyaShree.C</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/noimg-removebg-preview.png" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/noimg-removebg-preview.png" alt="">
+            <div>Varshini.M</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div> 
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/noimg-removebg-preview.png" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/noimg-removebg-preview.png" alt="">
+            <div>Mounika.G</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="student-card snap-center">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="s-img/kaviyadharshini.jpeg" alt="img"></div>
+          <div class="card-back">
+            <img src="s-img/kaviyadharshini.jpeg" alt="">
+            <div>Kaviyadharshini.S</div>
+            <div class="wing">dotnet</div>
+          </div>
+        </div>
+      </div>
+      <!--add more cards-->
+    </div>
+    <!-- Right Arrow (desktop only) -->
+    
+  </section>
+
+  <!-- TagCloud Library -->
+  <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
+
+  <script>
+    // Name Sphere
+    const myTags = [
+  'Shabari',
+  'Nalan',
+  'Bharanidharan',
+  'Ayesha Sydhika',
+  'Govardhini',
+  'Sasikanth',
+  'Sudharsanan',
+  'Karthi Vishal',
+  'Jackson',
+  'Prabhuram',
+  'Subhasri',
+  'Rithika',
+  'Nishadu',
+  'Indhuja',
+  'Maria Clyton',
+  'Kavin Kumar',
+  'Nivash',
+  'Logasri',
+  'Deepika',
+  'Bharanitharan',
+  'Dhanush',
+  'Pavadharanisha',
+  'Jaya Kumar',
+  'Velumani',
+  'Sharanya',
+  'Anuvarshitha',
+  'Deepika',
+  'Mahalakshmi',
+  'VidhyaShree',
+  'Varshini',
+  'Mounika',
+  'Kaviyadharshini'
+];
+
+    TagCloud('.content', myTags, {
+      radius: 260,
+      maxSpeed: 'fast',
+      initSpeed: 'slow',
+      direction: 135,
+      keep: true
+    });
+
+    // Random color for the sphere text
+    const colors = ['#34A853', '#FBBC05', '#4285F4', '#7FBC00', '#FFBA01', '#01A6F0'];
+    document.querySelector('.content').style.color = colors[Math.floor(Math.random() * colors.length)];
+
+    // Scroll cards manually (for desktop arrow btns)
+    function scrollCards(direction) {
+      const container = document.getElementById('slider');
+      const scrollAmount = 220;
+      container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+
+    // Highlight center card on scroll (only for mobile)
+    const slider = document.getElementById('slider');
+    const cards = slider.querySelectorAll('.student-card');
+
+    function highlightCenterCard() {
+  const centerX = slider.scrollLeft + slider.offsetWidth / 2;
+
+  cards.forEach(card => {
+    const box = card.getBoundingClientRect();
+    const cardCenter = box.left + box.width / 2;
+    const distance = Math.abs(centerX - (slider.scrollLeft + cardCenter));
+
+    // Highlight logic
+    if (distance < 100) {
+      card.classList.add('highlight');
+      card.classList.remove('dimmed');
+    } else {
+      card.classList.add('dimmed');
+      card.classList.remove('highlight');
+    }
+
+    // ✅ This line removes any zooming transform
+    card.style.transform = 'none';
+  });
+}
+
+
+    // Only run this on mobile
+    if (window.innerWidth <= 768) {
+      highlightCenterCard();
+      slider.addEventListener('scroll', () => {
+        window.requestAnimationFrame(highlightCenterCard);
+      });
+    }
+    //navindev
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu = document.getElementById('closeMenu');
+
+  // Open menu
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    mobileMenu.classList.remove('translate-x-full');
+  });
+
+  // Close menu when clicking ✕
+  closeMenu.addEventListener('click', () => {
+    mobileMenu.classList.add('translate-x-full');
+  });
+
+  // Close when clicking any link inside menu
+  const menuLinks = mobileMenu.querySelectorAll('a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('translate-x-full');
+    });
+  });
+
+  // Close when clicking outside the menu
+  document.addEventListener('click', (event) => {
+    if (!mobileMenu.classList.contains('translate-x-full') && !mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+      mobileMenu.classList.add('translate-x-full');
+    }
+  });
+//navindev
+
+  </script>
+<!--contact ui-->
+<!-- Contact Form Section -->
+
+
+</body>
+</html>

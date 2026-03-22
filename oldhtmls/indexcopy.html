@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyneTBee</title>
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+
+<body>
+    
+    <header>
+  <div class="content-fit">
+    <div class="logo">
+  
+  <span class="logo-text">SkyneTBee</span>
+  <img src="img/skynetbeepng.png" alt="Bee Logo" class="logo-img">
+</div>
+
+
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<nav id="mobileNav">
+  <ul class="nav-1">
+    <li class="navbro"><a href="index.html">HOME</a></li>
+    <li><a href="web.html">WEB</a></li>
+    <li><a href="robotics.html">ROBOTICS</a></li>
+    <li><a href="apple.html">APPLE</a></li>
+    <li><a href="android.html">ANDROID</a></li>
+    <li><a href="dotnet.html">DOTNET</a></li>
+    <li><a href="https://www.skynetbee.com/skynetbee/">DEVZONE</a></li>
+    <li><a href="spider.html">CONTACT</a></li>
+  </ul>
+</nav>
+
+</header>
+
+    <div class="section" id="banner">
+        <div class="content-fit">
+            <div class="title" data-before="">SKYNET</div>
+        </div>
+        
+    </div>
+    <div class="section" id="intro">
+        <div class="content-fit">
+            <div class="number">01</div>
+            <div class="des">
+                <div class="title">skynetbee</div>
+                <p class="para">At Skynet, we craft apps or websites tailored to your needs. Simply share your vision, and we’ll bring it to life. Our charges are minimal, with support exceeding industry standards. We emphasize data security and cutting-edge tech like AI.</p>
+            </div>
+        </div>
+    </div>
+    <div class="section" id="description">
+        <div class="content-fit">
+            <div class="number">02</div>
+            <div class="des">
+                <div class="title">about us</div>
+                <p class="para">Our SkyneTBee Pvt Ltd, has over 10 wings, each handling key areas of app development, such as cybersecurity, quality analysis, etc. On the top-right menu, we've listed developer wings like Apple App Development with Xcode and Swift, Android App Development using Java or Kotlin in Android Studio, etc. For privacy, we haven't disclosed details about confidential teams like cybersecurity.</p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="section" id="contact">
+  <div class="content-fit">
+    <div class="number">03</div>
+    <div class="des">
+      <div class="title">reach us at</div>
+
+      <!-- Card wrapper for the table -->
+       
+<div id="contact" class="glass-card">
+  <div class="glass-effect">
+    <div class="glass-card">
+      <div class="glass-effect">
+    <div class="table-card">
+      <table>
+        <tr>
+          <td>Email</td>
+          <td class="clcl">ceo@skynetbee.com</td>
+        </tr>
+        <tr>
+          <td>Phone</td>
+          <td class="clcl">+91 73737 33020</td>
+        </tr>
+        <tr>
+          <td>X</td>
+          <td class="clcl">@SkyneTBee</td>
+        </tr>
+        <tr>
+          <td>Youtube</td>
+          <td class="clcl">@skynetbee</td>
+        </tr>
+        <tr>
+          <td>Instagram</td>
+          <td class="clcl">@skynetbee</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+      <br><br>
+      <div class="sign">Skynet</div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById("mobileNav");
+    nav.classList.toggle("open");
+  }
+
+  // Optional: Close menu when any nav link is clicked
+  document.querySelectorAll('#mobileNav a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById("mobileNav").classList.remove("open");
+    });
+  });
+</script>
+
+
+
+
+<div id="container3D"></div>
+<script type="module" src="js/script.js"></script>
+
+
+
+</body>
+</html>
