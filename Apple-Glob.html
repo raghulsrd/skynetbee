@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyneT Tag Cloud</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+      }
+      html,
+      canvas {
+        height: 100%;
+      }
+
+      body {
+        background: #121212;
+        overflow-x: hidden;
+      }
+      body {
+        font-family: "Great Vibes", cursive;
+        background: #0c0c0c;
+        color: white;
+        font-size: 20px;
+      }
+      canvas {
+        position: fixed;
+        width: 100%;
+        z-index: -10;
+      }
+      nav {
+        width: 100%;
+        backdrop-filter: blur(20px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      }
+
+      nav li:first-child {
+        margin-right: auto;
+      }
+
+      nav a {
+        padding: 0 30px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        color: #ffed29;
+      }
+
+      nav a:hover {
+        background-color: rgba(191, 196, 210, 0.885);
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #dfa00d;
+        display: none;
+        flex-direction: column;
+      }
+
+      .sidebar.open {
+        display: flex;
+      }
+
+      @media screen and (max-width: 768px) {
+        .sidebar a {
+          color: #ffed29 !important;
+        }
+        /* THIS MAKES MENU BUTTON TEXT & SVG ICON COLOR YELLOW ON MOBILE */
+        .menu-button a {
+          color: #ffed29 !important;
+        }
+        /* Optional: make the SVG path fill yellow as well */
+        .menu-button svg path {
+          fill: #ffed29 !important;
+        }
+      }
+
+      .sidebar a:hover {
+        background-color: transparent;
+      }
+
+      .section {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .content-fit {
+        width: min(1200px, 90vw);
+        margin: auto;
+        padding-block: 10em;
+      }
+
+      header {
+        padding-block: 0.6em;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        background-color: #1b1b1b11;
+      }
+
+      header .content-fit {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: unset !important;
+        padding-block: unset !important;
+      }
+
+      header .content-fit nav ul {
+        gap: 1em;
+        font-size: 1.5em;
+      }
+
+      #banner .title {
+        color: #d1ff48;
+        font-size: 11em;
+        font-family: "devil breeze";
+        font-weight: bold;
+      }
+
+      .des .title {
+        font-family: "devil breeze";
+        font-size: 5em;
+        margin-bottom: 20px;
+      }
+
+      .des p {
+        font-size: 28px;
+        text-align: center;
+        font-weight: 500;
+      }
+
+      #contact table {
+        max-width: 900px;
+        font-size: 2em;
+        margin: auto;
+      }
+
+      #contact table td {
+        padding: 0.5em;
+        border-bottom: 1px dashed #445022;
+      }
+
+      #contact table td:nth-child(1) {
+        text-align: left;
+        font-weight: 500;
+      }
+
+      #contact table td:nth-child(2) {
+        text-align: right;
+        font-weight: 300;
+      }
+
+      @media (max-width: 860px) {
+        .hideOnMobile {
+          display: none;
+        }
+
+        .menu-button {
+          display: block;
+        }
+
+        .sign {
+          font-size: 5em;
+        }
+
+        .des .title {
+          font-size: 3em;
+        }
+
+        .des p {
+          font-size: 1.5em;
+        }
+
+        #banner .title {
+          font-size: 6em;
+        }
+
+        #contact table {
+          font-size: 1.2em;
+        }
+      }
+
+      .tagcloud-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 700px;
+        height: 700px;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      .tagcloud-wrapper {
+        width: 100%;
+        height: 100%;
+        perspective: 1500px;
+        overflow: visible;
+        position: relative;
+      }
+
+      .tagcloud {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+      }
+
+      .tag {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 16px;
+        white-space: nowrap;
+        cursor: pointer;
+        transition:
+          transform 0.3s ease,
+          color 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tag img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .tag:hover {
+        color: #ff0000;
+        transform: scale(1.2);
+        z-index: 9999 !important;
+      }
+      .tagcloud-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px; /* further decreased size */
+        height: 100px; /* further decreased size */
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      .tagcloud-wrapper {
+        width: 50%;
+        height: 50%;
+        perspective: 1500px;
+        overflow: visible;
+        position: relative;
+      }
+
+      .tagcloud {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+      }
+
+      .tag {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 16px; /* increased font size */
+        white-space: nowrap;
+        cursor: pointer;
+        transition:
+          transform 0.3s ease,
+          color 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tag img {
+        width: 35px; /* increased image size */
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .tag:hover {
+        color: #ff0000;
+        transform: scale(1.2);
+        z-index: 9999 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 🔥 Neon Hex Background -->
+    <canvas></canvas>
+    <canvas></canvas>
+    <!-- Navigation -->
+    <div class="content-fit">
+      <nav>
+        <ul class="topbar">
+          <li>
+            <a href="../index.html">
+              SkyneT
+              <img
+                src="https://www.skynetbee.com/skynetbee/skynet-framework/icons/skynetbeepng.png"
+                alt="Logo"
+                height="45"
+                style="vertical-align: middle; margin-left: 5px" />
+            </a>
+          </li>
+          <li class="hideOnMobile"><a href="/Apple-Glob.html">Apple</a></li>
+          <li class="hideOnMobile"><a href="/Android-Glob.html">Android</a></li>
+          <li class="hideOnMobile"><a href="/Web-Glob.html">Web</a></li>
+          <li class="hideOnMobile"><a href="/DotneT-Glob.html">DotNet</a></li>
+          <li class="hideOnMobile">
+            <a href="/Robotics-Glob.html">Robotics</a>
+          </li>
+          <li class="hideOnMobile">
+            <a href="https://www.skynetbee.com/skynetbee/">DevZone</a>
+          </li>
+          <li class="hideOnMobile"><a href="/Robotics-Glob.html">Hiring</a></li>
+          <li class="menu-button">
+            <a href="/sections.html">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="26"
+                viewBox="0 96 960 960"
+                width="26">
+                <path
+                  d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Tag Cloud -->
+    <div class="tagcloud-container">
+      <div class="tagcloud-wrapper">
+        <div class="tagcloud" id="tagcloud"></div>
+      </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+      function showSidebar() {
+        document.getElementById("sidebar").style.display = "flex";
+      }
+
+      function hideSidebar() {
+        document.getElementById("sidebar").style.display = "none";
+      }
+
+      const namesWithImages = [
+        {
+          name: "Kavipriya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-12/refs/heads/main/IMG_20250618_211534.jpg",
+        },
+        {
+          name: "Anisha",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-12/refs/heads/main/IMG_20250625_083008.jpg",
+        },
+        {
+          name: "Anubharathi",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG-20250618-WA0099.jpg",
+        },
+        {
+          name: "Deeksha",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-12/refs/heads/main/IMG_20250618_211500.jpg",
+        },
+        {
+          name: "Kajol",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-12/refs/heads/main/IMG_20250618_211435.jpg",
+        },
+        {
+          name: "G.V.Kaviya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG-20250618-WA0028.jpg",
+        },
+        {
+          name: "P.Y.Kavya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG-20250618-WA0096.jpg",
+        },
+        {
+          name: "Poovarasi",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250123_192724.jpg",
+        },
+        {
+          name: "Sabinash",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG-20250618-WA0100.jpg",
+        },
+        {
+          name: "Sahana Sri",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211602_1.jpg",
+        },
+        {
+          name: "Sathya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-12/refs/heads/main/IMG_20250618_211415.jpg",
+        },
+        {
+          name: "Shalini",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211306.jpg",
+        },
+        {
+          name: "Sowmiya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-12/refs/heads/main/IMG_20250618_211348.jpg",
+        },
+        {
+          name: "Habishek",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG-20250618-WA0028.jpg",
+        },
+        {
+          name: "Franco A J",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211024.jpg",
+        },
+        {
+          name: "Vinith M",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift/refs/heads/main/WhatsApp%20Image%202025-06-25%20at%208.49.42%20AM.jpeg",
+        },
+        {
+          name: "Harish B",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_210942.jpg",
+        },
+        {
+          name: "Kiruba Karan S",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG-20250622-WA0033.jpg",
+        },
+        {
+          name: "Sughail Shakul S",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift1/refs/heads/main/WhatsApp%20Image%202025-06-18%20at%208.52.20%20PM.jpeg",
+        },
+        {
+          name: "Poornima U",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211055.jpg",
+        },
+        {
+          name: "Kanishkashree N",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG-20250618-WA0098.jpg",
+        },
+        {
+          name: "Parameshwari S",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift1/refs/heads/main/WhatsApp%20Image%202025-06-18%20at%208.52.19%20PM.jpeg",
+        },
+        {
+          name: "Harismitha K",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_210859.jpg",
+        },
+        {
+          name: "Pavithra D",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift1/refs/heads/main/WhatsApp%20Image%202025-06-22%20at%203.43.50%20PM.jpeg",
+        },
+        {
+          name: "Umesh G K",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_205624.jpg",
+        },
+        {
+          name: "K.abishek",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211712.jpg",
+        },
+        {
+          name: "S..naveen",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_210825.jpg",
+        },
+        {
+          name: "S.sakthivadivu",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Sw/refs/heads/main/IMG_20250618_211151.jpg",
+        },
+        {
+          name: "I.sivaranjani",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift1/refs/heads/main/WhatsApp%20Image%202025-06-18%20at%2010.55.54%20AM.jpeg",
+        },
+        {
+          name: "G.akshaya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211635.jpg",
+        },
+        {
+          name: "S.oviya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift1/refs/heads/main/WhatsApp%20Image%202025-06-18%20at%2010.51.14%20AM.jpeg",
+        },
+        {
+          name: "C.nila tharshini",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift1/refs/heads/main/WhatsApp%20Image%202025-06-21%20at%2010.23.05%20PM.jpeg",
+        },
+        {
+          name: "S.kanishka",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211850.jpg",
+        },
+        {
+          name: "B.anjali",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Sw/refs/heads/main/IMG_20250618_211135.jpg",
+        },
+        {
+          name: "J.rajarajeshwari",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift1/refs/heads/main/WhatsApp%20Image%202025-06-18%20at%2010.52.30%20AM.jpeg",
+        },
+        {
+          name: "S.fathima shajiya farhana",
+          image:
+            "https://raw.githubusercontent.com/Bhavana-Oii2628/swift/refs/heads/main/WhatsApp%20Image%202025-06-25%20at%208.52.43%20AM.jpeg",
+        },
+        {
+          name: "Sri Yazhini",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Sw/refs/heads/main/IMG_20250625_102548.jpg",
+        },
+        {
+          name: "Aiswarya",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Sw/refs/heads/main/IMG_20250625_102353.jpg",
+        },
+        {
+          name: "Hoshifa",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Sw/refs/heads/main/IMG_20250625_101320.jpg",
+        },
+        {
+          name: "B.bhavana",
+          image:
+            "https://raw.githubusercontent.com/Bhavana2628/Swift-/refs/heads/main/IMG_20250618_211119.jpg",
+        },
+      ];
+
+      const container = document.getElementById("tagcloud");
+      let tagsData = [];
+      function getRadius() {
+        return window.innerWidth <= 768
+          ? 200 // <-- mobile view radius set to 250
+          : 450; // desktop or larger screen
+      }
+
+      function getRadius() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        return vw <= 768 ? Math.min(vw, vh) * 0.45 : 350;
+      }
+
+      let visibleNames =
+        window.innerWidth <= 768
+          ? namesWithImages.slice(0, 20) // show fewer tags
+          : namesWithImages;
+
+      function createTagCloud() {
+        const radius = getRadius();
+        tagsData = [];
+        container.innerHTML = "";
+
+        namesWithImages.forEach((item, i) => {
+          const angleX = Math.acos(-1 + (2 * i) / namesWithImages.length);
+          const angleY = Math.sqrt(namesWithImages.length * Math.PI) * angleX;
+
+          const x = radius * Math.sin(angleX) * Math.cos(angleY);
+          const y = radius * Math.sin(angleX) * Math.sin(angleY);
+          const z = radius * Math.cos(angleX) * 0.8;
+
+          tagsData.push({ x, y, z });
+
+          const tag = document.createElement("a");
+          tag.className = "tag";
+          tag.href = "#";
+          tag.style.transform = `translate3d(${x}px, ${y}px, ${z}px) translate(-50%, -50%)`;
+
+          const img = document.createElement("img");
+          img.src = item.image;
+          img.alt = item.name;
+          container.appendChild(Object.assign(tag, {}));
+          tag.appendChild(img);
+          tag.appendChild(document.createTextNode(item.name));
+          container.appendChild(tag);
+        });
+      }
+
+      let angleX = 0,
+        angleY = 0;
+      function rotateCloud() {
+        // 💡 Detect mobile view
+        const isMobile = window.innerWidth <= 768;
+
+        // 🔁 Change speed for mobile
+        angleX += isMobile ? 0.15 : 0.05;
+        angleY += isMobile ? 0.2 : 0.07;
+
+        const radX = (angleX * Math.PI) / 180;
+        const radY = (angleY * Math.PI) / 180;
+        const tags = container.getElementsByClassName("tag");
+
+        for (let i = 0; i < tags.length; i++) {
+          const tag = tags[i];
+          const pos = tagsData[i];
+
+          let y = pos.y * Math.cos(radX) - pos.z * Math.sin(radX);
+          let z = pos.y * Math.sin(radX) + pos.z * Math.cos(radX);
+          let x = pos.x * Math.cos(radY) + z * Math.sin(radY);
+          z = -pos.x * Math.sin(radY) + z * Math.cos(radY);
+
+          tag.style.transform =
+            z < 0
+              ? `translate3d(${x}px, ${y}px, ${z}px) rotateY(180deg) translate(-50%, -50%)`
+              : `translate3d(${x}px, ${y}px, ${z}px) translate(-50%, -50%)`;
+
+          tag.style.zIndex = z < 0 ? 0 : 1;
+          tag.style.opacity = z < 0 ? 0.4 : 1;
+          tag.style.filter =
+            z < 0 ? "blur(2px) grayscale(40%) brightness(0.8)" : "none";
+        }
+
+        requestAnimationFrame(rotateCloud);
+      }
+
+      createTagCloud();
+      rotateCloud();
+      window.addEventListener("resize", () => {
+        createTagCloud();
+      });
+      <!-- 💥 Neon Background JS -->
+
+      Object.getOwnPropertyNames(Math).map(function (p) {
+        window[p] = Math[p];
+      });
+
+      var HEX_CRAD = 32,
+        HEX_BG = "#171717",
+        HEX_HL = "#2a2a2a",
+        HEX_HLW = 2,
+        HEX_GAP = 4,
+        NEON_PALETE = ["#ffc100"],
+        T_SWITCH = 64,
+        unit_x = 3 * HEX_CRAD + HEX_GAP * sqrt(3),
+        unit_y = HEX_CRAD * sqrt(3) * 0.5 + 0.5 * HEX_GAP,
+        off_x = 1.5 * HEX_CRAD + HEX_GAP * sqrt(3) * 0.5,
+        wp = NEON_PALETE.map(function (c) {
+          var num = parseInt(c.replace("#", ""), 16);
+          return { r: (num >> 16) & 0xff, g: (num >> 8) & 0xff, b: num & 0xff };
+        }),
+        nwp = wp.length,
+        csi = 0,
+        f = 1 / T_SWITCH,
+        c = document.querySelectorAll("canvas"),
+        n = c.length,
+        w,
+        h,
+        _min,
+        ctx = [],
+        grid,
+        source = null,
+        t = 0;
+
+      var GridItem = function (x, y) {
+        this.x = x || 0;
+        this.y = y || 0;
+        this.points = { hex: [], hl: [] };
+        this.init = function () {
+          var ri = HEX_CRAD - 0.5 * HEX_HLW,
+            ba = PI / 3,
+            x,
+            y,
+            a;
+          for (var i = 0; i < 6; i++) {
+            a = i * ba;
+            x = this.x + HEX_CRAD * cos(a);
+            y = this.y + HEX_CRAD * sin(a);
+            this.points.hex.push({ x, y });
+            if (i > 2) {
+              x = this.x + ri * cos(a);
+              y = this.y + ri * sin(a);
+              this.points.hl.push({ x, y });
+            }
+          }
+        };
+        this.draw = function (ct) {
+          for (var i = 0; i < 6; i++) {
+            ct[(i === 0 ? "move" : "line") + "To"](
+              this.points.hex[i].x,
+              this.points.hex[i].y,
+            );
+          }
+        };
+        this.highlight = function (ct) {
+          for (var i = 0; i < 3; i++) {
+            ct[(i === 0 ? "move" : "line") + "To"](
+              this.points.hl[i].x,
+              this.points.hl[i].y,
+            );
+          }
+        };
+        this.init();
+      };
+
+      var Grid = function (rows, cols) {
+        this.cols = cols || 16;
+        this.rows = rows || 16;
+        this.items = [];
+        this.n = 0;
+        this.init = function () {
+          for (var row = 0; row < this.rows; row++) {
+            var y = row * unit_y;
+            for (var col = 0; col < this.cols; col++) {
+              var x = (row % 2 == 0 ? 0 : off_x) + col * unit_x;
+              this.items.push(new GridItem(x, y));
+            }
+          }
+          this.n = this.items.length;
+        };
+        this.draw = function (ct) {
+          ct.fillStyle = HEX_BG;
+          ct.beginPath();
+          for (var i = 0; i < this.n; i++) this.items[i].draw(ct);
+          ct.closePath();
+          ct.fill();
+
+          ct.strokeStyle = HEX_HL;
+          ct.beginPath();
+          for (var i = 0; i < this.n; i++) this.items[i].highlight(ct);
+          ct.closePath();
+          ct.stroke();
+        };
+        this.init();
+      };
+
+      var init = function () {
+        var s = getComputedStyle(c[0]),
+          rows,
+          cols;
+        w = ~~s.width.split("px")[0];
+        h = ~~s.height.split("px")[0];
+        _min = 0.75 * min(w, h);
+        rows = ~~(h / unit_y) + 2;
+        cols = ~~(w / unit_x) + 2;
+        for (var i = 0; i < n; i++) {
+          c[i].width = w;
+          c[i].height = h;
+          ctx[i] = c[i].getContext("2d");
+        }
+        grid = new Grid(rows, cols);
+        grid.draw(ctx[1]);
+        if (!source) source = { x: ~~(w / 2), y: ~~(h / 2) };
+        neon();
+      };
+
+      var neon = function () {
+        var k = (t % T_SWITCH) * f,
+          rgb = {
+            r: ~~(wp[csi].r * (1 - k) + wp[(csi + 1) % nwp].r * k),
+            g: ~~(wp[csi].g * (1 - k) + wp[(csi + 1) % nwp].g * k),
+            b: ~~(wp[csi].b * (1 - k) + wp[(csi + 1) % nwp].b * k),
+          },
+          rgb_str = "rgb(" + rgb.r + "," + rgb.g + "," + rgb.b + ")",
+          light = ctx[0].createRadialGradient(
+            source.x,
+            source.y,
+            0,
+            source.x,
+            source.y,
+            0.875 * _min,
+          ),
+          stp = 0.5 - 0.5 * sin(7 * t * f) * cos(5 * t * f) * sin(3 * t * f);
+
+        light.addColorStop(0, rgb_str);
+        light.addColorStop(stp, "rgba(0,0,0,.03)");
+
+        fillBackground("rgba(0,0,0,.02)");
+        fillBackground(light);
+
+        t++;
+        if (t % T_SWITCH === 0) {
+          csi = (csi + 1) % nwp;
+          t = 0;
+        }
+
+        requestAnimationFrame(neon);
+      };
+
+      var fillBackground = function (bg_fill) {
+        ctx[0].fillStyle = bg_fill;
+        ctx[0].beginPath();
+        ctx[0].rect(0, 0, w, h);
+        ctx[0].closePath();
+        ctx[0].fill();
+      };
+
+      init();
+      addEventListener("resize", init, false);
+      addEventListener(
+        "mousemove",
+        function (e) {
+          source = { x: e.clientX, y: e.clientY };
+        },
+        false,
+      );
+      // Mobile tap flip support for student card
+      const studentCard = document.querySelector(".student-card");
+
+      studentCard.addEventListener("click", () => {
+        // Toggle flipped class on tap
+        studentCard.classList.toggle("flipped");
+      });
+    </script>
+  </body>
+</html>
