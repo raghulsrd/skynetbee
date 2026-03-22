@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>contact</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0%;
+        height: 100%;
+        color: #f9f3f3;
+        font-family: Arial, sans-serif;
+        background: #000000;
+        margin-top: 30px;
+      }
+
+      /* Navigation Styles */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #1b1a1a;
+        padding: 20px 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        color: #fcd440;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #fcd440;
+      }
+
+      .hamburger {
+        display: none;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: #1b1a1a;
+        z-index: 1001;
+        transition: right 0.3s ease-in-out;
+        padding: 20px;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .mobile-menu.active {
+        right: 0;
+      }
+
+      .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .mobile-nav-links {
+        list-style: none;
+        padding: 0;
+      }
+
+      .mobile-nav-links li {
+        margin-bottom: 20px;
+      }
+
+      .mobile-nav-links a {
+        color: #fcd440;
+        text-decoration: none;
+        font-size: 18px;
+        display: block;
+        padding: 10px 0;
+      }
+
+      .mobile-nav-links a:hover {
+        color: #000000;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+      }
+
+      .overlay.active {
+        display: block;
+      }
+
+      /* Rest of your existing styles */
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+      }
+
+      .contact_us {
+        padding: 10px 0;
+      }
+
+      .contact_inner {
+        background: #1b1a1a;
+        box-shadow: 0 4px 20px rgba(2, 2, 2, 0.1);
+        border-radius: 25px;
+        max-width: 1200px;
+        margin: auto;
+        position: relative;
+        padding: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+
+      .contact_field {
+        flex: 1 1 60%;
+      }
+
+      .contact_field h3 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .contact_field p {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .contact_field input,
+      .contact_field textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+      }
+
+      .contact_field textarea {
+        resize: vertical;
+      }
+
+      .contact_form_submit {
+        background: #fcd440;
+        border: none;
+        color: #0f0e0e;
+        padding: 10px 15px;
+        border-radius: 35px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 14px;
+        letter-spacing: 2px;
+      }
+
+      .contact_info_sec {
+        background: #000000;
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        flex: 1 1 35%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .contact_info_sec h4 {
+        margin-bottom: 20px;
+      }
+
+      .info_single {
+        margin: 15px 0;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      .info_single i {
+        margin-right: 10px;
+      }
+
+      .socil_item_inner {
+        display: flex;
+        gap: 10px;
+      }
+
+      .socil_item_inner a {
+        color: #fff;
+        font-size: 20px;
+      }
+
+      /* Responsive */
+      @media screen and (max-width: 768px) {
+        .navbar {
+          padding: 15px 10px;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .hamburger {
+          display: block;
+        }
+
+        .contact_inner {
+          flex-direction: column;
+          padding: 300px 20px;
+          width: 75%;
+        }
+
+        .contact_info_sec {
+          border-radius: 20px;
+          margin-top: 30px;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .contact_us .container {
+          padding: 0 10px;
+        }
+
+        .contact_inner {
+          padding: 30px 40px !important;
+        }
+
+        .contact_field {
+          padding: 10px 10px !important;
+        }
+
+        .contact_info_sec {
+          position: static;
+          width: 81%;
+          margin-top: 20px;
+          border-radius: 20px;
+        }
+      }
+
+      .map-wrapper {
+        max-width: 600px;
+        margin: 50px auto 100px auto;
+        border: 3px solid #fcd440;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .map-wrapper iframe {
+        width: 100%;
+        height: 250px;
+        border: none;
+      }
+
+      @media screen and (max-width: 768px) {
+        .map-wrapper {
+          max-width: 90%; /* Shrink width */
+          margin: 30px auto; /* Adjust spacing */
+        }
+
+        .map-wrapper iframe {
+          height: 200px; /* Optional: slightly reduce height */
+        }
+      }
+
+      .info_single a:hover {
+        color: #fcd440;
+      }
+
+      /* Adjust body margin to account for fixed navbar */
+      body {
+        margin-top: 70px;
+      }
+      /* Logo styles */
+      .nav-logo {
+        height: 30px; /* Adjust as needed */
+        width: auto;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        text-decoration: none;
+        color: #fcd440;
+      }
+
+      /* For mobile menu logo */
+      .mobile-menu-header .logo {
+        font-size: 20px; /* Slightly smaller for mobile */
+      }
+
+      .mobile-menu-header .nav-logo {
+        height: 25px; /* Slightly smaller for mobile */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="#" class="logo">
+          <img
+            src="img/skynetbeepng.png"
+            alt="SkyneTBee Logo"
+            class="nav-logo" />
+          SKYNETBEE
+        </a>
+        <ul class="nav-links">
+          <li><a href="../index.html">HOME</a></li>
+          <li><a href="web.html">WEB</a></li>
+          <li><a href="robotics.html">ROBOTICS</a></li>
+          <li><a href="apple.html">APPLE</a></li>
+          <li><a href="android.html">ANDROID</a></li>
+          <li><a href="dotnet.html">DOTNET</a></li>
+          <li><a href="https://www.skynetbee.com/skynetbee/">DEVZONE</a></li>
+          <li><a href="#">CONTACT</a></li>
+        </ul>
+        <button class="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <div class="mobile-menu-header">
+        <button class="close-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <ul class="mobile-nav-links">
+        <li><a href="../index.html">HOME</a></li>
+        <li><a href="web.html">WEB</a></li>
+        <li><a href="robotics.html">ROBOTICS</a></li>
+        <li><a href="apple.html">APPLE</a></li>
+        <li><a href="android.html">ANDROID</a></li>
+        <li><a href="dotnet.html">DOTNET</a></li>
+        <li><a href="https://www.skynetbee.com/skynetbee/">DEVZONE</a></li>
+        <li><a href="#">CONTACT</a></li>
+      </ul>
+    </div>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay"></div>
+
+    <canvas id="dotsCanvas"></canvas>
+
+    <section class="contact_us">
+      <div class="contact_inner">
+        <div class="contact_field">
+          <h3>Contact Us</h3>
+          <p>
+            Feel Free to contact us any time. We will get back to you as soon as
+            we can!
+          </p>
+          <input type="text" placeholder="Name" />
+          <input type="email" placeholder="Email" />
+          <textarea placeholder="Message" rows="5"></textarea>
+          <button class="contact_form_submit">Send</button>
+        </div>
+
+        <div class="contact_info_sec">
+          <div>
+            <h4>Contact Info</h4>
+            <div class="info_single">
+              <i class="fas fa-headset"></i><span>+91 73737 33020</span>
+            </div>
+          </div>
+          <div class="socil_item_inner">
+            <a
+              href="https://www.instagram.com/skynetbee"
+              target="_blank"
+              rel="noopener">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a
+              href="https://twitter.com/SkyneTBee"
+              target="_blank"
+              rel="noopener">
+              <i class="fab fa-x-twitter"></i>
+            </a>
+            <a
+              href="https://www.youtube.com/@skynetbee"
+              target="_blank"
+              rel="noopener">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div
+      style="
+        max-width: 600px;
+        margin: 50px auto 100px auto;
+        border-radius: 0px;
+        overflow: hidden;
+      ">
+      <h2
+        style="
+          font-family: &quot;Raleway&quot;, sans-serif;
+          color: #ffffff;
+          text-align: center;
+        ">
+        We're Here!
+      </h2>
+      <iframe
+        src="https://maps.google.com/maps?q=11.289124,77.780370&z=17&output=embed"
+        width="100%"
+        height="250"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <footer
+      style="
+        text-align: center;
+        padding: 15px 10px;
+        background-color: transparent;
+        color: #aaa;
+        font-size: 14px;
+      ">
+      © 2025 SkyneTBee. All rights reserved.
+    </footer>
+
+    <script>
+      // Navigation functionality
+      const hamburger = document.querySelector(".hamburger");
+      const closeBtn = document.querySelector(".close-btn");
+      const mobileMenu = document.querySelector(".mobile-menu");
+      const overlay = document.querySelector(".overlay");
+
+      hamburger.addEventListener("click", () => {
+        mobileMenu.classList.add("active");
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden"; // Prevent scrolling when menu is open
+      });
+
+      closeBtn.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "auto"; // Re-enable scrolling
+      });
+
+      overlay.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "auto"; // Re-enable scrolling
+      });
+
+      // Close menu when clicking on a link
+      const mobileLinks = document.querySelectorAll(".mobile-nav-links a");
+      mobileLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("active");
+          overlay.classList.remove("active");
+          document.body.style.overflow = "auto";
+        });
+      });
+
+      // Dots animation (your existing code)
+      const canvas = document.getElementById("dotsCanvas");
+      const ctx = canvas.getContext("2d");
+      let width,
+        height,
+        dots = [];
+
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        generateDots();
+      }
+
+      function generateDots() {
+        dots = [];
+        for (let i = 0; i < 200; i++) {
+          dots.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 3 + 2,
+            color: Math.random() < 0.5 ? "#FCD440" : "#ffffff",
+          });
+        }
+        drawDots();
+      }
+
+      function drawDots() {
+        ctx.clearRect(0, 0, width, height);
+        dots.forEach((dot) => {
+          ctx.beginPath();
+          ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
+          ctx.fillStyle = dot.color;
+          ctx.fill();
+        });
+      }
+
+      function drawLines(mouseX, mouseY) {
+        drawDots();
+        dots.forEach((dot) => {
+          const dx = dot.x - mouseX;
+          const dy = dot.y - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 150) {
+            ctx.beginPath();
+            ctx.moveTo(dot.x, dot.y);
+            ctx.lineTo(mouseX, mouseY);
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+        });
+      }
+
+      window.addEventListener("mousemove", (e) => {
+        drawLines(e.clientX, e.clientY);
+      });
+
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+    </script>
+  </body>
+</html>
