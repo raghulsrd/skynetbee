@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sections</title>
+    <style>
+      body {
+        background-color: #dfa00d;
+        color: #000000;
+        font-family: "Open Sans", sans-serif;
+        text-align: center;
+        padding: 4em 2em;
+        margin: 0;
+      }
+
+      .logo-link {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: #000000;
+        margin-bottom: 2em;
+        font-weight: bold;
+        font-size: 2.5em;
+        transition: color 0.3s ease;
+      }
+
+      .logo-link:hover {
+        color: #333333;
+      }
+
+      .logo-link img {
+        height: 45px;
+        margin-right: 10px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      li {
+        margin: 1em 0;
+        font-size: 1.5em;
+      }
+
+      a {
+        text-decoration: none;
+        color: #000000;
+        transition: color 0.3s ease;
+      }
+
+      a:hover,
+      a:focus {
+        color: #333333;
+      }
+
+      .arrow::before {
+        content: "➡ ";
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Clickable Logo + Text -->
+    <a href="../index.html" class="logo-link">
+      <img
+        src="https://www.skynetbee.com/skynetbee/skynet-framework/icons/skynetbeepng.png"
+        alt="Logo" />
+      <span>SkyneTBee</span>
+    </a>
+
+    <!-- Menu Items with Arrows -->
+    <ul>
+      <li><a class="arrow" href="/Apple-Glob.html">Apple</a></li>
+      <li><a class="arrow" href="/Android-Glob.html">Android</a></li>
+      <li><a class="arrow" href="/Web-Glob.html">Web</a></li>
+      <li><a class="arrow" href="/DotneT-Glob.html">DotNet</a></li>
+      <li><a class="arrow" href="/Robotics-Glob.html">Robotics</a></li>
+      <li>
+        <a class="arrow" href="https://www.skynetbee.com/skynetbee/">DevZone</a>
+      </li>
+      <li><a class="arrow" href="/Robotics-Glob.html">Hiring</a></li>
+    </ul>
+  </body>
+</html>
