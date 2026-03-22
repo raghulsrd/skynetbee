@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyneTBee</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+      <div class="content-fit">
+        <nav>
+            <ul class="sidebar" id="navbar">
+                <li onclick="hideSidebar()">
+                  <a href="">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26">
+                      <path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
+                    </svg>
+                  </a>
+                </li>
+                <li><a href="/Apple-Glob.html">Apple</a></li>
+                <li><a href="/Android-Glob.html">Android</a></li>
+                <li><a href="/Web-Glob.html">Web</a></li>
+                <li><a href="/DotneT-Glob.html">DotNet</a></li> 
+                <li><a href="/Robotics-Glob.html">Robotics</a></li>
+                <li><a href="/skynetbee/">DevZone</a></li>
+                <li><a href="/Robotics-Glob.html">Hiring</a></li>
+              </ul>
+              
+              <ul class="topbar">
+                <li>
+                  <a href="../index.html">
+                    SkyneT
+                    <img src="/skynetbeepng.png" alt="Logo" height="45" style="vertical-align: middle; margin-right: 5px;">
+                  </a>
+                </li>
+                <li class="hideOnMobile"><a href="/Apple-Glob.html">Apple</a></li>
+                <li class="hideOnMobile"><a href="/Android-Glob.html">Android</a></li>
+                <li class="hideOnMobile"><a href="/Web-Glob.html">Web</a></li>
+                <li class="hideOnMobile"><a href="/DotneT-Glob.html">DotneT</a></li>
+                <li class="hideOnMobile"><a href="/Robotics-Glob.html">Robotics</a></li>
+                <li class="hideOnMobile"><a href="/skynetbee/">DevZone</a></li>
+                <li class="hideOnMobile"><a href="/Robotics-Glob.html">Hiring</a></li>
+                <li class="menu-button" onclick="showSidebar()">
+                  <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26">
+                      <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+              
+          </nav>
+      </div>
+  </header>
+  <div class="section" id="banner">
+      <div class="content-fit">
+          <div class="title">SKYNET</div>
+      </div>
+  </div>
+  <div class="section" id="intro">
+      <div class="content-fit">
+          <div class="number">01</div>
+          <div class="des">
+              <div class="title">1234</div>
+              <p>At Skynet, we craft apps or websites tailored to your needs. 💻 Simply share your vision, and we’ll bring it to life. Our charges are minimal, with support exceeding industry standards. 🔧 We emphasize data security and cutting-edge tech like AI.</p>
+          </div>
+      </div>
+  </div>
+  <div class="section" id="description">
+      <div class="content-fit">
+          <div class="number">02</div>
+          <div class="des">
+              <div class="title">ABOUT US</div>
+              <p>Our SkyneTBee Pvt Ltd, has over 10 wings, each handling key areas of app development, such as cybersecurity🔐, quality analysis, etc. On the top-right menu, we've listed developer wings like Apple App Development with Xcode and Swift, Android App Development using Java or Kotlin in Android Studio📱, etc. For privacy, we haven't disclosed details about confidential teams like cybersecurity.</p>
+          </div>
+      </div>
+  </div>
+  <div class="section" id="contact">
+      <div class="content-fit">
+          <div class="number">03</div>
+          <div class="des">
+              <div class="title">CONTACT</div>
+                  <table>
+                      <tr>
+                      <td>Email</td>
+                      <td>ceo@skynetbee.com</td>
+                       </tr>
+                      <tr>
+                          <td>Phone</td>
+                          <td>+91 7373733020</td>
+                      </tr>
+                      <tr>
+                          <td>Twitter</td>
+                          <td>@SkyneTBee</td>
+                      </tr>
+                      <tr>
+                          <td>Youtube</td>
+                          <td>@skynetbee</td>
+                      </tr>
+                      <tr>
+                          <td>Instagram</td>
+                          <td>@skynetbee</td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="section" id="brand">
+      <div class="content-fit">
+          <div class="des">
+              <div class="sign">Skynet</div>
+          </div>
+      </div>
+  </div>
+</body>
+
+  <script>
+    function showSidebar(){
+      const sidebar = document.querySelector('.sidebar')
+      sidebar.style.display = 'flex'
+    }
+    function hideSidebar(){
+      const sidebar = document.querySelector('.sidebar')
+      sidebar.style.display = 'none'
+    }
+  </script>
+</body>
+<div id="container3D"></div>
+<script type="module" src="/app.js"></script>
+</html>
