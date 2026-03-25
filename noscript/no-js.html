@@ -1,0 +1,136 @@
+<style>
+  .title {
+    display: none;
+    font-weight: bold;
+    padding: 10px;
+    width: 80%;
+    margin: 10px;
+    background: whitesmoke;
+    border-radius: 10px;
+  }
+  .col {
+    margin-left: 22%;
+    padding-top: 10px;
+    margin-right: 11%;
+  }
+  label {
+    font-size: 20px;
+  }
+  video {
+    width: 80%;
+  }
+  .mob {
+    height: 60%;
+  }
+  p {
+    font-size: 15px;
+  }
+  .alert h4 {
+    margin-top: 20px;
+    font-size: x-large;
+    text-align: center;
+  }
+  .panel-heading {
+    font-size: large;
+    text-align: center;
+  }
+  .names {
+    color: #337ab7;
+  }
+  .names:hover {
+    text-decoration: underline;
+  }
+  .btn {
+    white-space: inherit;
+  }
+  /* click to View */
+  .title:target {
+    display: block;
+  }
+  /* Style The Dropdown Button */
+</style>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Disabled</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div style="background-color: rgb(238, 238, 238)">
+      <div class="alert alert-danger" role="alert">
+        <h4>
+          Sorry! Your JavaScript is Disabled.<br /><span style="font-size: 17px"
+            >our Website will not work without JavaScript!</span
+          >
+        </h4>
+      </div>
+      <div class="container">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Follow our tutorial to Enable JavaScript
+          </div>
+          <div class="panel-body">
+            <center><label for="option">Select your Browser</label></center>
+            <br />
+            <div class="row" style="text-align: left">
+              <div class="col" style="display: inline-block; text-align: left">
+                <a href="#" style="color: black; font-size: medium">Mobile</a>
+                <li><a href="#chrome">Chrome</a></li>
+                <li><a href="#mi">Mi Browser</a></li>
+                <li><a href="#ib">Internet Browser</a></li>
+                <li><a href="#safari">Safari</a></li>
+              </div>
+              <div class="col" style="display: inline-block; text-align: left">
+                <a href="#" style="color: black; font-size: medium">Desktop</a>
+                <li><a href="#wchrome">Chrome</a></li>
+                <li><a href="#dsafari">Safari</a></li>
+                <li><a href="#ffox">FireFox</a></li>
+                <li><a href="#edge">MS Edge</a></li>
+              </div>
+            </div>
+            <hr />
+            <center>
+              <a href="/" class="btn btn-success"
+                >I enabled JavaScript,Take me to Website</a
+              >
+            </center>
+          </div>
+          <div align="center">
+            <div id="chrome" class="cvid title">
+              <center><video src="noscript/mchrome.mp4"></video></center>
+            </div>
+            <div id="mi" class="cvid title">
+              <center>
+                <video src="noscript/mi1.mp4" class="mob"></video>
+              </center>
+            </div>
+            <div id="ib" class="cvid title">
+              <center>
+                <video src="noscript/ib1.mp4" class="mob"></video>
+              </center>
+            </div>
+            <div id="safari" class="ovid title">
+              <center><video src="noscript/ios.mp4"></video></center>
+            </div>
+            <div id="wchrome" class="wcvid title">
+              <center><video src="noscript/chrome.mp4"></video></center>
+            </div>
+            <div id="dsafari" class="wovid title">
+              <center><video src="noscript/safari.mp4"></video></center>
+            </div>
+            <div id="ffox" class="ffoxvid title">
+              <center><video src="noscript/ffox.mp4"></video></center>
+            </div>
+            <div id="edge" class="edgevid title">
+              <center><video src="noscript/edge.mp4"></video></center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
