@@ -5,47 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Snake Game SkySnake</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+    
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #e6ecf3);
             margin: 0;
-            padding: 0;
+            min-height: 100vh;
+    
+            /* CENTER EVERYTHING */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     
         .container {
-            max-width: 800px;
-            margin: 40px auto;
+            width: 100%;
+            max-width: 850px;
             background: #ffffff;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 35px 45px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
     
         h1 {
             text-align: center;
-            margin-bottom: 25px;
-            color: #222;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-weight: 600;
         }
     
         h2 {
-            margin-top: 25px;
-            color: #333;
-            border-left: 4px solid #4CAF50;
-            padding-left: 10px;
+            margin-top: 28px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 18px;
+            position: relative;
+            padding-left: 14px;
+        }
+    
+        h2::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 70%;
+            width: 4px;
+            background: #4CAF50;
+            border-radius: 2px;
         }
     
         p {
-            margin: 10px 0;
+            margin: 8px 0;
             color: #555;
+            font-size: 15px;
         }
     
         ul {
-            padding-left: 20px;
-            margin: 10px 0;
+            margin: 10px 0 10px 20px;
+            padding: 0;
         }
     
         li {
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            color: #444;
         }
     
         strong {
@@ -54,73 +79,78 @@
     
         .footer {
             text-align: center;
-            margin-top: 30px;
-            font-size: 14px;
-            color: #777;
-            border-top: 1px solid #ddd;
+            margin-top: 35px;
+            font-size: 13px;
+            color: #888;
+            border-top: 1px solid #eee;
             padding-top: 15px;
         }
     
+        /* Mobile */
         @media (max-width: 600px) {
+            body {
+                align-items: flex-start;
+                padding: 20px 10px;
+            }
+    
             .container {
-                margin: 20px;
-                padding: 20px;
+                padding: 25px 20px;
             }
         }
     </style>
 </head>
 <body>
-
-    <h1>Privacy Policy</h1>
-    <p>This privacy policy governs the use of our application <strong>Snake Game - SkySnake</strong>. 
-    This app is designed to provide a simple, fun, and offline gaming experience while respecting user privacy.</p>
-
-    <h2>Information Collection and Use</h2>
-    <p>Our app does <strong>not collect any personal information</strong> from users.</p>
-    <p>We do not require:</p>
-    <ul>
-        <li>Name</li>
-        <li>Email address</li>
-        <li>Phone number</li>
-        <li>Location data</li>
-    </ul>
-    <p>The game runs completely offline and does not store any personal data.</p>
-
-    <h2>Gameplay Data</h2>
-    <p>The app may store limited game-related data locally on your device, such as:</p>
-    <ul>
-        <li>High score</li>
-        <li>Game progress</li>
-    </ul>
-    <p>This data is used only to enhance your gaming experience and is not shared externally.</p>
-
-    <h2>Device Access</h2>
-    <p>Snake Game - SkySnake:</p>
-    <ul>
-        <li>Does not require internet access for gameplay</li>
-        <li>Does not access contacts, messages, or sensitive device data</li>
-    </ul>
-
-    <h2>Third-Party Services</h2>
-    <p>This app does not use any third-party services that collect user data.</p>
-    <p><em>If you add ads or analytics in the future, this section must be updated.</em></p>
-
-    <h2>Data Security</h2>
-    <p>Since no personal data is collected or stored online, your privacy is fully protected. 
-    All game-related data remains on your device.</p>
-
-    <h2>Children’s Privacy</h2>
-    <p>This game is suitable for all age groups, including children. 
-    We do not collect any personal information, ensuring a safe environment for younger users.</p>
-
-    <h2>Changes to This Privacy Policy</h2>
-    <p>We may update this policy in the future. Any changes will be reflected on this page.</p>
-
-    <h2>Contact Us</h2>
-    <p>If you have any questions regarding this privacy policy, feel free to contact us:</p>
-    <p>Email: <strong>raghulsclasses@gmail.com</strong></p>
-
-     <div class="footer">© 2026 CashVault. All Rights Reserved.</div>
-
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p>This privacy policy governs the use of our application <strong>Snake Game - SkySnake</strong>. 
+        This app is designed to provide a simple, fun, and offline gaming experience while respecting user privacy.</p>
+    
+        <h2>Information Collection and Use</h2>
+        <p>Our app does <strong>not collect any personal information</strong> from users.</p>
+        <p>We do not require:</p>
+        <ul>
+            <li>Name</li>
+            <li>Email address</li>
+            <li>Phone number</li>
+            <li>Location data</li>
+        </ul>
+        <p>The game runs completely offline and does not store any personal data.</p>
+    
+        <h2>Gameplay Data</h2>
+        <p>The app may store limited game-related data locally on your device, such as:</p>
+        <ul>
+            <li>High score</li>
+            <li>Game progress</li>
+        </ul>
+        <p>This data is used only to enhance your gaming experience and is not shared externally.</p>
+    
+        <h2>Device Access</h2>
+        <p>Snake Game - SkySnake:</p>
+        <ul>
+            <li>Does not require internet access for gameplay</li>
+            <li>Does not access contacts, messages, or sensitive device data</li>
+        </ul>
+    
+        <h2>Third-Party Services</h2>
+        <p>This app does not use any third-party services that collect user data.</p>
+        <p><em>If you add ads or analytics in the future, this section must be updated.</em></p>
+    
+        <h2>Data Security</h2>
+        <p>Since no personal data is collected or stored online, your privacy is fully protected. 
+        All game-related data remains on your device.</p>
+    
+        <h2>Children’s Privacy</h2>
+        <p>This game is suitable for all age groups, including children. 
+        We do not collect any personal information, ensuring a safe environment for younger users.</p>
+    
+        <h2>Changes to This Privacy Policy</h2>
+        <p>We may update this policy in the future. Any changes will be reflected on this page.</p>
+    
+        <h2>Contact Us</h2>
+        <p>If you have any questions regarding this privacy policy, feel free to contact us:</p>
+        <p>Email: <strong>raghulsclasses@gmail.com</strong></p>
+    
+         <div class="footer">© 2026 SnakeGame All Rights Reserved.</div>
+    </div>
 </body>
 </html>
