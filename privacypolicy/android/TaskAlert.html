@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - Task Alert</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: linear-gradient(160deg, #04020E 0%, #0A0520 50%, #120A32 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    padding-bottom: 48px;
+  }
+
+  /* ── HEADER ── */
+  .pp-header {
+    background: linear-gradient(135deg, rgba(124,58,237,0.18) 0%, rgba(56,189,248,0.12) 100%);
+    border-bottom: 1.5px solid rgba(124,58,237,0.35);
+    padding: 36px 28px 28px;
+    text-align: center;
+  }
+
+  .pp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124,58,237,0.18);
+    border: 1px solid rgba(124,58,237,0.45);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 12px;
+    color: #C4B5FD;
+    margin-bottom: 16px;
+  }
+
+  .pp-title {
+    font-size: 30px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #7C3AED, #38BDF8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .pp-date {
+    font-size: 13px;
+    color: rgba(196,181,253,0.6);
+  }
+
+  /* ── INTRO ── */
+  .pp-intro {
+    margin: 24px 20px 0;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(124,58,237,0.3);
+    border-radius: 16px;
+    padding: 18px 20px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+  }
+
+  .pp-intro span {
+    font-weight: 600;
+    color: #C4B5FD;
+  }
+
+  /* ── BODY ── */
+  .pp-body {
+    padding: 8px 20px 0;
+  }
+
+  /* ── SECTION CARD ── */
+  .pp-section {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    border: 1.5px solid rgba(124,58,237,0.25);
+    overflow: hidden;
+  }
+
+  .pp-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(90deg, rgba(124,58,237,0.15), rgba(56,189,248,0.08));
+    border-bottom: 1px solid rgba(124,58,237,0.2);
+  }
+
+  .pp-section-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #7C3AED, #38BDF8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .pp-section-num {
+    font-size: 11px;
+    color: rgba(56,189,248,0.6);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .pp-section-title {
+    font-size: 15px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #C4B5FD, #7DD3FC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .pp-section-body {
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+  }
+
+  .pp-sub-label {
+    font-size: 13px;
+    color: rgba(125,211,252,0.75);
+    margin-bottom: 12px;
+  }
+
+  /* ── BULLET ITEMS ── */
+  .pp-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+
+  .pp-item:last-child { margin-bottom: 0; }
+
+  .pp-item-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C3AED, #38BDF8);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .pp-item-label {
+    font-weight: 600;
+    color: #C4B5FD;
+  }
+
+  /* ── PERMISSION BADGE ── */
+  .pp-perm-badge {
+    display: inline-block;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.4);
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #C4B5FD;
+    font-family: monospace;
+    margin-bottom: 6px;
+  }
+
+  /* ── FOOTER ── */
+  .pp-footer {
+    margin: 28px 20px 0;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .pp-footer-brand {
+    font-size: 15px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #7C3AED, #38BDF8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+  }
+
+  .pp-footer-text {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="pp-header">
+    <div class="pp-badge">🔔 Task Alert</div>
+    <div class="pp-title">Privacy Policy</div>
+  </div>
+
+
+  <div class="pp-body">
+
+    <!-- SECTION 1 -->
+    <div class="pp-section">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">🗄️</div>
+        <div>
+         
+          <div class="pp-section-title">Information Collection and Storage</div>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p class="pp-sub-label">Task Alert is engineered as a privacy-first, local-only application:</p>
+        <div class="pp-item">
+          <div class="pp-item-dot"></div>
+          <div>
+            <span class="pp-item-label">No Personal Data Collection: </span>
+            We do not collect, scrape, track, or share any personally identifiable
+            information (PII) such as names, email addresses, phone numbers, or hardware IDs.
+          </div>
+        </div>
+        <div class="pp-item">
+          <div class="pp-item-dot"></div>
+          <div>
+            <span class="pp-item-label">Local-Only Storage: </span>
+            Any reminder titles, notes, timestamps, or system configuration preferences
+            you input are saved exclusively inside your device's isolated hardware sandbox
+            using Android DataStore mechanisms. This data never exits your device.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="pp-section">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">🔐</div>
+        <div>
+        
+          <div class="pp-section-title">Android System Permissions</div>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p class="pp-sub-label">To deliver core background functionality reliably, Task Alert requests the following specific operating system flags:</p>
+        <div class="pp-item">
+          <div class="pp-item-dot"></div>
+          <div>
+            <div class="pp-perm-badge">POST_NOTIFICATIONS</div>
+            Allows the application to display heads-up task alerts and lock-screen
+            banners when reminders are due.
+          </div>
+        </div>
+        <div class="pp-item">
+          <div class="pp-item-dot"></div>
+          <div>
+            <div class="pp-perm-badge">RECEIVE_BOOT_COMPLETED</div>
+            Allows the application's background receiver components to restore and
+            re-schedule your active task timers automatically whenever your device reboots.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="pp-section">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">🔗</div>
+        <div>
+       
+          <div class="pp-section-title">Third-Party Services</div>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        This application does not integrate with any tracking SDKs, advertising
+        monetization platforms, or remote diagnostic analytic frameworks.
+        Your planning data remains completely isolated.
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="pp-section">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">👶</div>
+        <div>
+          
+          <div class="pp-section-title">Children's Privacy</div>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        Because Task Alert does not collect, transmit, or process any information
+        whatsoever from anyone, it is fully safe for use by individuals of all ages,
+        including children under the age of 13.
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="pp-section">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">📋</div>
+        <div>
+          
+          <div class="pp-section-title">Changes to This Policy</div>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        We reserve the right to modify this structural privacy document over time
+        to reflect updates in operating system permission requirements. Any revisions
+        will take effect immediately upon updating this hosted page layout.
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="pp-section">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">✉️</div>
+        <div>
+          <div class="pp-section-title">Contact Us</div>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        If you have any technical design questions or feedback regarding local privacy
+        implementations, feel free to contact us via email support channels.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="pp-footer">
+    <div class="pp-footer-brand">🔔 Task Alert</div>
+    <div class="pp-footer-text">© 2026 Task Alert. All Rights Reserved. Clean Local Execution Framework.</div>
+  </div>
+
+</body>
+</html>
