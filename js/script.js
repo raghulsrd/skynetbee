@@ -23,7 +23,7 @@ loader.load("models/bee.glb", function (gltf) {
     bee.scale.set(0.2, 0.2, 0.2);
     bee.position.y += 1;
   } else {
-    bee.scale.set(0.4, 0.4, 0.4);
+    bee.scale.set(0.3, 0.3, 0.3);
     bee.position.y += 1;
   }
 
