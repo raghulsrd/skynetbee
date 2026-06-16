@@ -20,10 +20,10 @@ loader.load("models/bee.glb", function (gltf) {
   const isMobile = window.innerWidth <= 767;
 
   if (isMobile) {
-    bee.scale.set(0.02, 0.02, 0.02);
+    bee.scale.set(0.08, 0.08, 0.08);
     bee.position.y += 1;
   } else {
-    bee.scale.set(0.03, 0.03, 0.03);
+    bee.scale.set(0.12, 0.12, 0.12);
     bee.position.y += 1;
   }
 
