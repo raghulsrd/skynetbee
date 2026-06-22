@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CyberSafe — Learn. Protect. Stay Secure.</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --void: #0d1117;
+  --deep: #111827;
+  --panel: #1a2235;
+  --card: #1e293b;
+  --neon-g: #00ffcc;
+  --neon-p: #cc44ff;
+  --neon-b: #38bdf8;
+  --neon-r: #ff4466;
+  --neon-y: #ffd700;
+  --glow-g: rgba(0,255,204,0.18);
+  --glow-p: rgba(204,68,255,0.15);
+  --text: #f0f8ff;
+  --dim: #94a3b8;
+  --mono: 'Share Tech Mono', monospace;
+  --display: 'Orbitron', monospace;
+  --body: 'Exo 2', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--text);font-family:var(--body);overflow-x:hidden;cursor:crosshair}
+
+/* ── BACKGROUND CANVASES ── */
+#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.18}
+#wordstream{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#hexlayer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* ── SCAN LINES ── */
+#scanline{
+  position:fixed;top:-140px;left:0;width:100%;height:140px;
+  background:linear-gradient(180deg,transparent,rgba(0,255,204,0.06),rgba(0,255,204,0.02),transparent);
+  z-index:1;pointer-events:none;animation:scan 5s linear infinite;
+}
+#scanline2{
+  position:fixed;top:-90px;left:0;width:100%;height:90px;
+  background:linear-gradient(180deg,transparent,rgba(204,68,255,0.04),transparent);
+  z-index:1;pointer-events:none;animation:scan 8s 3.5s linear infinite;
+}
+@keyframes scan{to{top:110vh}}
+
+/* ── GRID BG ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(0,255,204,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,204,0.07) 1px, transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;
+}
+
+/* ── NOISE ── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.3;
+}
+
+main{position:relative;z-index:2}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(13,17,23,0.88);
+  border-bottom:1px solid rgba(0,255,204,0.18);
+  backdrop-filter:blur(20px);
+}
+.nav-logo{
+  font-family:var(--display);font-size:1.2rem;font-weight:900;
+  text-decoration:none;letter-spacing:4px;
+  background:linear-gradient(90deg,#ffffff,#e0f8ff,#ffffff);
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-logo span{
+  background:linear-gradient(90deg,#00ffcc,#38bdf8,#00ffcc);
+  background-size:200% auto;animation:titleShimmer 3s linear infinite;
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 8px #00ffcc);
+}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  color:var(--dim);text-decoration:none;
+  font-family:var(--mono);font-size:0.75rem;letter-spacing:1px;
+  transition:color .2s,text-shadow .2s;
+}
+.nav-links a:hover{color:var(--neon-g);text-shadow:0 0 8px var(--neon-g)}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 5% 80px;position:relative;overflow:hidden;
+}
+.hero-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:0.65rem;letter-spacing:2px;
+  color:var(--neon-r);border:1px solid rgba(255,0,60,0.4);
+  padding:5px 12px;border-radius:1px;margin-bottom:24px;
+  animation:fadeUp .8s both;
+}
+.badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--neon-r);box-shadow:0 0 8px var(--neon-r);
+  animation:blip 1.2s ease-in-out infinite;
+}
+@keyframes blip{0%,100%{opacity:1}50%{opacity:0.2}}
+
+.hero-title{
+  font-family:var(--display);
+  font-size:clamp(3.5rem,7vw,6.5rem);
+  font-weight:900;line-height:0.95;letter-spacing:6px;
+  margin-bottom:24px;animation:fadeUp .8s .1s both;
+  text-transform:uppercase;
+}
+.glitch{
+  display:block;position:relative;
+  background:linear-gradient(90deg,#ffffff,#00ffcc,#38bdf8,#cc44ff,#ffffff);
+  background-size:300% auto;
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 18px #00ffcc) drop-shadow(0 0 40px rgba(0,255,204,0.5));
+  animation:glitchFlicker 6s infinite, titleShimmer 3s linear infinite;
+  letter-spacing:8px;
+}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+  background:none;-webkit-text-fill-color:unset;
+}
+.glitch::before{
+  color:var(--neon-p);clip-path:polygon(0 0,100% 0,100% 45%,0 45%);
+  animation:glitch1 6s infinite;text-shadow:0 0 20px var(--neon-p);opacity:0.7;
+}
+.glitch::after{
+  color:var(--neon-b);clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);
+  animation:glitch2 6s infinite;text-shadow:0 0 20px var(--neon-b);opacity:0.7;
+}
+@keyframes glitch1{
+  0%,94%,100%{transform:translate(0)}
+  95%{transform:translate(-3px,0)}
+  96%{transform:translate(3px,0)}
+  97%{transform:translate(-3px,0)}
+}
+@keyframes glitch2{
+  0%,91%,100%{transform:translate(0)}
+  92%{transform:translate(3px,0)}
+  93%{transform:translate(-3px,0)}
+  94%{transform:translate(3px,0)}
+}
+@keyframes glitchFlicker{
+  0%,97%,100%{opacity:1}
+  98%{opacity:0.85}
+  99%{opacity:1}
+  99.5%{opacity:0.7}
+}
+.hero-safe-old{display:none}
+
+.hero-sub{
+  font-size:1rem;color:var(--dim);line-height:1.8;
+  max-width:420px;margin-bottom:36px;
+  animation:fadeUp .8s .2s both;font-weight:300;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s both}
+
+.btn-cyber{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:0.75rem;letter-spacing:2px;
+  padding:14px 28px;border-radius:1px;
+  text-decoration:none;cursor:pointer;border:none;
+  transition:all .25s;text-transform:uppercase;
+}
+.btn-primary{
+  background:var(--neon-g);color:#000;
+  box-shadow:0 0 20px var(--neon-g),inset 0 0 20px rgba(255,255,255,0.1);
+}
+.btn-primary:hover{
+  background:#fff;box-shadow:0 0 40px var(--neon-g),0 0 80px rgba(0,255,204,0.3);
+  transform:translateY(-2px);
+}
+.btn-outline{
+  background:transparent;color:var(--neon-g);
+  border:1px solid var(--neon-g);
+  box-shadow:0 0 10px rgba(0,255,204,0.18),inset 0 0 10px rgba(0,255,204,0.05);
+}
+.btn-outline:hover{
+  background:rgba(0,255,204,0.08);
+  box-shadow:0 0 20px rgba(0,255,204,0.3),inset 0 0 20px rgba(0,255,204,0.18);
+  transform:translateY(-2px);
+}
+
+.hero-stats{
+  display:flex;gap:36px;margin-top:28px;padding-top:24px;
+  border-top:1px solid rgba(0,255,204,0.18);
+  animation:fadeUp .8s .5s both;
+}
+.stat-num{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--neon-g);text-shadow:0 0 15px var(--neon-g)}
+.stat-lbl{font-family:var(--mono);font-size:0.62rem;color:var(--dim);margin-top:3px;letter-spacing:1px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TERMINAL ── */
+.terminal{
+  background:#0d1117;border:1px solid rgba(0,255,204,0.25);
+  border-radius:4px;overflow:hidden;
+  box-shadow:0 0 40px rgba(0,255,204,0.18),0 0 80px rgba(0,0,0,0.8),inset 0 0 60px rgba(0,0,0,0.5);
+  animation:fadeUp .8s .4s both;
+}
+.term-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;background:rgba(0,255,204,0.04);
+  border-bottom:1px solid rgba(0,255,204,0.18);
+}
+.td{width:11px;height:11px;border-radius:50%}
+.td-r{background:#ff5f57;box-shadow:0 0 6px #ff5f57}
+.td-y{background:#ffbd2e;box-shadow:0 0 6px #ffbd2e}
+.td-g{background:#27c93f;box-shadow:0 0 6px #27c93f}
+.term-title{font-family:var(--mono);font-size:0.65rem;color:var(--dim);margin-left:8px;letter-spacing:1px}
+.term-body{padding:18px 20px;font-family:var(--mono);font-size:0.75rem;line-height:2.1}
+.tp{color:var(--neon-g)}.tc{color:var(--text)}.to{color:var(--dim)}
+.th{color:var(--neon-p)}.ts{color:var(--neon-y)}.tw{color:var(--neon-r)}
+.cursor{display:inline-block;width:8px;height:13px;background:var(--neon-g);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite;box-shadow:0 0 8px var(--neon-g)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── SECTION BASE ── */
+section{padding:100px 5%;position:relative;z-index:2}
+.container{max-width:1200px;margin:0 auto}
+.sec-eye{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--neon-g);padding:5px 12px;border:1px solid rgba(0,255,204,0.2);
+  border-radius:1px;margin-bottom:14px;
+}
+.sec-eye::before{content:'▶';color:var(--neon-g);font-size:0.55rem;animation:blip 2s infinite}
+.sec-title{
+  font-family:var(--display);font-size:clamp(2rem,3.5vw,2.8rem);
+  font-weight:900;letter-spacing:3px;margin-bottom:10px;line-height:1.1;
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-size:300% auto;animation:titleShimmer 4s linear infinite;
+  text-transform:uppercase;
+}
+@keyframes titleShimmer{0%{background-position:0% center}100%{background-position:300% center}}
+.sec-title-pw {
+  background-image:linear-gradient(90deg,#ffffff,#00ffcc,#38bdf8,#ffffff,#00ffcc);
+  filter:drop-shadow(0 0 14px rgba(0,255,204,0.5));
+}
+.sec-title-quiz {
+  background-image:linear-gradient(90deg,#ffffff,#cc44ff,#ff4466,#ffffff,#cc44ff);
+  filter:drop-shadow(0 0 14px rgba(204,68,255,0.5));
+}
+.sec-title-tips {
+  background-image:linear-gradient(90deg,#ffffff,#ffd700,#ff9900,#ffffff,#ffd700);
+  filter:drop-shadow(0 0 14px rgba(255,215,0,0.5));
+}
+.sec-title-scam {
+  background-image:linear-gradient(90deg,#ffffff,#ff4466,#ff8800,#ffffff,#ff4466);
+  filter:drop-shadow(0 0 14px rgba(255,68,102,0.5));
+}
+.sec-title-res  {
+  background-image:linear-gradient(90deg,#ffffff,#38bdf8,#00ffcc,#ffffff,#38bdf8);
+  filter:drop-shadow(0 0 14px rgba(56,189,248,0.5));
+}
+.hero-safe{
+  display:block;letter-spacing:12px;font-weight:900;
+  background:linear-gradient(90deg,#ffffff,#e0f0ff,#ffffff,#cceeff,#ffffff);
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-size:300% auto;animation:titleShimmer 5s linear infinite;
+  filter:drop-shadow(0 0 12px rgba(255,255,255,0.6));
+}
+.sec-sub{font-size:0.95rem;color:var(--dim);max-width:500px;line-height:1.7;font-weight:300}
+.sec-head{margin-bottom:52px}
+
+/* ── DIVIDER ── */
+.neon-div{
+  border:none;height:1px;margin:0;
+  background:linear-gradient(90deg,transparent,var(--neon-g),transparent);
+  opacity:0.25;
+}
+
+/* ── PASSWORD CHECKER ── */
+#password{background:var(--deep)}
+.checker{
+  background:var(--card);border:1px solid rgba(0,255,204,0.22);
+  border-radius:4px;padding:40px;max-width:680px;margin:0 auto;
+  box-shadow:0 0 40px rgba(0,0,0,0.6),0 0 80px rgba(0,255,204,0.03);
+}
+.pw-wrap{position:relative;margin-bottom:20px}
+.pw-input{
+  width:100%;background:rgba(0,255,204,0.03);
+  border:1px solid rgba(0,255,204,0.22);border-radius:2px;
+  padding:15px 50px 15px 16px;font-family:var(--mono);font-size:0.95rem;
+  color:var(--neon-g);outline:none;transition:all .25s;letter-spacing:2px;
+  text-shadow:0 0 8px rgba(0,255,204,0.4);caret-color:var(--neon-g);
+}
+.pw-input::placeholder{color:var(--dim);font-family:var(--mono);letter-spacing:1px;text-shadow:none}
+.pw-input:focus{
+  border-color:rgba(0,255,204,0.5);
+  box-shadow:0 0 0 2px rgba(0,255,204,0.08),0 0 20px rgba(0,255,204,0.05);
+  background:rgba(0,255,204,0.05);
+}
+.pw-eye{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--dim);
+  font-size:1rem;transition:color .2s;padding:4px;
+}
+.pw-eye:hover{color:var(--neon-g)}
+.bar-track{height:4px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.bar-fill{height:100%;border-radius:2px;width:0%;transition:width .5s cubic-bezier(.4,0,.2,1),background .4s,box-shadow .4s}
+.str-label{font-family:var(--mono);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;min-height:18px;transition:color .3s}
+.sug-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sug-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 13px;background:rgba(255,255,255,0.02);
+  border:1px solid transparent;border-radius:2px;
+  font-family:var(--mono);font-size:0.72rem;color:var(--dim);
+  transition:all .3s;
+}
+.sug-item.met{border-color:rgba(0,255,204,0.25);color:var(--neon-g);background:rgba(0,255,204,0.05);text-shadow:0 0 6px rgba(0,255,204,0.3)}
+.sug-dot{
+  width:16px;height:16px;border-radius:50%;
+  border:1px solid var(--dim);display:flex;align-items:center;justify-content:center;
+  font-size:9px;flex-shrink:0;transition:all .3s;
+}
+.sug-item.met .sug-dot{background:var(--neon-g);border-color:var(--neon-g);color:#000;box-shadow:0 0 8px var(--neon-g)}
+
+/* ── QUIZ ── */
+#quiz{background:var(--deep)}
+.quiz{
+  background:var(--card);border:1px solid rgba(0,255,204,0.2);
+  border-radius:4px;padding:40px;max-width:720px;margin:0 auto;
+  box-shadow:0 0 60px rgba(0,0,0,0.7);
+}
+.q-progress{height:2px;background:rgba(255,255,255,0.05);border-radius:1px;margin-bottom:30px;overflow:hidden}
+.q-pfill{height:100%;background:linear-gradient(90deg,var(--neon-g),var(--neon-p));border-radius:1px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px var(--neon-g)}
+.q-num{font-family:var(--mono);font-size:0.62rem;color:var(--neon-g);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.q-text{font-family:var(--display);font-size:1.1rem;font-weight:600;line-height:1.4;margin-bottom:26px;letter-spacing:.5px}
+.q-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.q-opt{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 16px;background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.07);border-radius:2px;
+  cursor:pointer;transition:all .2s;
+  font-family:var(--mono);font-size:0.8rem;color:var(--dim);
+}
+.q-opt:hover:not(.disabled){
+  border-color:rgba(0,255,204,0.35);color:var(--text);
+  background:rgba(0,255,204,0.04);transform:translateX(6px);
+  box-shadow:inset 3px 0 0 var(--neon-g);
+}
+.q-opt.correct{border-color:var(--neon-g);background:rgba(0,255,204,0.07);color:var(--neon-g);text-shadow:0 0 6px rgba(0,255,204,0.3)}
+.q-opt.wrong{border-color:var(--neon-r);background:rgba(255,0,60,0.07);color:var(--neon-r)}
+.q-opt.disabled{cursor:default}
+.opt-key{
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;flex-shrink:0;transition:all .2s;
+}
+.q-opt.correct .opt-key{background:var(--neon-g);border-color:var(--neon-g);color:#000;box-shadow:0 0 10px var(--neon-g)}
+.q-opt.wrong .opt-key{background:var(--neon-r);border-color:var(--neon-r);color:#fff}
+.q-fb{
+  padding:13px 16px;border-radius:2px;font-family:var(--mono);font-size:0.78rem;
+  line-height:1.6;margin-bottom:18px;display:none;
+}
+.q-fb.correct{background:rgba(0,255,204,0.06);border:1px solid rgba(0,255,204,0.2);color:var(--neon-g)}
+.q-fb.wrong{background:rgba(255,0,60,0.06);border:1px solid rgba(255,0,60,0.2);color:#ff8fa0}
+.q-actions{display:flex;justify-content:space-between;align-items:center}
+.q-score{font-family:var(--mono);font-size:0.72rem;color:var(--dim)}
+.q-result{text-align:center;padding:20px 0}
+.res-score{
+  font-family:var(--display);font-size:4rem;font-weight:900;
+  color:var(--neon-g);text-shadow:0 0 30px var(--neon-g),0 0 60px rgba(0,255,204,0.3);
+  line-height:1;margin-bottom:8px;
+}
+.res-lbl{font-family:var(--mono);font-size:0.8rem;color:var(--dim);margin-bottom:28px;letter-spacing:1px}
+
+/* ── TIPS ── */
+#tips{background:var(--deep)}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.tip{
+  background:var(--card);border:1px solid rgba(0,255,204,0.18);
+  border-radius:3px;padding:26px;transition:all .3s;
+  position:relative;overflow:hidden;cursor:default;
+}
+.tip::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--neon-g),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .4s;
+}
+.tip::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--neon-p),transparent);
+  transform:scaleX(0);transform-origin:right;transition:transform .4s .1s;
+}
+.tip:hover{
+  border-color:rgba(0,255,204,0.2);transform:translateY(-6px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.5),0 0 30px rgba(0,255,204,0.05);
+}
+.tip:hover::before,.tip:hover::after{transform:scaleX(1)}
+.tip-icon{
+  width:44px;height:44px;background:rgba(0,255,204,0.07);
+  border:1px solid rgba(0,255,204,0.22);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;margin-bottom:16px;transition:all .3s;
+}
+.tip:hover .tip-icon{background:rgba(0,255,204,0.13);box-shadow:0 0 16px rgba(0,255,204,0.22)}
+.tip-title{font-family:var(--display);font-size:0.8rem;font-weight:600;color:var(--text);margin-bottom:7px;letter-spacing:.5px}
+.tip-desc{font-size:0.78rem;color:var(--dim);line-height:1.6;font-weight:300}
+
+/* ── SCAM DETECTOR ── */
+#scam{background:var(--panel)}
+.scam-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px}
+.scam-card{
+  background:var(--card);border:1px solid rgba(0,255,204,0.18);
+  border-radius:3px;padding:28px;cursor:pointer;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.scam-card:hover{
+  border-color:rgba(0,255,204,0.3);transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.4),0 0 20px rgba(0,255,204,0.05);
+}
+.scam-type{font-family:var(--mono);font-size:0.62rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.scam-headline{font-family:var(--display);font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.4}
+.scam-body{font-size:0.8rem;color:var(--dim);line-height:1.6;margin-bottom:14px}
+.scam-verdict{display:none;padding:10px 14px;border-radius:2px;font-family:var(--mono);font-size:0.72rem;line-height:1.5}
+.scam-verdict.scam-v{background:rgba(255,0,60,0.08);border:1px solid rgba(255,0,60,0.3);color:var(--neon-r)}
+.scam-verdict.legit-v{background:rgba(0,255,204,0.06);border:1px solid rgba(0,255,204,0.2);color:var(--neon-g)}
+.scam-reveal{
+  font-family:var(--mono);font-size:0.65rem;letter-spacing:1px;
+  color:var(--dim);border:1px solid rgba(255,255,255,0.08);
+  background:transparent;padding:7px 14px;border-radius:1px;
+  cursor:pointer;transition:all .2s;text-transform:uppercase;
+}
+.scam-reveal:hover{border-color:var(--neon-g);color:var(--neon-g)}
+.scam-flag{
+  position:absolute;top:12px;right:12px;
+  font-family:var(--mono);font-size:0.6rem;letter-spacing:1px;
+  padding:3px 8px;border-radius:1px;
+}
+.flag-danger{background:rgba(255,0,60,0.15);border:1px solid rgba(255,0,60,0.3);color:var(--neon-r)}
+.flag-safe{background:rgba(0,255,204,0.08);border:1px solid rgba(0,255,204,0.2);color:var(--neon-g)}
+
+/* ── RESOURCES ── */
+#resources{background:var(--deep)}
+.resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.res-card{
+  background:var(--card);border:1px solid rgba(0,255,204,0.18);
+  border-radius:3px;padding:28px;display:flex;flex-direction:column;
+  transition:all .3s;text-decoration:none;
+}
+.res-card:hover{
+  border-color:rgba(0,255,204,0.3);transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 20px rgba(0,255,204,0.06);
+}
+.res-icon{font-size:1.8rem;margin-bottom:16px}
+.res-title{font-family:var(--display);font-size:0.9rem;font-weight:600;color:var(--neon-g);margin-bottom:8px;text-shadow:0 0 10px rgba(0,255,204,0.3)}
+.res-desc{font-size:0.8rem;color:var(--dim);line-height:1.6;flex:1}
+.res-link{font-family:var(--mono);font-size:0.68rem;color:var(--dim);margin-top:16px;letter-spacing:1px;transition:color .2s}
+.res-card:hover .res-link{color:var(--neon-g)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--deep);border-top:1px solid rgba(0,255,204,0.18);
+  padding:40px 5%;display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:2;
+}
+.foot-logo{font-family:var(--display);font-size:1rem;font-weight:700;letter-spacing:2px}
+.foot-logo span{color:var(--neon-g);text-shadow:0 0 10px var(--neon-g)}
+.foot-text{font-family:var(--mono);font-size:0.65rem;color:var(--dim);letter-spacing:1px}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-visual{order:-1}
+  .scam-grid{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+  .sug-grid{grid-template-columns:1fr}
+  nav .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+<canvas id="wordstream"></canvas>
+<canvas id="hexlayer"></canvas>
+<div id="scanline"></div>
+<div id="scanline2"></div>
+
+<nav>
+  <a class="nav-logo" href="#"><span>CYBER</span>SAFE</a>
+  <ul class="nav-links">
+    <li><a href="#password">// PASSWORD</a></li>
+    <li><a href="#quiz">// QUIZ</a></li>
+    <li><a href="#tips">// TIPS</a></li>
+    <li><a href="#scam">// SCAM_DETECT</a></li>
+    <li><a href="#resources">// RESOURCES</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <div class="badge-dot"></div>
+        THREAT LEVEL: CRITICAL — STAY VIGILANT
+      </div>
+      <h1 class="hero-title">
+        <span class="glitch" data-text="CYBER">CYBER</span>
+        <span class="hero-safe">SAFE.</span>
+      </h1>
+      <p class="hero-sub">Your offensive toolkit against hackers, scammers, and digital predators. Learn to think like a threat actor — defend like a pro.</p>
+      <div class="hero-btns">
+        <a href="#password" class="btn-cyber btn-primary">▶ RUN DIAGNOSTICS</a>
+        <a href="#quiz" class="btn-cyber btn-outline">◈ TAKE THE QUIZ</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">847M</div>
+          <div class="stat-lbl">// BREACHED ACCOUNTS</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4.7s</div>
+          <div class="stat-lbl">// AVG HACK ATTEMPT</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">99%</div>
+          <div class="stat-lbl">// PREVENTABLE</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="terminal">
+        <div class="term-bar">
+          <div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div>
+          <span class="term-title">root@cybersafe:~# threat_scan</span>
+        </div>
+        <div class="term-body">
+          <div><span class="tp">root@cs</span><span class="to">:</span><span class="th">~/scan</span><span class="to">$</span> <span class="tc">./threat_scan --full</span></div>
+          <div><span class="to">[ INIT ] Loading threat database v4.2.1...</span></div>
+          <div><span class="ts">[ OK   ] 1,847,291 signatures loaded</span></div>
+          <div><span class="tp">root@cs</span><span class="to">:</span><span class="th">~/scan</span><span class="to">$</span> <span class="tc">analyze --target self</span></div>
+          <div><span class="to">[ SCAN ] Checking password entropy...</span></div>
+          <div><span class="tw">[ WARN ] Weak password detected: "abc123"</span></div>
+          <div><span class="tw">[ WARN ] 2FA disabled on 3 accounts</span></div>
+          <div><span class="to">[ SCAN ] Checking phishing exposure...</span></div>
+          <div><span class="tw">[ WARN ] Email leaked in 2 data breaches</span></div>
+          <div><span class="tp">root@cs</span><span class="to">:</span><span class="th">~/scan</span><span class="to">$</span> <span class="tc">recommend --fix</span></div>
+          <div><span class="ts">[ FIX  ] Enable 2FA → +91% security</span></div>
+          <div><span class="ts">[ FIX  ] Use passphrase → entropy ↑ 80%</span></div>
+          <div><span class="tp">root@cs</span><span class="to">:</span><span class="th">~/scan</span><span class="to">$</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-div"/>
+
+<!-- ─── PASSWORD ─── -->
+<section id="password">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eye">PASSWORD ANALYZER</div>
+      <h2 class="sec-title sec-title-pw">How Strong Is Your Shield?</h2>
+      <p class="sec-sub">Test a password. Watch it get cracked — or hold the line.</p>
+    </div>
+    <div class="checker">
+      <div class="pw-wrap">
+        <input class="pw-input" type="password" id="pwInput" placeholder="// ENTER PASSWORD TO ANALYZE" autocomplete="off" spellcheck="false"/>
+        <button class="pw-eye" id="pwToggle" title="Toggle visibility">👁</button>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+      <div class="str-label" id="strLabel">// AWAITING INPUT</div>
+      <div class="sug-grid">
+        <div class="sug-item" id="sug-len">  <div class="sug-dot" id="dot-len">✗</div> 12+ characters</div>
+        <div class="sug-item" id="sug-up">   <div class="sug-dot" id="dot-up">✗</div> Uppercase letters</div>
+        <div class="sug-item" id="sug-lo">   <div class="sug-dot" id="dot-lo">✗</div> Lowercase letters</div>
+        <div class="sug-item" id="sug-num">  <div class="sug-dot" id="dot-num">✗</div> Numbers</div>
+        <div class="sug-item" id="sug-sym">  <div class="sug-dot" id="dot-sym">✗</div> Special symbols</div>
+        <div class="sug-item" id="sug-dict"> <div class="sug-dot" id="dot-dict">✗</div> No common words</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-div"/>
+
+<!-- ─── QUIZ ─── -->
+<section id="quiz">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eye">SECURITY QUIZ</div>
+      <h2 class="sec-title sec-title-quiz">Test Your Threat IQ</h2>
+      <p class="sec-sub">10 questions. Real scenarios. Hackers use these tactics — do you recognize them?</p>
+    </div>
+    <div class="quiz" id="quizBox">
+      <div class="q-progress"><div class="q-pfill" id="qProg"></div></div>
+      <div id="quizContent">
+        <div class="q-num" id="qNum">QUESTION 01 / 10</div>
+        <div class="q-text" id="qText">Loading...</div>
+        <div class="q-opts" id="qOpts"></div>
+        <div class="q-fb" id="qFb"></div>
+        <div class="q-actions">
+          <div class="q-score" id="qScore">SCORE: 0 / 0</div>
+          <button class="btn-cyber btn-primary" id="qNext" style="display:none">NEXT ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-div"/>
+
+<!-- ─── TIPS ─── -->
+<section id="tips">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eye">PROTECTION PROTOCOLS</div>
+      <h2 class="sec-title sec-title-tips">Lock Down Your Digital Life</h2>
+      <p class="sec-sub">Core security hygiene. Each one blocks a real attack vector.</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tip"><div class="tip-icon">🔑</div><div class="tip-title">PASSPHRASE PROTOCOL</div><div class="tip-desc">Use 4+ random words instead of passwords. "correct-horse-battery-staple" has 44 bits of entropy vs 6 for "P@ss1".</div></div>
+      <div class="tip"><div class="tip-icon">📱</div><div class="tip-title">2FA EVERYWHERE</div><div class="tip-desc">Authenticator apps (not SMS) add a layer even stolen passwords can't bypass. Covers 99.9% of automated attacks.</div></div>
+      <div class="tip"><div class="tip-icon">🔒</div><div class="tip-title">PASSWORD MANAGER</div><div class="tip-desc">Unique password per site. One master key. Humans reuse passwords — attackers rely on this. Break the pattern.</div></div>
+      <div class="tip"><div class="tip-icon">🔄</div><div class="tip-title">PATCH IMMEDIATELY</div><div class="tip-desc">60% of breaches exploit vulnerabilities with patches already available. Update within 24h of critical patch release.</div></div>
+      <div class="tip"><div class="tip-icon">📡</div><div class="tip-title">VPN ON PUBLIC WiFi</div><div class="tip-desc">Coffee shop WiFi is a hunting ground. Man-in-the-middle attacks are trivial on open networks without encryption.</div></div>
+      <div class="tip"><div class="tip-icon">🎭</div><div class="tip-title">SOCIAL ENG. DEFENSE</div><div class="tip-desc">Verify unexpected requests via a separate channel. Urgency + authority + unusual request = classic social engineering.</div></div>
+      <div class="tip"><div class="tip-icon">💾</div><div class="tip-title">3-2-1 BACKUP RULE</div><div class="tip-desc">3 copies, 2 different media, 1 offsite. Ransomware's only power is your lack of backup. Remove that power.</div></div>
+      <div class="tip"><div class="tip-icon">🔍</div><div class="tip-title">BREACH MONITORING</div><div class="tip-desc">Monitor your email at HaveIBeenPwned. Time between breach and credential use averages 15 months — act fast.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-div"/>
+
+<!-- ─── SCAM DETECTOR ─── -->
+<section id="scam">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eye">SCAM PATTERN RECOGNITION</div>
+      <h2 class="sec-title sec-title-scam">Spot the Attack Vector</h2>
+      <p class="sec-sub">Real scam patterns. Identify the threat before you click Reveal.</p>
+    </div>
+    <div class="scam-grid">
+      <div class="scam-card">
+        <div class="scam-flag flag-danger">⚠ ANALYZE</div>
+        <div class="scam-type">// EMAIL</div>
+        <div class="scam-headline">Your Apple ID has been suspended</div>
+        <div class="scam-body">Dear Customer, unusual activity was detected. Verify your account within 24 hours or it will be permanently deleted. Click here: appleid-verify-secure.net</div>
+        <div class="scam-verdict scam-v" id="sv1">🔴 PHISHING — Domain "appleid-verify-secure.net" is NOT apple.com. Urgency tactics + fake domain = credential theft attempt. Never click links in unsolicited emails.</div>
+        <button class="scam-reveal" onclick="revealScam(1)">▶ RUN ANALYSIS</button>
+      </div>
+      <div class="scam-card">
+        <div class="scam-flag flag-safe">◈ ANALYZE</div>
+        <div class="scam-type">// SMS</div>
+        <div class="scam-headline">Your order has shipped — track it</div>
+        <div class="scam-body">Hi! Your Amazon order #112-4829301 has shipped. Track your package: amazon.com/track?id=4829301. Est. delivery: Fri Dec 8.</div>
+        <div class="scam-verdict legit-v" id="sv2">🟢 LEGITIMATE — Domain is amazon.com (not a lookalike). No urgency pressure, no request for credentials or payment. Order ID matches real Amazon format. Safe to click.</div>
+        <button class="scam-reveal" onclick="revealScam(2)">▶ RUN ANALYSIS</button>
+      </div>
+      <div class="scam-card">
+        <div class="scam-flag flag-danger">⚠ ANALYZE</div>
+        <div class="scam-type">// PHONE CALL</div>
+        <div class="scam-headline">"This is Microsoft Support..."</div>
+        <div class="scam-body">"We detected a virus on your computer. We need remote access immediately to remove it before your data is stolen. Please install this software now."</div>
+        <div class="scam-verdict scam-v" id="sv3">🔴 VISHING SCAM — Microsoft never calls unsolicited. "Remote access" + "install this software" = ransomware/spyware delivery. Hang up immediately. Legitimate companies don't call to demand access.</div>
+        <button class="scam-reveal" onclick="revealScam(3)">▶ RUN ANALYSIS</button>
+      </div>
+      <div class="scam-card">
+        <div class="scam-flag flag-danger">⚠ ANALYZE</div>
+        <div class="scam-type">// SOCIAL MEDIA</div>
+        <div class="scam-headline">Investment returns of 40% monthly — verified</div>
+        <div class="scam-body">I turned $500 into $12,000 in 3 months using this crypto platform. DM me for the link. Limited spots. My friends are all doing it and cashing out daily 💰</div>
+        <div class="scam-verdict scam-v" id="sv4">🔴 CRYPTO SCAM — "40% monthly" is mathematically unsustainable. "Limited spots" + "DM me" are classic pressure tactics. These are often pig-butchering scams or Ponzi schemes. No legitimate investment operates this way.</div>
+        <button class="scam-reveal" onclick="revealScam(4)">▶ RUN ANALYSIS</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-div"/>
+
+<!-- ─── RESOURCES ─── -->
+<section id="resources">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eye">EXTERNAL INTEL</div>
+      <h2 class="sec-title sec-title-res">Trusted Resources</h2>
+      <p class="sec-sub">Verified tools and agencies. Bookmark these.</p>
+    </div>
+    <div class="resources-grid">
+      <a href="https://haveibeenpwned.com" target="_blank" class="res-card">
+        <div class="res-icon">🔎</div>
+        <div class="res-title">HAVEIBEENPWNED</div>
+        <div class="res-desc">Check if your email or phone appeared in known data breaches. Free, trusted, maintained by security researcher Troy Hunt.</div>
+        <div class="res-link">haveibeenpwned.com ↗</div>
+      </a>
+      <a href="https://www.cisa.gov" target="_blank" class="res-card">
+        <div class="res-icon">🏛️</div>
+        <div class="res-title">CISA.GOV</div>
+        <div class="res-desc">U.S. Cybersecurity & Infrastructure Security Agency. Current threat advisories, alerts, and free security resources for individuals and organizations.</div>
+        <div class="res-link">cisa.gov ↗</div>
+      </a>
+      <a href="https://bitwarden.com" target="_blank" class="res-card">
+        <div class="res-icon">🔐</div>
+        <div class="res-title">BITWARDEN</div>
+        <div class="res-desc">Open-source, audited password manager. Free tier covers all essentials. Self-host option available for maximum control over your vault.</div>
+        <div class="res-link">bitwarden.com ↗</div>
+      </a>
+      <a href="https://www.consumer.ftc.gov/features/scam-alerts" target="_blank" class="res-card">
+        <div class="res-icon">📢</div>
+        <div class="res-title">FTC SCAM ALERTS</div>
+        <div class="res-desc">Federal Trade Commission's live scam alert feed. Report scams and see what's targeting people in your area right now.</div>
+        <div class="res-link">consumer.ftc.gov ↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot-logo"><span>CYBER</span>SAFE</div>
+  <div class="foot-text">// EDUCATIONAL PURPOSE ONLY — STAY SECURE</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   MATRIX RAIN
+═══════════════════════════════════════ */
+(function(){
+  const c = document.getElementById('matrix');
+  const ctx = c.getContext('2d');
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+  resize();
+  window.addEventListener('resize',resize);
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()!?<>{}[]|/\\アイウエオカキクケコサシスセソタチツテト';
+  const fontSize=13;
+  let cols=Math.floor(window.innerWidth/fontSize);
+  let drops=Array(cols).fill(1);
+  function draw(){
+    ctx.fillStyle='rgba(13,17,23,0.055)';
+    ctx.fillRect(0,0,c.width,c.height);
+    cols=Math.floor(window.innerWidth/fontSize);
+    if(drops.length<cols)drops=drops.concat(Array(cols-drops.length).fill(1));
+    for(let i=0;i<cols;i++){
+      const ch=chars[Math.floor(Math.random()*chars.length)];
+      const r=Math.random();
+      if(r>0.98) ctx.fillStyle='#ffffff';
+      else if(r>0.94) ctx.fillStyle='#cc44ff';
+      else if(r>0.90) ctx.fillStyle='#38bdf8';
+      else ctx.fillStyle='#00ffcc';
+      ctx.font=fontSize+'px Share Tech Mono';
+      ctx.fillText(ch,i*fontSize,drops[i]*fontSize);
+      if(drops[i]*fontSize>c.height&&Math.random()>0.975)drops[i]=0;
+      drops[i]++;
+    }
+  }
+  setInterval(draw,50);
+})();
+
+/* ═══════════════════════════════════════
+   PASSWORD CHECKER
+═══════════════════════════════════════ */
+const pwInput=document.getElementById('pwInput');
+const barFill=document.getElementById('barFill');
+const strLabel=document.getElementById('strLabel');
+const common=['password','123456','qwerty','letmein','welcome','monkey','dragon','master','iloveyou','admin'];
+
+function checkPw(){
+  const v=pwInput.value;
+  const checks={
+    len:v.length>=12,
+    up:/[A-Z]/.test(v),
+    lo:/[a-z]/.test(v),
+    num:/[0-9]/.test(v),
+    sym:/[^A-Za-z0-9]/.test(v),
+    dict:!common.some(w=>v.toLowerCase().includes(w))
+  };
+  const ids=['len','up','lo','num','sym','dict'];
+  ids.forEach(id=>{
+    document.getElementById('sug-'+id).classList.toggle('met',checks[id]);
+    document.getElementById('dot-'+id).textContent=checks[id]?'✓':'✗';
+  });
+  const score=Object.values(checks).filter(Boolean).length;
+  const pct=score/6*100;
+  const configs=[
+    {color:'#ff003c',shadow:'rgba(255,0,60,0.5)',label:'// CRITICAL — INSTANT CRACK'},
+    {color:'#ff6b00',shadow:'rgba(255,107,0,0.5)',label:'// WEAK — SECONDS TO BREAK'},
+    {color:'#ffe600',shadow:'rgba(255,230,0,0.4)',label:'// MODERATE — HOURS TO BREAK'},
+    {color:'#00b4d8',shadow:'rgba(0,180,216,0.4)',label:'// STRONG — MONTHS TO BREAK'},
+    {color:'#00ffcc',shadow:'rgba(0,255,204,0.5)',label:'// FORTRESS — CENTURIES TO BREAK'},
+    {color:'#cc44ff',shadow:'rgba(204,68,255,0.5)',label:'// UNBREAKABLE — QUANTUM RESISTANT'},
+  ];
+  const cfg=configs[score]||configs[5];
+  barFill.style.width=pct+'%';
+  barFill.style.background=cfg.color;
+  barFill.style.boxShadow=`0 0 12px ${cfg.shadow}`;
+  strLabel.style.color=cfg.color;
+  strLabel.textContent=v.length===0?'// AWAITING INPUT':cfg.label;
+}
+
+pwInput.addEventListener('input',checkPw);
+document.getElementById('pwToggle').addEventListener('click',()=>{
+  pwInput.type=pwInput.type==='password'?'text':'password';
+});
+
+/* ═══════════════════════════════════════
+   QUIZ
+═══════════════════════════════════════ */
+const questions=[
+  {q:"You receive an email: 'Your Netflix account will be closed in 24h. Click here: netflix-billing-secure.com'. What should you do?",opts:["Click the link immediately","Log into Netflix directly at netflix.com to check","Reply to the email asking for confirmation","Call the number in the email"],correct:1,explain:"Always navigate directly to the real domain. The fake URL 'netflix-billing-secure.com' is a phishing domain — .com after the brand name is the giveaway."},
+  {q:"What makes a password like 'correct-horse-battery-staple' stronger than 'P@ssw0rd!'?",opts:["It has special characters","Its length creates far higher entropy despite being memorable","It contains real words","It uses hyphens"],correct:1,explain:"Length dominates entropy. 4 random words ≈ 44 bits of entropy. 'P@ssw0rd!' despite complexity has ~28 bits. Passphrases win."},
+  {q:"A caller says they're from your bank and need your OTP to 'verify your identity'. What is this?",opts:["Standard bank security protocol","A legitimate security verification","Social engineering / vishing attack","Two-factor authentication"],correct:2,explain:"Banks and legitimate companies NEVER ask for OTPs over the phone. OTPs are one-time use codes meant only for you to enter — sharing them hands over account access."},
+  {q:"Which 2FA method is MOST vulnerable to SIM-swap attacks?",opts:["Hardware security key (YubiKey)","Authenticator app (Google Authenticator)","SMS text message codes","Biometric + PIN"],correct:2,explain:"SMS 2FA routes codes through your phone number. SIM-swapping hijacks your number at the carrier level, intercepting all SMS. Authenticator apps are local — immune to this."},
+  {q:"You're at a coffee shop and need to check your bank account. What's the safest approach?",opts:["Use the coffee shop's free WiFi — it's password-protected","Wait until you're on your home network or use mobile data with VPN","Check quickly, banks use HTTPS so you're safe","Use a private/incognito window"],correct:1,explain:"Public WiFi (even password-protected) is attackable via man-in-the-middle. HTTPS protects data in transit but not all traffic. Mobile data + VPN is the safest combination."},
+  {q:"A 'free antivirus scan' pop-up says your computer is infected and to call 1-800-xxx-xxxx immediately. This is:",opts:["A legitimate antivirus warning — call immediately","A scareware/tech support scam","Windows Defender alert","A browser security notification"],correct:1,explain:"Legitimate security software never displays phone numbers. This is scareware — designed to frighten you into calling scammers who'll charge fees or install real malware."},
+  {q:"How often should you rotate passwords for critical accounts (banking, email)?",opts:["Every 30 days","Immediately after any breach or security incident","Every week","Every year regardless"],correct:1,explain:"Modern guidance (NIST 2023) recommends changing passwords when breached or compromised — not on arbitrary schedules. Frequent forced changes often result in weaker passwords."},
+  {q:"What does end-to-end encryption guarantee?",opts:["The website is legitimate","Only sender and recipient can read the message — not even the provider","Your device is virus-free","The connection uses HTTPS"],correct:1,explain:"E2E encryption means the service provider cannot read your messages — only devices holding the keys can decrypt. Signal uses this. Beware services claiming E2E without audited open-source code."},
+  {q:"You find a USB drive in a parking lot labeled 'PAYROLL Q4 — CONFIDENTIAL'. What's the threat?",opts:["None — free storage","A potential USB drop attack containing malware","It might have someone's sensitive data","Data theft risk only if you copy files"],correct:1,explain:"USB drop attacks are a classic penetration testing technique. Malicious firmware or autorun exploits can execute when plugged in, before any files are opened. Never plug in unknown drives."},
+  {q:"Which of these is the STRONGEST form of authentication for a high-value account?",opts:["Long complex password","SMS 2FA + password","Hardware security key (FIDO2) + password","Biometric fingerprint only"],correct:2,explain:"FIDO2 hardware keys (YubiKey etc.) are phishing-resistant by design — they cryptographically bind to the real domain, so cloned sites can't capture credentials. Biometrics alone have no revocation mechanism."},
+];
+
+let qIdx=0,score=0,answered=false;
+
+function loadQ(){
+  const q=questions[qIdx];
+  document.getElementById('qNum').textContent=`QUESTION ${String(qIdx+1).padStart(2,'0')} / ${questions.length}`;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qProg').style.width=(qIdx/questions.length*100)+'%';
+  document.getElementById('qScore').textContent=`SCORE: ${score} / ${qIdx}`;
+  document.getElementById('qFb').style.display='none';
+  document.getElementById('qNext').style.display='none';
+  const opts=document.getElementById('qOpts');
+  opts.innerHTML='';
+  answered=false;
+  q.opts.forEach((o,i)=>{
+    const div=document.createElement('div');
+    div.className='q-opt';
+    div.innerHTML=`<div class="opt-key">${String.fromCharCode(65+i)}</div>${o}`;
+    div.addEventListener('click',()=>answer(i));
+    opts.appendChild(div);
+  });
+}
+
+function answer(i){
+  if(answered)return;
+  answered=true;
+  const q=questions[qIdx];
+  const opts=document.querySelectorAll('.q-opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('disabled');
+    if(idx===q.correct)o.classList.add('correct');
+    else if(idx===i)o.classList.add('wrong');
+  });
+  if(i===q.correct)score++;
+  const fb=document.getElementById('qFb');
+  fb.className='q-fb '+(i===q.correct?'correct':'wrong');
+  fb.textContent=(i===q.correct?'✓ CORRECT — ':'✗ INCORRECT — ')+q.explain;
+  fb.style.display='block';
+  document.getElementById('qScore').textContent=`SCORE: ${score} / ${qIdx+1}`;
+  document.getElementById('qNext').style.display='block';
+  document.getElementById('qNext').textContent=qIdx<questions.length-1?'NEXT ▶':'RESULTS ▶';
+}
+
+document.getElementById('qNext').addEventListener('click',()=>{
+  qIdx++;
+  if(qIdx<questions.length){loadQ();}
+  else{showResult();}
+});
+
+function showResult(){
+  const pct=Math.round(score/questions.length*100);
+  const grades=[[90,'ELITE OPERATOR'],[70,'SECURITY AWARE'],[50,'NEEDS TRAINING'],[0,'CRITICAL RISK']];
+  const grade=grades.find(g=>pct>=g[0]);
+  document.getElementById('quizContent').innerHTML=`
+    <div class="q-result">
+      <div class="res-score">${pct}%</div>
+      <div class="res-lbl">// ${grade[1]} — ${score}/${questions.length} CORRECT</div>
+      <button class="btn-cyber btn-primary" onclick="resetQuiz()">⟳ RUN AGAIN</button>
+    </div>`;
+}
+
+function resetQuiz(){
+  qIdx=0;score=0;answered=false;
+  document.getElementById('quizContent').innerHTML=`
+    <div class="q-num" id="qNum"></div>
+    <div class="q-text" id="qText"></div>
+    <div class="q-opts" id="qOpts"></div>
+    <div class="q-fb" id="qFb"></div>
+    <div class="q-actions">
+      <div class="q-score" id="qScore">SCORE: 0 / 0</div>
+      <button class="btn-cyber btn-primary" id="qNext" style="display:none">NEXT ▶</button>
+    </div>`;
+  document.getElementById('qNext').addEventListener('click',()=>{qIdx++;if(qIdx<questions.length)loadQ();else showResult();});
+  loadQ();
+}
+
+loadQ();
+
+/* ═══════════════════════════════════════
+   SCAM REVEALS
+═══════════════════════════════════════ */
+function revealScam(n){
+  const v=document.getElementById('sv'+n);
+  v.style.display=v.style.display==='block'?'none':'block';
+}
+</script>
+</body>
+</html>
