@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>SONIYA'S SPACE — Galactic Innovation Force</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --neon-blue: #00d4ff;
+    --neon-purple: #a855f7;
+    --neon-cyan: #06ffd4;
+    --neon-pink: #ff2d78;
+    --dark-bg: #020510;
+    --dark-mid: #050d1f;
+    --dark-panel: rgba(0,20,50,0.7);
+    --glass: rgba(0,212,255,0.08);
+    --border: rgba(0,212,255,0.3);
+    --text: #e0f4ff;
+    --font-mono: 'Courier New', Courier, monospace;
+    --font-display: 'Arial Black', sans-serif;
+  }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--dark-bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+  /* ===== SECTIONS ===== */
+  .section {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.8s ease;
+    z-index: 10;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .section.active { opacity: 1; pointer-events: all; }
+
+  /* ===== STAR CANVAS ===== */
+  #starCanvas {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ===== SCANLINE OVERLAY ===== */
+  .scanlines {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+    animation: scanMove 8s linear infinite;
+  }
+  @keyframes scanMove { from{background-position:0 0} to{background-position:0 40px} }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    padding: 14px 36px; font-family: var(--font-mono); font-size: 1rem;
+    border: 2px solid var(--neon-blue); background: transparent;
+    color: var(--neon-blue); cursor: pointer; text-transform: uppercase;
+    letter-spacing: 3px; position: relative; overflow: hidden;
+    transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    outline: none; -webkit-appearance: none;
+  }
+  .btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--neon-blue); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s; z-index: -1;
+  }
+  .btn:hover::before { transform: scaleX(1); }
+  .btn:hover { color: var(--dark-bg); box-shadow: 0 0 30px var(--neon-blue); }
+  .btn:active { transform: scale(0.97); }
+  .btn.purple { border-color: var(--neon-purple); color: var(--neon-purple); }
+  .btn.purple::before { background: var(--neon-purple); }
+  .btn.purple:hover { color: #fff; box-shadow: 0 0 30px var(--neon-purple); }
+  .btn.cyan { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+  .btn.cyan::before { background: var(--neon-cyan); }
+  .btn.cyan:hover { color: var(--dark-bg); box-shadow: 0 0 30px var(--neon-cyan); }
+
+  /* ===== GLOW TEXT ===== */
+  .glow-blue { text-shadow: 0 0 10px var(--neon-blue), 0 0 30px var(--neon-blue); color: var(--neon-blue); }
+  .glow-purple { text-shadow: 0 0 10px var(--neon-purple), 0 0 30px var(--neon-purple); color: var(--neon-purple); }
+  .glow-cyan { text-shadow: 0 0 10px var(--neon-cyan), 0 0 30px var(--neon-cyan); color: var(--neon-cyan); }
+  .glow-pink { text-shadow: 0 0 10px var(--neon-pink), 0 0 30px var(--neon-pink); color: var(--neon-pink); }
+
+  /* ===== GLASS CARD ===== */
+  .glass-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 0 30px rgba(0,212,255,0.1), inset 0 0 20px rgba(0,212,255,0.05);
+  }
+
+  /* ===== TYPEWRITER ===== */
+  .typewriter { display: inline-block; overflow: hidden; white-space: nowrap; border-right: 2px solid var(--neon-cyan); }
+  .blink { animation: blink 0.7s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ===== PAGE 1: COMMAND CENTER ===== */
+  #page1 { padding: 20px; text-align: center; }
+  .transmission-text {
+    font-size: clamp(0.7rem, 2vw, 1rem); letter-spacing: 8px;
+    color: var(--neon-cyan); margin-bottom: 20px;
+    animation: flicker 3s infinite;
+  }
+  @keyframes flicker {
+    0%,95%,100%{opacity:1} 96%{opacity:0.4} 97%{opacity:1} 98%{opacity:0.3} 99%{opacity:1}
+  }
+  .main-title {
+    font-size: clamp(2.2rem, 8vw, 5.5rem);
+    font-family: var(--font-display);
+    font-weight: 900; letter-spacing: 4px; line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .sub-title { font-size: clamp(0.75rem, 2vw, 1rem); letter-spacing: 6px; margin-bottom: 40px; opacity: 0.8; }
+  .name-input-wrap { margin-bottom: 30px; }
+  .name-input-wrap label { display: block; font-size: 0.75rem; letter-spacing: 4px; color: var(--neon-cyan); margin-bottom: 8px; }
+  .name-input {
+    background: rgba(0,212,255,0.05); border: 1px solid var(--neon-blue);
+    color: var(--neon-blue); font-family: var(--font-mono); font-size: 1rem;
+    padding: 10px 20px; width: 280px; text-align: center; letter-spacing: 3px;
+    outline: none; border-radius: 2px;
+    box-shadow: 0 0 15px rgba(0,212,255,0.2);
+  }
+  .name-input:focus { box-shadow: 0 0 25px rgba(0,212,255,0.5); border-color: var(--neon-cyan); }
+  .corner-decor { position: fixed; width: 60px; height: 60px; }
+  .corner-decor.tl { top:15px; left:15px; border-top: 2px solid var(--neon-blue); border-left: 2px solid var(--neon-blue); }
+  .corner-decor.tr { top:15px; right:15px; border-top: 2px solid var(--neon-blue); border-right: 2px solid var(--neon-blue); }
+  .corner-decor.bl { bottom:15px; left:15px; border-bottom: 2px solid var(--neon-blue); border-left: 2px solid var(--neon-blue); }
+  .corner-decor.br { bottom:15px; right:15px; border-bottom: 2px solid var(--neon-blue); border-right: 2px solid var(--neon-blue); }
+  .hud-line { position: fixed; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--neon-blue), transparent); opacity: 0.4; }
+  .hud-line.top { top: 60px; } .hud-line.bottom { bottom: 60px; }
+  .particles-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+
+  /* ===== PAGE 2: DOSSIER ===== */
+  #page2 { padding: 20px; }
+  .dossier-wrap {
+    width: 100%; max-width: 700px;
+    padding: 30px; position: relative;
+  }
+  .dossier-wrap::before {
+    content: ''; position: absolute; inset: 0;
+    border: 1px solid var(--neon-blue); opacity: 0.4;
+    animation: borderPulse 2s ease-in-out infinite;
+  }
+  @keyframes borderPulse { 0%,100%{opacity:0.4;box-shadow:inset 0 0 10px rgba(0,212,255,0.1)} 50%{opacity:0.8;box-shadow:inset 0 0 30px rgba(0,212,255,0.3)} }
+  .dossier-header { text-align: center; margin-bottom: 20px; }
+  .dossier-title { font-size: clamp(1.2rem, 4vw, 1.8rem); font-family: var(--font-display); letter-spacing: 6px; }
+  .dossier-sub { font-size: 0.7rem; letter-spacing: 8px; opacity: 0.7; margin-top: 4px; }
+  .classified-stamp {
+    display: inline-block; border: 3px solid var(--neon-pink); color: var(--neon-pink);
+    font-size: 0.9rem; letter-spacing: 6px; padding: 4px 16px;
+    transform: rotate(-5deg); margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255,45,120,0.4); font-weight: bold;
+  }
+  .scan-line {
+    height: 2px; background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    animation: scanPass 2s ease-in-out infinite; margin: 10px 0;
+  }
+  @keyframes scanPass { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .info-item { padding: 12px; background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2); }
+  .info-label { font-size: 0.6rem; letter-spacing: 4px; color: var(--neon-cyan); opacity: 0.7; margin-bottom: 4px; }
+  .info-value { font-size: 1rem; letter-spacing: 2px; font-weight: bold; }
+  .skills-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 16px 0; }
+  .skill-item {
+    padding: 10px 16px; background: rgba(168,85,247,0.08);
+    border: 1px solid rgba(168,85,247,0.3); display: flex; align-items: center; gap: 12px;
+    animation: skillGlow 3s ease-in-out infinite;
+  }
+  @keyframes skillGlow { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 15px rgba(168,85,247,0.3)} }
+  .skill-icon { font-size: 1.4rem; }
+  .skill-text { font-size: 0.9rem; letter-spacing: 2px; }
+  .mission-stmt { font-size: 0.8rem; line-height: 1.8; opacity: 0.85; letter-spacing: 1px; margin: 16px 0; padding: 12px; border-left: 3px solid var(--neon-cyan); }
+  .access-granted {
+    text-align: center; font-size: 1.4rem; letter-spacing: 8px;
+    color: var(--neon-cyan); margin: 16px 0;
+    animation: granted 0.5s ease-in-out 3s both;
+  }
+  @keyframes granted { from{opacity:0;transform:scale(1.3)} to{opacity:1;transform:scale(1)} }
+  .scanning-text { text-align: center; font-size: 0.7rem; letter-spacing: 4px; color: var(--neon-purple); opacity: 0; }
+  .scanning-text.show { animation: scanningAnim 2s ease forwards; }
+  @keyframes scanningAnim { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
+
+  /* ===== PAGE 3: MISSION BRIEFING ===== */
+  #page3 { padding: 20px; }
+  .briefing-wrap { max-width: 700px; width: 100%; padding: 30px; text-align: center; }
+  .briefing-title { font-size: clamp(1.4rem, 5vw, 2.2rem); font-family: var(--font-display); letter-spacing: 6px; margin-bottom: 30px; }
+  .objective-list { list-style: none; text-align: left; margin: 0 auto 30px; max-width: 500px; }
+  .objective-item {
+    padding: 14px 20px; margin-bottom: 10px;
+    background: rgba(0,20,50,0.8); border: 1px solid rgba(0,212,255,0.25);
+    border-left: 4px solid var(--neon-blue); letter-spacing: 1px;
+    display: flex; align-items: center; gap: 14px;
+    transform: translateX(-40px); opacity: 0;
+  }
+  .objective-item.reveal { animation: slideIn 0.5s forwards; }
+  @keyframes slideIn { to{transform:translateX(0);opacity:1} }
+  .obj-num { color: var(--neon-blue); font-size: 1.2rem; font-weight: bold; min-width: 30px; }
+  .threat-bar { margin: 20px auto; max-width: 400px; }
+  .threat-label { font-size: 0.7rem; letter-spacing: 4px; color: var(--neon-pink); margin-bottom: 6px; text-align: left; }
+  .threat-track { height: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,45,120,0.4); }
+  .threat-fill { height: 100%; background: linear-gradient(90deg, var(--neon-pink), #ff6b00); width: 0%; animation: threatFill 2s ease forwards 1s; }
+  @keyframes threatFill { to{width:87%} }
+  .warning-flash { animation: warnFlash 1s ease-in-out infinite; }
+  @keyframes warnFlash { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ===== PAGE 4: LAUNCH SEQUENCE ===== */
+  #page4 { background: var(--dark-bg); }
+  .countdown-wrap { text-align: center; }
+  .countdown-num {
+    font-size: clamp(5rem, 25vw, 12rem); font-family: var(--font-display);
+    line-height: 1; color: var(--neon-blue);
+    text-shadow: 0 0 30px var(--neon-blue), 0 0 80px var(--neon-blue);
+    animation: countPulse 0.9s ease-in-out;
+  }
+  @keyframes countPulse { 0%{transform:scale(1.5);opacity:0} 60%{transform:scale(0.95)} 100%{transform:scale(1);opacity:1} }
+  .launch-text {
+    font-size: clamp(2rem, 10vw, 5rem); font-family: var(--font-display);
+    letter-spacing: 10px;
+    animation: launchAnim 0.5s ease forwards;
+  }
+  @keyframes launchAnim { 0%{opacity:0;transform:scale(0.5)} 100%{opacity:1;transform:scale(1)} }
+  .rocket-wrap { margin-top: 20px; }
+  .rocket-svg { width: 80px; animation: rocketLaunch 1.5s ease forwards; }
+  @keyframes rocketLaunch { 0%{transform:translateY(0)} 100%{transform:translateY(-120vh)} }
+  .warp-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: radial-gradient(ellipse at center, #fff 0%, var(--neon-blue) 30%, var(--dark-bg) 100%);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .warp-overlay.flash { opacity: 1; }
+  .countdown-label { font-size: 0.75rem; letter-spacing: 6px; color: var(--neon-cyan); margin-top: 8px; }
+
+  /* ===== PAGE 5: GAME ===== */
+  #page5 { background: #000; padding: 0; overflow: hidden; z-index: 50; }
+  #gameCanvas {
+    display: block; width: 100%; height: 100%;
+    position: absolute; inset: 0; object-fit: contain;
+  }
+  #gameUI {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 10px 16px; z-index: 60;
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: none;
+  }
+  .hud-score { font-size: 1.1rem; letter-spacing: 3px; color: var(--neon-blue); }
+  .hud-lives { display: flex; gap: 6px; align-items: center; }
+  .life-icon { width: 20px; height: 20px; }
+  .hud-power { font-size: 0.7rem; letter-spacing: 2px; color: var(--neon-cyan); min-width: 120px; text-align: right; }
+  #bossBar {
+    position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+    width: 80%; max-width: 500px; z-index: 60; display: none;
+  }
+  .boss-label { font-size: 0.7rem; letter-spacing: 4px; color: var(--neon-pink); text-align: center; margin-bottom: 4px; animation: warnFlash 0.5s infinite; }
+  .boss-track { height: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--neon-pink); border-radius: 2px; overflow: hidden; }
+  .boss-fill { height: 100%; background: linear-gradient(90deg, var(--neon-pink), #ff6b00); transition: width 0.1s; width: 100%; }
+  #mobileControls {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 130px;
+    display: none; z-index: 60; padding: 10px;
+    align-items: flex-end; justify-content: space-between;
+  }
+  .ctrl-btn {
+    width: 80px; height: 80px; border-radius: 50%;
+    border: 2px solid var(--neon-blue); background: rgba(0,212,255,0.15);
+    color: var(--neon-blue); font-size: 1.8rem; display: flex;
+    align-items: center; justify-content: center; cursor: pointer;
+    -webkit-tap-highlight-color: transparent; touch-action: none;
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+    transition: background 0.1s;
+  }
+  .ctrl-btn:active, .ctrl-btn.pressed { background: rgba(0,212,255,0.4); }
+  .ctrl-fire {
+    width: 90px; height: 90px; border-color: var(--neon-pink);
+    background: rgba(255,45,120,0.15); color: var(--neon-pink);
+    box-shadow: 0 0 20px rgba(255,45,120,0.3); font-size: 1.2rem; letter-spacing: 1px;
+  }
+  .ctrl-fire:active, .ctrl-fire.pressed { background: rgba(255,45,120,0.4); }
+  #bossWarning {
+    position: absolute; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.85); display: none;
+    flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .boss-warn-text { font-size: clamp(1.5rem, 6vw, 3rem); font-family: var(--font-display); letter-spacing: 8px; animation: warnFlash 0.4s infinite; }
+  .boss-warn-sub { font-size: clamp(0.8rem, 2vw, 1.1rem); letter-spacing: 6px; margin-top: 10px; color: var(--neon-purple); }
+  #gameOverlay {
+    position: absolute; inset: 0; z-index: 110;
+    background: rgba(0,0,0,0.88); display: none;
+    flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    padding: 20px;
+  }
+  .over-title { font-size: clamp(1.8rem, 6vw, 3.5rem); font-family: var(--font-display); letter-spacing: 6px; margin-bottom: 20px; }
+  .over-score { font-size: 1.2rem; letter-spacing: 4px; color: var(--neon-cyan); margin-bottom: 30px; }
+
+  /* ===== PAGE 6: VICTORY ===== */
+  #page6 { padding: 20px; text-align: center; overflow-y: auto; }
+  #confettiCanvas { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+  .victory-wrap { max-width: 600px; width: 100%; }
+  .mission-complete { font-size: clamp(2rem, 8vw, 4rem); font-family: var(--font-display); letter-spacing: 4px; margin-bottom: 10px; animation: victoryPulse 1.5s ease-in-out infinite; }
+  @keyframes victoryPulse { 0%,100%{text-shadow:0 0 20px var(--neon-cyan),0 0 60px var(--neon-cyan)} 50%{text-shadow:0 0 40px var(--neon-cyan),0 0 120px var(--neon-cyan),0 0 200px var(--neon-cyan)} }
+  .legendary { font-size: clamp(1rem, 3vw, 1.5rem); letter-spacing: 8px; color: var(--neon-purple); margin-bottom: 30px; }
+  .visitor-greeting { font-size: 1rem; letter-spacing: 3px; color: var(--neon-blue); margin-bottom: 30px; min-height: 30px; }
+  .card-profile { padding: 30px; margin-bottom: 20px; text-align: left; }
+  .profile-name { font-size: clamp(1.5rem, 5vw, 2.5rem); font-family: var(--font-display); letter-spacing: 4px; margin-bottom: 4px; }
+  .profile-role { font-size: 0.8rem; letter-spacing: 4px; color: var(--neon-cyan); margin-bottom: 20px; }
+  .profile-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .pd-item { padding: 10px; background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.15); }
+  .pd-label { font-size: 0.55rem; letter-spacing: 3px; color: var(--neon-cyan); opacity: 0.6; }
+  .pd-val { font-size: 0.85rem; letter-spacing: 1px; margin-top: 3px; }
+  .achieve-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+  .achieve-item {
+    padding: 12px; background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.3);
+    display: flex; align-items: center; gap: 10px; font-size: 0.78rem; letter-spacing: 1px;
+    animation: achieveGlow 2s ease-in-out infinite;
+  }
+  @keyframes achieveGlow { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 20px rgba(168,85,247,0.4)} }
+  .achieve-icon { font-size: 1.5rem; }
+  .final-score-display { font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 4px; color: var(--neon-cyan); margin: 10px 0; }
+  .high-score-note { font-size: 0.7rem; letter-spacing: 3px; color: var(--neon-purple); opacity: 0.8; }
+
+  /* Easter egg */
+  #easterEgg {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    z-index: 999; padding: 30px 50px; text-align: center;
+    display: none; animation: eggAppear 0.5s ease;
+  }
+  @keyframes eggAppear { from{opacity:0;transform:translate(-50%,-50%) scale(0.5)} to{opacity:1;transform:translate(-50%,-50%) scale(1)} }
+  .egg-title { font-size: 1.5rem; font-family: var(--font-display); letter-spacing: 6px; color: var(--neon-pink); margin-bottom: 10px; }
+  .egg-sub { font-size: 0.8rem; letter-spacing: 4px; color: var(--neon-cyan); }
+
+  /* ===== ACHIEVEMENT TOAST ===== */
+  #achieveToast {
+    position: fixed; top: 20px; right: 20px; z-index: 999;
+    padding: 14px 20px; background: rgba(168,85,247,0.2);
+    border: 1px solid var(--neon-purple); min-width: 220px;
+    transform: translateX(120%); transition: transform 0.4s ease;
+  }
+  #achieveToast.show { transform: translateX(0); }
+  .toast-title { font-size: 0.6rem; letter-spacing: 4px; color: var(--neon-purple); margin-bottom: 4px; }
+  .toast-text { font-size: 0.85rem; letter-spacing: 1px; }
+
+  /* ===== SCROLL INDICATOR ===== */
+  .scroll-hint { font-size: 0.6rem; letter-spacing: 4px; opacity: 0.5; margin-top: 20px; animation: blink 1.5s infinite; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .achieve-grid { grid-template-columns: 1fr; }
+    .profile-detail { grid-template-columns: 1fr; }
+    .ctrl-btn { width: 68px; height: 68px; font-size: 1.5rem; }
+    .ctrl-fire { width: 78px; height: 78px; }
+    #mobileControls { height: 110px; }
+  }
+  @media (max-height: 600px) {
+    .dossier-wrap { padding: 15px; }
+    .briefing-wrap { padding: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+<div class="scanlines"></div>
+
+<!-- Corner decor (page 1 only) -->
+<div class="corner-decor tl" id="cornerTL"></div>
+<div class="corner-decor tr" id="cornerTR"></div>
+<div class="corner-decor bl" id="cornerBL"></div>
+<div class="corner-decor br" id="cornerBR"></div>
+<div class="hud-line top" id="hudTop"></div>
+<div class="hud-line bottom" id="hudBottom"></div>
+
+<!-- Achievement Toast -->
+<div id="achieveToast">
+  <div class="toast-title">🏆 ACHIEVEMENT UNLOCKED</div>
+  <div class="toast-text" id="toastText">—</div>
+</div>
+
+<!-- Easter Egg -->
+<div id="easterEgg" class="glass-card">
+  <div class="egg-title">⚡ CREATOR MODE ACTIVATED ⚡</div>
+  <div class="egg-sub">WELCOME BACK, SONIYA</div>
+  <div style="margin-top:10px;font-size:0.7rem;letter-spacing:3px;color:var(--neon-purple)">INFINITE POWER ENABLED</div>
+</div>
+
+<!-- ==============================
+     PAGE 1 — COMMAND CENTER
+     ============================== -->
+<div class="section active" id="page1">
+  <div class="transmission-text" id="transmissionText">▌TRANSMISSION RECEIVED...▐</div>
+  <h1 class="main-title" id="mainTitle" style="opacity:0">
+    <span class="glow-blue">SONIYA'S</span><br>
+    <span class="glow-purple">SPACE</span>
+  </h1>
+  <p class="sub-title" id="subTitle" style="opacity:0">GALACTIC INNOVATION FORCE // SECTOR 7</p>
+  <div class="name-input-wrap" id="nameInputWrap" style="opacity:0">
+    <label>▸ IDENTIFY YOURSELF, VISITOR ◂</label>
+    <input type="text" class="name-input" id="visitorName" placeholder="ENTER DESIGNATION" maxlength="20" autocomplete="off" spellcheck="false">
+  </div>
+  <div id="accessBtn" style="opacity:0">
+    <button class="btn" onclick="goToPage(2)">⚡ ACCESS COMMAND CENTER</button>
+  </div>
+  <div class="scroll-hint" id="p1Hint" style="opacity:0">▾ PRESS BUTTON TO ENTER ▾</div>
+</div>
+
+<!-- ==============================
+     PAGE 2 — DOSSIER
+     ============================== -->
+<div class="section" id="page2">
+  <div class="dossier-wrap glass-card">
+    <div class="dossier-header">
+      <div class="dossier-title glow-blue">GALACTIC INNOVATION FORCE</div>
+      <div class="dossier-sub">MISSION TEAM DOSSIER // CLASSIFIED EYES ONLY</div>
+      <div style="margin:12px 0"><div class="classified-stamp">⬛ CLASSIFIED ⬛</div></div>
+    </div>
+    <div class="scan-line"></div>
+    <div class="scanning-text" id="scanningText">[ SCANNING COMMANDER... ]</div>
+
+    <div class="info-grid" style="margin-top:16px">
+      <div class="info-item">
+        <div class="info-label">COMMANDER</div>
+        <div class="info-value glow-blue">SONIYA U</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">AGE</div>
+        <div class="info-value glow-purple">18 YEARS</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">INSTITUTION</div>
+        <div class="info-value">RD COLLEGE</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">ROLE</div>
+        <div class="info-value glow-cyan">CHIEF INNOVATION OFFICER</div>
+      </div>
+    </div>
+
+    <div class="scan-line"></div>
+    <div style="font-size:0.65rem;letter-spacing:4px;color:var(--neon-cyan);margin:14px 0 8px">▸ CORE SKILLS</div>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <span class="skill-icon">🚀</span>
+        <span class="skill-text">CREATIVE THINKER</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon">💻</span>
+        <span class="skill-text">FUTURE WEB DEVELOPER</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon">✨</span>
+        <span class="skill-text">PROJECT BUILDER</span>
+      </div>
+    </div>
+
+    <div class="scan-line"></div>
+    <div style="font-size:0.65rem;letter-spacing:4px;color:var(--neon-cyan);margin:14px 0 8px">▸ MISSION STATEMENT</div>
+    <div class="mission-stmt">
+      Develop innovative systems.<br>
+      Protect the network.<br>
+      Lead future projects.<br>
+      Explore new possibilities.
+    </div>
+
+    <div class="access-granted glow-cyan">✓ ACCESS GRANTED</div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn purple" onclick="goToPage(3)">▸ VIEW MISSION BRIEFING</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 3 — MISSION BRIEFING
+     ============================== -->
+<div class="section" id="page3">
+  <div class="briefing-wrap glass-card">
+    <div class="briefing-title glow-blue">⚠ MISSION OBJECTIVES</div>
+    <ul class="objective-list" id="objList">
+      <li class="objective-item"><span class="obj-num">01</span>Destroy incoming asteroids</li>
+      <li class="objective-item"><span class="obj-num">02</span>Eliminate enemy drones</li>
+      <li class="objective-item"><span class="obj-num">03</span>Defeat the Galaxy Destroyer</li>
+      <li class="objective-item"><span class="obj-num">04</span>Protect Soniya's Space</li>
+    </ul>
+
+    <div class="threat-bar">
+      <div class="threat-label warning-flash">⚠ THREAT LEVEL: CRITICAL — 87%</div>
+      <div class="threat-track"><div class="threat-fill" id="threatFill"></div></div>
+    </div>
+
+    <div style="margin:16px 0;font-size:0.7rem;letter-spacing:3px;color:var(--neon-purple)">
+      ENEMY FLEET DETECTED ▸ 3 SECTORS AWAY
+    </div>
+    <div style="padding:12px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.3);margin-bottom:20px;font-size:0.75rem;letter-spacing:2px;line-height:1.7">
+      ⚠ WARNING: GALAXY DESTROYER CLASS VESSEL DETECTED IN SECTOR 7<br>
+      ALL PILOTS MUST ENGAGE IMMEDIATELY<br>
+      MISSION CRITICALITY: EXTREME
+    </div>
+    <button class="btn cyan" onclick="goToPage(4)">🚀 INITIATE LAUNCH SEQUENCE</button>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 4 — LAUNCH SEQUENCE
+     ============================== -->
+<div class="section" id="page4">
+  <div class="countdown-wrap">
+    <div class="countdown-label">LAUNCH SEQUENCE INITIATING</div>
+    <div class="countdown-num glow-blue" id="countNum">T-3</div>
+    <div id="rocketWrap" class="rocket-wrap" style="display:none">
+      <svg class="rocket-svg" viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 10 Q55 30 55 60 L55 90 L40 110 L25 90 L25 60 Q25 30 40 10Z" fill="none" stroke="#00d4ff" stroke-width="2"/>
+        <circle cx="40" cy="50" r="12" fill="none" stroke="#a855f7" stroke-width="2"/>
+        <circle cx="40" cy="50" r="6" fill="#a855f7" opacity="0.6"/>
+        <path d="M25 85 L15 105 L25 100" fill="rgba(0,212,255,0.3)" stroke="#00d4ff"/>
+        <path d="M55 85 L65 105 L55 100" fill="rgba(0,212,255,0.3)" stroke="#00d4ff"/>
+        <path d="M33 95 Q40 130 47 95" fill="none" stroke="#ff6b00" stroke-width="3" opacity="0.8"/>
+        <path d="M36 98 Q40 118 44 98" fill="rgba(255,200,0,0.5)"/>
+      </svg>
+    </div>
+  </div>
+</div>
+<div class="warp-overlay" id="warpOverlay"></div>
+
+<!-- ==============================
+     PAGE 5 — GAME
+     ============================== -->
+<div class="section" id="page5">
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="gameUI">
+    <div>
+      <div class="hud-score">SCORE: <span id="scoreDisplay">0</span></div>
+      <div style="font-size:0.65rem;letter-spacing:3px;color:var(--neon-purple);margin-top:3px">HI: <span id="hiScoreDisplay">0</span></div>
+    </div>
+    <div class="hud-lives" id="livesDisplay"></div>
+    <div class="hud-power" id="powerDisplay">—</div>
+  </div>
+
+  <div id="bossBar">
+    <div class="boss-label">⚠ GALAXY DESTROYER ⚠</div>
+    <div class="boss-track"><div class="boss-fill" id="bossFill"></div></div>
+  </div>
+
+  <div id="bossWarning">
+    <div class="boss-warn-text glow-pink">⚠ WARNING ⚠</div>
+    <div class="boss-warn-sub">GALAXY DESTROYER DETECTED</div>
+    <div style="margin-top:20px;font-size:0.7rem;letter-spacing:4px;color:var(--neon-blue);animation:warnFlash 0.8s infinite">PREPARE FOR COMBAT</div>
+  </div>
+
+  <div id="mobileControls">
+    <button class="ctrl-btn" id="ctrlLeft" ontouchstart="mobileCtrl('left',true)" ontouchend="mobileCtrl('left',false)">◀</button>
+    <button class="ctrl-btn ctrl-fire" id="ctrlFire" ontouchstart="mobileCtrl('fire',true)" ontouchend="mobileCtrl('fire',false)">FIRE</button>
+    <button class="ctrl-btn" id="ctrlRight" ontouchstart="mobileCtrl('right',true)" ontouchend="mobileCtrl('right',false)">▶</button>
+  </div>
+
+  <div id="gameOverlay">
+    <div class="over-title glow-pink">MISSION FAILED</div>
+    <div class="over-score">FINAL SCORE: <span id="finalScore">0</span></div>
+    <div style="font-size:0.7rem;letter-spacing:3px;color:var(--neon-purple);margin-bottom:24px">THE GALAXY NEEDS YOU AGAIN, COMMANDER</div>
+    <button class="btn" onclick="restartGame()" style="margin-bottom:12px">↺ RETRY MISSION</button><br><br>
+    <button class="btn purple" onclick="goToPage(1)">◂ RETURN TO BASE</button>
+  </div>
+</div>
+
+<!-- ==============================
+     PAGE 6 — VICTORY
+     ============================== -->
+<div class="section" id="page6">
+  <canvas id="confettiCanvas"></canvas>
+  <div class="victory-wrap">
+    <div class="mission-complete glow-cyan">MISSION COMPLETE</div>
+    <div class="legendary glow-purple">✦ LEGENDARY VISITOR ✦</div>
+    <div class="visitor-greeting" id="victoryGreeting"></div>
+
+    <div class="glass-card card-profile">
+      <div style="font-size:0.6rem;letter-spacing:5px;color:var(--neon-cyan);margin-bottom:12px">COMMANDER PROFILE</div>
+      <div class="profile-name glow-blue">SONIYA U</div>
+      <div class="profile-role">CHIEF INNOVATION OFFICER // GALACTIC INNOVATION FORCE</div>
+      <div class="profile-detail">
+        <div class="pd-item"><div class="pd-label">INSTITUTION</div><div class="pd-val">RD COLLEGE</div></div>
+        <div class="pd-item"><div class="pd-label">AGE</div><div class="pd-val">18 YEARS</div></div>
+        <div class="pd-item"><div class="pd-label">STATUS</div><div class="pd-val glow-cyan">ACTIVE</div></div>
+        <div class="pd-item"><div class="pd-label">CLEARANCE</div><div class="pd-val glow-purple">LEVEL Ω</div></div>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div style="padding:10px 16px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);font-size:0.85rem;letter-spacing:2px">🚀 Creative Thinker</div>
+        <div style="padding:10px 16px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.2);font-size:0.85rem;letter-spacing:2px">💻 Future Web Developer</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-size:0.65rem;letter-spacing:5px;color:var(--neon-cyan);margin-bottom:12px">▸ ACHIEVEMENTS UNLOCKED</div>
+      <div class="achieve-grid">
+        <div class="achieve-item"><span class="achieve-icon">⚔️</span><span>GALAXY DESTROYER SLAIN</span></div>
+        <div class="achieve-item"><span class="achieve-icon">🛡️</span><span>SPACE DEFENDER</span></div>
+        <div class="achieve-item"><span class="achieve-icon">🌟</span><span>MISSION LEGEND</span></div>
+        <div class="achieve-item"><span class="achieve-icon">🏆</span><span>ELITE PILOT</span></div>
+      </div>
+    </div>
+
+    <div class="glass-card" style="padding:20px;text-align:center">
+      <div style="font-size:0.65rem;letter-spacing:5px;color:var(--neon-purple);margin-bottom:8px">FINAL SCORE</div>
+      <div class="final-score-display" id="victoryScore">0</div>
+      <div class="high-score-note" id="highScoreNote"></div>
+    </div>
+
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <button class="btn" onclick="restartGame();goToPage(5)">↺ PLAY AGAIN</button>
+      <button class="btn purple" onclick="goToPage(1)">◂ RETURN TO BASE</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================
+   GLOBAL STATE
+   ========================================== */
+let currentPage = 1;
+let visitorName = '';
+let gameScore = 0;
+let achievements = [];
+let easterEggBuffer = '';
+const hiScore = {val: parseInt(localStorage.getItem('soniyas_hi') || '0')};
+
+/* ==========================================
+   STAR BACKGROUND
+   ========================================== */
+const starCanvas = document.getElementById('starCanvas');
+const sCtx = starCanvas.getContext('2d');
+let stars = [], particles = [];
+
+function resizeStars() {
+  starCanvas.width = window.innerWidth;
+  starCanvas.height = window.innerHeight;
+  initStars();
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * starCanvas.width,
+      y: Math.random() * starCanvas.height,
+      r: Math.random() * 1.8 + 0.2,
+      speed: Math.random() * 0.4 + 0.05,
+      opacity: Math.random()
+    });
+  }
+}
+
+function drawStars() {
+  sCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+  stars.forEach(s => {
+    s.y += s.speed;
+    s.opacity += (Math.random() - 0.5) * 0.05;
+    s.opacity = Math.max(0.1, Math.min(1, s.opacity));
+    if (s.y > starCanvas.height) { s.y = 0; s.x = Math.random() * starCanvas.width; }
+    sCtx.beginPath();
+    sCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    sCtx.fillStyle = `rgba(${s.r > 1.3 ? '168,85,247' : '0,212,255'},${s.opacity})`;
+    sCtx.fill();
+  });
+  // Floating particles
+  particles.forEach((p, i) => {
+    p.x += p.vx; p.y += p.vy; p.life--;
+    if (p.life <= 0) { particles.splice(i, 1); return; }
+    sCtx.beginPath();
+    sCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    sCtx.fillStyle = `rgba(0,212,255,${p.life / p.maxLife * 0.6})`;
+    sCtx.fill();
+  });
+  if (Math.random() < 0.08 && currentPage !== 5) {
+    particles.push({ x: Math.random() * starCanvas.width, y: Math.random() * starCanvas.height, vx: (Math.random()-0.5)*0.5, vy: -Math.random()*0.5, r: Math.random()*2+1, life: 80, maxLife: 80 });
+  }
+  requestAnimationFrame(drawStars);
+}
+
+window.addEventListener('resize', resizeStars);
+resizeStars();
+drawStars();
+
+/* ==========================================
+   PAGE TRANSITIONS
+   ========================================== */
+function goToPage(n) {
+  const oldPage = document.getElementById('page' + currentPage);
+  const newPage = document.getElementById('page' + n);
+  if (!newPage) return;
+  oldPage.classList.remove('active');
+  currentPage = n;
+  newPage.classList.add('active');
+
+  // hide HUD decorations in game/victory
+  const hudEls = ['cornerTL','cornerTR','cornerBL','cornerBR','hudTop','hudBottom'];
+  hudEls.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (n === 5 || n === 6) ? 'none' : '';
+  });
+
+  if (n === 2) onPage2Enter();
+  if (n === 3) onPage3Enter();
+  if (n === 4) onPage4Enter();
+  if (n === 5) onPage5Enter();
+  if (n === 6) onPage6Enter();
+}
+
+/* ==========================================
+   PAGE 1 — COMMAND CENTER ANIMATIONS
+   ========================================== */
+setTimeout(() => {
+  const title = document.getElementById('mainTitle');
+  const sub = document.getElementById('subTitle');
+  const nameWrap = document.getElementById('nameInputWrap');
+  const btn = document.getElementById('accessBtn');
+  const hint = document.getElementById('p1Hint');
+  title.style.transition = 'opacity 1s'; title.style.opacity = 1;
+  setTimeout(() => { sub.style.transition = 'opacity 0.8s'; sub.style.opacity = 1; }, 500);
+  setTimeout(() => { nameWrap.style.transition = 'opacity 0.8s'; nameWrap.style.opacity = 1; }, 1000);
+  setTimeout(() => { btn.style.transition = 'opacity 0.8s'; btn.style.opacity = 1; }, 1400);
+  setTimeout(() => { hint.style.transition = 'opacity 0.8s'; hint.style.opacity = 0.5; }, 1800);
+}, 1500);
+
+// Easter egg keyboard listener
+document.addEventListener('keydown', (e) => {
+  if (currentPage === 5) return;
+  easterEggBuffer += e.key.toUpperCase();
+  if (easterEggBuffer.length > 6) easterEggBuffer = easterEggBuffer.slice(-6);
+  if (easterEggBuffer.includes('SONIYA')) {
+    triggerEasterEgg();
+    easterEggBuffer = '';
+  }
+});
+
+function triggerEasterEgg() {
+  const egg = document.getElementById('easterEgg');
+  egg.style.display = 'block';
+  unlockAchievement('👾 CREATOR MODE');
+  setTimeout(() => { egg.style.display = 'none'; }, 4000);
+}
+
+/* ==========================================
+   PAGE 2 — DOSSIER
+   ========================================== */
+function onPage2Enter() {
+  const st = document.getElementById('scanningText');
+  st.classList.remove('show');
+  void st.offsetWidth;
+  st.classList.add('show');
+}
+
+/* ==========================================
+   PAGE 3 — MISSION BRIEFING
+   ========================================== */
+function onPage3Enter() {
+  const items = document.querySelectorAll('.objective-item');
+  items.forEach((item, i) => {
+    item.classList.remove('reveal');
+    setTimeout(() => item.classList.add('reveal'), 200 + i * 300);
+  });
+}
+
+/* ==========================================
+   PAGE 4 — LAUNCH SEQUENCE
+   ========================================== */
+function onPage4Enter() {
+  const counts = ['T-3', 'T-2', 'T-1', 'LAUNCH'];
+  const el = document.getElementById('countNum');
+  const rw = document.getElementById('rocketWrap');
+  let i = 0;
+  function nextCount() {
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'countPulse 0.9s ease-in-out';
+    el.textContent = counts[i];
+    if (counts[i] === 'LAUNCH') {
+      el.className = 'launch-text glow-pink';
+      el.style.animation = 'launchAnim 0.5s ease forwards';
+      setTimeout(() => {
+        rw.style.display = 'block';
+        setTimeout(() => {
+          const overlay = document.getElementById('warpOverlay');
+          overlay.classList.add('flash');
+          setTimeout(() => {
+            overlay.classList.remove('flash');
+            goToPage(5);
+          }, 400);
+        }, 1200);
+      }, 600);
+      return;
+    }
+    i++;
+    setTimeout(nextCount, 1000);
+  }
+  el.className = 'countdown-num glow-blue';
+  setTimeout(nextCount, 300);
+}
+
+/* ==========================================
+   PAGE 5 — SPACE SHOOTER GAME
+   ========================================== */
+const gameCanvas = document.getElementById('gameCanvas');
+const gCtx = gameCanvas.getContext('2d');
+
+let gW, gH, gScaleX, gScaleY;
+const LOGICAL_W = 480, LOGICAL_H = 720;
+
+function resizeGame() {
+  const rect = document.getElementById('page5').getBoundingClientRect();
+  gameCanvas.width = rect.width || window.innerWidth;
+  gameCanvas.height = rect.height || window.innerHeight;
+  gW = gameCanvas.width; gH = gameCanvas.height;
+}
+
+// Game state
+let game = {};
+let gameRunning = false;
+let animId = null;
+let keys = {};
+
+const mobileKeys = { left: false, right: false, fire: false };
+
+function mobileCtrl(dir, state) {
+  mobileKeys[dir] = state;
+}
+
+function onPage5Enter() {
+  resizeGame();
+  initGame();
+  // show mobile controls on touch devices
+  const mc = document.getElementById('mobileControls');
+  if ('ontouchstart' in window) mc.style.display = 'flex';
+}
+
+function initGame() {
+  gameScore = 0;
+  updateScoreHUD();
+  document.getElementById('gameOverlay').style.display = 'none';
+  document.getElementById('bossBar').style.display = 'none';
+  document.getElementById('bossWarning').style.display = 'none';
+
+  const mobileH = ('ontouchstart' in window) ? 130 : 0;
+  const shipY = gH - mobileH - 100;
+
+  game = {
+    player: {
+      x: gW / 2, y: shipY,
+      w: 44, h: 54,
+      speed: gW * 0.006,
+      hp: 3, maxHp: 3,
+      invincible: 0,
+      color: '#00d4ff',
+      shield: false,
+      rapidFire: false,
+      doubleScore: false,
+      powerTimer: 0
+    },
+    bullets: [],
+    enemies: [],
+    enemyBullets: [],
+    powerups: [],
+    explosions: [],
+    particles: [],
+    boss: null,
+    bossActive: false,
+    bossWarned: false,
+    score: 0,
+    spawnTimer: 0,
+    shootCooldown: 0,
+    enemyShootTimer: 0,
+    scrollY: 0,
+    bgStars: generateBgStars(),
+    gameOver: false,
+    won: false
+  };
+  updateLivesHUD();
+  gameRunning = true;
+  if (animId) cancelAnimationFrame(animId);
+  gameLoop();
+}
+
+function generateBgStars() {
+  const s = [];
+  for (let i = 0; i < 120; i++) {
+    s.push({ x: Math.random() * LOGICAL_W, y: Math.random() * LOGICAL_H, r: Math.random() * 1.5 + 0.3, speed: Math.random() * 1.5 + 0.3 });
+  }
+  return s;
+}
+
+function restartGame() {
+  document.getElementById('gameOverlay').style.display = 'none';
+  resizeGame();
+  initGame();
+}
+
+/* ---- Keyboard ---- */
+document.addEventListener('keydown', e => { keys[e.code] = true; });
+document.addEventListener('keyup', e => { keys[e.code] = false; });
+
+/* ---- Game Loop ---- */
+function gameLoop() {
+  if (!gameRunning) return;
+  update();
+  draw();
+  animId = requestAnimationFrame(gameLoop);
+}
+
+function lx(v) { return v / LOGICAL_W * gW; }
+function ly(v) { return v / LOGICAL_H * gH; }
+
+function update() {
+  const p = game.player;
+  const mobileH = ('ontouchstart' in window) ? 130 : 0;
+
+  // Player movement
+  const moveLeft = keys['ArrowLeft'] || keys['KeyA'] || mobileKeys.left;
+  const moveRight = keys['ArrowRight'] || keys['KeyD'] || mobileKeys.right;
+  if (moveLeft) p.x -= p.speed;
+  if (moveRight) p.x += p.speed;
+  p.x = Math.max(p.w / 2, Math.min(gW - p.w / 2, p.x));
+
+  // Shooting
+  if (game.shootCooldown > 0) game.shootCooldown--;
+  const shootKey = keys['Space'] || mobileKeys.fire;
+  const cooldownFrames = p.rapidFire ? 5 : 14;
+  if (shootKey && game.shootCooldown <= 0 && !game.gameOver && !game.bossActive === false || shootKey && game.shootCooldown <= 0 && !game.gameOver) {
+    spawnPlayerBullet(p);
+    game.shootCooldown = cooldownFrames;
+  }
+
+  if (p.invincible > 0) p.invincible--;
+  if (p.powerTimer > 0) {
+    p.powerTimer--;
+    if (p.powerTimer === 0) {
+      p.shield = false; p.rapidFire = false; p.doubleScore = false;
+      document.getElementById('powerDisplay').textContent = '—';
+    }
+  }
+
+  // BG scroll
+  game.scrollY += 1.5;
+
+  // Move bullets
+  game.bullets = game.bullets.filter(b => { b.y -= b.speed; return b.y > -20; });
+  game.enemyBullets = game.enemyBullets.filter(b => { b.x += b.vx; b.y += b.vy; return b.y < gH + 20 && b.x > -20 && b.x < gW + 20; });
+
+  // Spawn enemies (not during boss)
+  if (!game.bossActive && game.score < 100) {
+    game.spawnTimer--;
+    if (game.spawnTimer <= 0) {
+      spawnEnemy();
+      game.spawnTimer = Math.max(20, 55 - Math.floor(game.score / 5));
+    }
+  }
+
+  // Move enemies
+  game.enemies.forEach(e => {
+    e.x += e.vx; e.y += e.vy;
+    if (e.type === 0) { // asteroid drift
+      if (e.x < 20 || e.x > gW - 20) e.vx *= -1;
+    }
+    if (e.type === 1) { // drone wave
+      e.wobble = (e.wobble || 0) + 0.06;
+      e.x += Math.sin(e.wobble) * 1.5;
+    }
+    if (e.type === 2) { // fighter zigzag
+      e.zigzag = (e.zigzag || 0) + 0.08;
+      e.x += Math.cos(e.zigzag) * 2.5;
+    }
+  });
+  game.enemies = game.enemies.filter(e => e.y < gH + 60 && e.x > -60 && e.x < gW + 60);
+
+  // Enemy shooting
+  if (!game.bossActive) {
+    game.enemyShootTimer--;
+    if (game.enemyShootTimer <= 0 && game.enemies.length > 0) {
+      const shooter = game.enemies[Math.floor(Math.random() * game.enemies.length)];
+      if (shooter.type !== 0) { // asteroids don't shoot
+        const dx = p.x - shooter.x, dy = p.y - shooter.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        game.enemyBullets.push({ x: shooter.x, y: shooter.y, vx: dx / dist * 3, vy: dy / dist * 3, r: 4, color: '#ff2d78' });
+      }
+      game.enemyShootTimer = 60;
+    }
+  }
+
+  // Boss
+  if (game.score >= 100 && !game.bossActive && !game.bossWarned) {
+    triggerBossWarning();
+  }
+  if (game.bossActive && game.boss) {
+    updateBoss();
+  }
+
+  // Powerups
+  game.powerups.forEach(pw => { pw.y += 1.5; pw.wobble = (pw.wobble || 0) + 0.05; pw.x += Math.sin(pw.wobble) * 0.5; });
+  game.powerups = game.powerups.filter(pw => pw.y < gH + 40);
+
+  // Particles/explosions
+  game.particles = game.particles.filter(pt => { pt.x += pt.vx; pt.y += pt.vy; pt.life--; pt.vx *= 0.97; pt.vy *= 0.97; return pt.life > 0; });
+  game.explosions = game.explosions.filter(ex => { ex.r += ex.dr; ex.life--; return ex.life > 0; });
+
+  // Collisions
+  if (!game.gameOver) checkCollisions();
+
+  // Score HUD
+  if (game.score !== gameScore) {
+    gameScore = game.score;
+    updateScoreHUD();
+    if (game.score >= 50 && !achievements.includes('50pts')) { achievements.push('50pts'); unlockAchievement('⚡ HALF WAY THERE'); }
+  }
+}
+
+function spawnPlayerBullet(p) {
+  game.bullets.push({ x: p.x, y: p.y - p.h / 2, speed: 14, w: 5, h: 18, color: '#00d4ff' });
+  if (p.rapidFire && Math.random() < 0.5) {
+    game.bullets.push({ x: p.x - 14, y: p.y - p.h / 2, speed: 13, w: 4, h: 14, color: '#a855f7' });
+    game.bullets.push({ x: p.x + 14, y: p.y - p.h / 2, speed: 13, w: 4, h: 14, color: '#a855f7' });
+  }
+}
+
+function spawnEnemy() {
+  const types = [0, 1, 2];
+  let weights = [3, 2, 1];
+  if (game.score > 30) weights = [2, 2, 2];
+  if (game.score > 60) weights = [1, 2, 3];
+  const pool = [];
+  types.forEach((t, i) => { for (let j = 0; j < weights[i]; j++) pool.push(t); });
+  const type = pool[Math.floor(Math.random() * pool.length)];
+  const x = Math.random() * (gW - 80) + 40;
+  let speed = 1.5 + Math.random() * 1.5 + game.score * 0.01;
+  game.enemies.push({
+    x, y: -40, vx: (Math.random() - 0.5) * 1.5, vy: speed,
+    type, hp: type + 1, maxHp: type + 1,
+    w: type === 0 ? 36 : type === 1 ? 30 : 28,
+    h: type === 0 ? 36 : type === 1 ? 28 : 30,
+    rotation: 0
+  });
+}
+
+function triggerBossWarning() {
+  game.bossWarned = true;
+  game.enemies = [];
+  const bw = document.getElementById('bossWarning');
+  bw.style.display = 'flex';
+  setTimeout(() => {
+    bw.style.display = 'none';
+    spawnBoss();
+  }, 3000);
+}
+
+function spawnBoss() {
+  game.bossActive = true;
+  game.boss = {
+    x: gW / 2, y: 120,
+    w: 120, h: 80,
+    hp: 30, maxHp: 30,
+    vx: 1.5, vy: 0,
+    phase: 0, phaseTimer: 0,
+    shootTimer: 0,
+    angle: 0
+  };
+  document.getElementById('bossBar').style.display = 'block';
+}
+
+function updateBoss() {
+  const boss = game.boss;
+  boss.x += boss.vx;
+  if (boss.x > gW - 80 || boss.x < 80) boss.vx *= -1;
+  boss.angle += 0.02;
+  boss.phaseTimer++;
+  if (boss.phaseTimer > 180) {
+    boss.phase = (boss.phase + 1) % 3;
+    boss.phaseTimer = 0;
+    if (boss.phase === 1) boss.vy = 1;
+    else boss.vy = 0;
+  }
+  if (boss.phase === 1) {
+    boss.y += boss.vy;
+    if (boss.y > gH * 0.35 || boss.y < 80) boss.vy *= -1;
+  }
+
+  boss.shootTimer--;
+  if (boss.shootTimer <= 0) {
+    const p = game.player;
+    // Spread shot
+    for (let a = -2; a <= 2; a++) {
+      const angle = Math.atan2(p.y - boss.y, p.x - boss.x) + a * 0.25;
+      game.enemyBullets.push({ x: boss.x, y: boss.y + 40, vx: Math.cos(angle) * 4.5, vy: Math.sin(angle) * 4.5, r: 6, color: '#ff2d78' });
+    }
+    boss.shootTimer = 50;
+  }
+
+  // Update boss HP bar
+  document.getElementById('bossFill').style.width = (boss.hp / boss.maxHp * 100) + '%';
+}
+
+function checkCollisions() {
+  const p = game.player;
+  const pw = p.w * 0.5, ph = p.h * 0.5; // hitbox slightly smaller
+
+  // Bullets vs enemies
+  game.bullets.forEach((b, bi) => {
+    game.enemies.forEach((e, ei) => {
+      if (rectHit(b.x, b.y, b.w, b.h, e.x - e.w * 0.45, e.y - e.h * 0.45, e.w * 0.9, e.h * 0.9)) {
+        e.hp--;
+        b._dead = true;
+        spawnParticles(b.x, b.y, 5, '#00d4ff');
+        if (e.hp <= 0) {
+          spawnExplosion(e.x, e.y);
+          game.enemies.splice(ei, 1);
+          const pts = (e.type + 1) * 5 * (p.doubleScore ? 2 : 1);
+          game.score += pts;
+          if (Math.random() < 0.12) spawnPowerup(e.x, e.y);
+        }
+      }
+    });
+    // Bullets vs boss
+    if (game.boss && !b._dead) {
+      const boss = game.boss;
+      if (rectHit(b.x, b.y, b.w, b.h, boss.x - boss.w * 0.45, boss.y - boss.h * 0.45, boss.w * 0.9, boss.h * 0.9)) {
+        b._dead = true;
+        boss.hp--;
+        spawnParticles(b.x, b.y, 8, '#ff2d78');
+        if (boss.hp <= 0) {
+          triggerVictory();
+        }
+      }
+    }
+  });
+  game.bullets = game.bullets.filter(b => !b._dead);
+
+  // Enemy bullets vs player
+  if (p.invincible <= 0) {
+    game.enemyBullets.forEach((eb, i) => {
+      if (circRectHit(eb.x, eb.y, eb.r, p.x - pw * 0.5, p.y - ph * 0.5, pw, ph)) {
+        eb._dead = true;
+        if (!p.shield) {
+          hitPlayer();
+        } else {
+          spawnParticles(eb.x, eb.y, 8, '#06ffd4');
+        }
+      }
+    });
+    game.enemyBullets = game.enemyBullets.filter(b => !b._dead);
+
+    // Enemies vs player
+    game.enemies.forEach((e, i) => {
+      if (rectHit(p.x - pw * 0.5, p.y - ph * 0.5, pw, ph, e.x - e.w * 0.4, e.y - e.h * 0.4, e.w * 0.8, e.h * 0.8)) {
+        if (!p.shield) {
+          hitPlayer();
+          spawnExplosion(e.x, e.y);
+          game.enemies.splice(i, 1);
+        }
+      }
+    });
+
+    // Boss vs player
+    if (game.boss) {
+      const boss = game.boss;
+      if (rectHit(p.x - pw * 0.4, p.y - ph * 0.4, pw * 0.8, ph * 0.8, boss.x - boss.w * 0.4, boss.y - boss.h * 0.4, boss.w * 0.8, boss.h * 0.8)) {
+        if (!p.shield) hitPlayer();
+      }
+    }
+  }
+
+  // Powerups
+  game.powerups.forEach((pw2, i) => {
+    if (rectHit(p.x - pw * 0.6, p.y - ph * 0.6, pw * 1.2, ph * 1.2, pw2.x - 18, pw2.y - 18, 36, 36)) {
+      collectPowerup(pw2);
+      game.powerups.splice(i, 1);
+    }
+  });
+}
+
+function rectHit(ax, ay, aw, ah, bx, by, bw, bh) {
+  return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
+}
+function circRectHit(cx, cy, cr, rx, ry, rw, rh) {
+  const nearX = Math.max(rx, Math.min(cx, rx + rw));
+  const nearY = Math.max(ry, Math.min(cy, ry + rh));
+  const dx = cx - nearX, dy = cy - nearY;
+  return dx * dx + dy * dy < cr * cr;
+}
+
+function hitPlayer() {
+  const p = game.player;
+  p.hp--;
+  p.invincible = 90;
+  spawnParticles(p.x, p.y, 15, '#ff2d78');
+  updateLivesHUD();
+  if (p.hp <= 0) {
+    game.gameOver = true;
+    setTimeout(showGameOver, 800);
+  }
+}
+
+function showGameOver() {
+  gameRunning = false;
+  if (game.score > hiScore.val) { hiScore.val = game.score; localStorage.setItem('soniyas_hi', hiScore.val); }
+  document.getElementById('finalScore').textContent = game.score;
+  document.getElementById('gameOverlay').style.display = 'flex';
+}
+
+function triggerVictory() {
+  game.won = true;
+  game.bossActive = false;
+  game.boss = null;
+  gameRunning = false;
+  if (game.score > hiScore.val) { hiScore.val = game.score; localStorage.setItem('soniyas_hi', hiScore.val); }
+  setTimeout(() => goToPage(6), 800);
+}
+
+function spawnExplosion(x, y) {
+  for (let i = 0; i < 3; i++) {
+    game.explosions.push({ x, y, r: 8 + i * 10, dr: 4, life: 20, color: i === 0 ? '#ff6b00' : i === 1 ? '#ff2d78' : '#fff' });
+  }
+  spawnParticles(x, y, 18, '#ff6b00');
+}
+
+function spawnParticles(x, y, count, color) {
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 4 + 1;
+    game.particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: Math.random() * 3 + 1, life: Math.floor(Math.random() * 25 + 15), color });
+  }
+}
+
+function spawnPowerup(x, y) {
+  const types = ['shield', 'rapid', 'double', 'health'];
+  const icons = ['🛡️', '⚡', '✨', '❤️'];
+  const colors = ['#06ffd4', '#a855f7', '#ffd700', '#ff2d78'];
+  const t = Math.floor(Math.random() * types.length);
+  game.powerups.push({ x, y, type: types[t], icon: icons[t], color: colors[t], wobble: 0 });
+}
+
+function collectPowerup(pw) {
+  const p = game.player;
+  p.powerTimer = 300;
+  if (pw.type === 'shield') { p.shield = true; document.getElementById('powerDisplay').textContent = '🛡️ SHIELD'; }
+  if (pw.type === 'rapid') { p.rapidFire = true; document.getElementById('powerDisplay').textContent = '⚡ RAPID FIRE'; }
+  if (pw.type === 'double') { p.doubleScore = true; document.getElementById('powerDisplay').textContent = '✨ 2X SCORE'; }
+  if (pw.type === 'health') { p.hp = Math.min(p.maxHp, p.hp + 1); updateLivesHUD(); document.getElementById('powerDisplay').textContent = '❤️ HEALTH +1'; }
+  spawnParticles(pw.x, pw.y, 12, pw.color);
+  unlockAchievement('💊 POWERUP COLLECTED');
+}
+
+/* ---- DRAW ---- */
+function draw() {
+  gCtx.clearRect(0, 0, gW, gH);
+  // Background
+  gCtx.fillStyle = '#000';
+  gCtx.fillRect(0, 0, gW, gH);
+  drawBgStars();
+  drawNebula();
+  drawPlayerBullets();
+  drawEnemyBullets();
+  drawEnemies();
+  drawPowerups();
+  if (game.boss) drawBoss();
+  drawPlayer();
+  drawExplosions();
+  drawParticles();
+}
+
+function drawBgStars() {
+  game.bgStars.forEach(s => {
+    s.y += s.speed;
+    if (s.y > LOGICAL_H) s.y = 0;
+    const sx = s.x / LOGICAL_W * gW, sy = s.y / LOGICAL_H * gH;
+    gCtx.beginPath();
+    gCtx.arc(sx, sy, s.r, 0, Math.PI * 2);
+    gCtx.fillStyle = `rgba(180,220,255,${Math.random() * 0.3 + 0.4})`;
+    gCtx.fill();
+  });
+}
+
+function drawNebula() {
+  const grd = gCtx.createRadialGradient(gW * 0.2, gH * 0.2, 0, gW * 0.2, gH * 0.2, gW * 0.4);
+  grd.addColorStop(0, 'rgba(168,85,247,0.06)');
+  grd.addColorStop(1, 'transparent');
+  gCtx.fillStyle = grd;
+  gCtx.fillRect(0, 0, gW, gH);
+  const grd2 = gCtx.createRadialGradient(gW * 0.8, gH * 0.7, 0, gW * 0.8, gH * 0.7, gW * 0.35);
+  grd2.addColorStop(0, 'rgba(0,212,255,0.05)');
+  grd2.addColorStop(1, 'transparent');
+  gCtx.fillStyle = grd2;
+  gCtx.fillRect(0, 0, gW, gH);
+}
+
+function drawPlayer() {
+  const p = game.player;
+  if (p.invincible > 0 && Math.floor(p.invincible / 5) % 2 === 0) return;
+  gCtx.save();
+  gCtx.translate(p.x, p.y);
+  const s = Math.min(gW / 480, gH / 720) * 1.2;
+  gCtx.scale(s, s);
+
+  // Thruster glow
+  const thrTime = Date.now() / 200;
+  const thrW = 12 + Math.sin(thrTime) * 4;
+  const thrGrd = gCtx.createRadialGradient(0, 30, 0, 0, 30, thrW);
+  thrGrd.addColorStop(0, 'rgba(255,140,0,0.9)');
+  thrGrd.addColorStop(0.4, 'rgba(255,60,0,0.6)');
+  thrGrd.addColorStop(1, 'transparent');
+  gCtx.fillStyle = thrGrd;
+  gCtx.fillRect(-thrW, 18, thrW * 2, thrW * 2.5);
+
+  // Ship body — S-Ship
+  gCtx.shadowColor = p.shield ? '#06ffd4' : '#00d4ff';
+  gCtx.shadowBlur = p.shield ? 30 : 18;
+  gCtx.strokeStyle = p.shield ? '#06ffd4' : '#00d4ff';
+  gCtx.lineWidth = 2.2;
+  gCtx.fillStyle = 'rgba(0,10,30,0.9)';
+
+  // Main hull
+  gCtx.beginPath();
+  gCtx.moveTo(0, -26);
+  gCtx.lineTo(16, -6);
+  gCtx.lineTo(20, 10);
+  gCtx.lineTo(12, 22);
+  gCtx.lineTo(0, 28);
+  gCtx.lineTo(-12, 22);
+  gCtx.lineTo(-20, 10);
+  gCtx.lineTo(-16, -6);
+  gCtx.closePath();
+  gCtx.fill(); gCtx.stroke();
+
+  // S letter
+  gCtx.fillStyle = p.shield ? '#06ffd4' : '#00d4ff';
+  gCtx.font = 'bold 20px Arial';
+  gCtx.textAlign = 'center';
+  gCtx.textBaseline = 'middle';
+  gCtx.shadowBlur = 8;
+  gCtx.fillText('S', 0, 2);
+
+  // Wings
+  gCtx.strokeStyle = p.shield ? '#06ffd4' : '#00d4ff';
+  gCtx.lineWidth = 1.8;
+  gCtx.beginPath(); gCtx.moveTo(20, 10); gCtx.lineTo(36, 22); gCtx.lineTo(26, 28); gCtx.lineTo(12, 22); gCtx.stroke();
+  gCtx.beginPath(); gCtx.moveTo(-20, 10); gCtx.lineTo(-36, 22); gCtx.lineTo(-26, 28); gCtx.lineTo(-12, 22); gCtx.stroke();
+
+  // Cockpit
+  gCtx.beginPath();
+  gCtx.arc(0, -10, 7, 0, Math.PI * 2);
+  gCtx.fillStyle = p.shield ? 'rgba(6,255,212,0.4)' : 'rgba(0,212,255,0.35)';
+  gCtx.fill(); gCtx.stroke();
+
+  if (p.shield) {
+    gCtx.beginPath();
+    gCtx.arc(0, 0, 32, 0, Math.PI * 2);
+    gCtx.strokeStyle = 'rgba(6,255,212,0.5)';
+    gCtx.lineWidth = 2;
+    gCtx.stroke();
+  }
+  gCtx.restore();
+}
+
+function drawPlayerBullets() {
+  game.bullets.forEach(b => {
+    gCtx.save();
+    gCtx.shadowColor = b.color;
+    gCtx.shadowBlur = 12;
+    gCtx.fillStyle = b.color;
+    gCtx.fillRect(b.x - b.w / 2, b.y - b.h / 2, b.w, b.h);
+    gCtx.fillStyle = '#fff';
+    gCtx.fillRect(b.x - b.w / 4, b.y - b.h / 2, b.w / 2, b.h * 0.4);
+    gCtx.restore();
+  });
+}
+
+function drawEnemyBullets() {
+  game.enemyBullets.forEach(b => {
+    gCtx.save();
+    gCtx.shadowColor = b.color;
+    gCtx.shadowBlur = 10;
+    gCtx.beginPath();
+    gCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    gCtx.fillStyle = b.color;
+    gCtx.fill();
+    gCtx.restore();
+  });
+}
+
+function drawEnemies() {
+  game.enemies.forEach(e => {
+    gCtx.save();
+    gCtx.translate(e.x, e.y);
+    e.rotation += e.type === 0 ? 0.03 : 0.01;
+    gCtx.rotate(e.rotation);
+    gCtx.shadowBlur = 14;
+
+    if (e.type === 0) { // Asteroid
+      gCtx.shadowColor = '#888';
+      gCtx.strokeStyle = '#aaa';
+      gCtx.fillStyle = '#333';
+      gCtx.lineWidth = 2;
+      gCtx.beginPath();
+      const verts = 7, r = e.w / 2;
+      for (let i = 0; i < verts; i++) {
+        const a = (i / verts) * Math.PI * 2;
+        const rr = r * (0.7 + Math.random() * 0.3 * (i % 2 === 0 ? 1 : -0.5));
+        i === 0 ? gCtx.moveTo(Math.cos(a) * rr, Math.sin(a) * rr) : gCtx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+      }
+      gCtx.closePath();
+      gCtx.fill(); gCtx.stroke();
+    } else if (e.type === 1) { // Drone
+      gCtx.shadowColor = '#a855f7';
+      gCtx.strokeStyle = '#a855f7';
+      gCtx.fillStyle = 'rgba(30,0,60,0.9)';
+      gCtx.lineWidth = 2;
+      gCtx.beginPath();
+      gCtx.moveTo(0, -14); gCtx.lineTo(14, 6); gCtx.lineTo(0, 14); gCtx.lineTo(-14, 6);
+      gCtx.closePath(); gCtx.fill(); gCtx.stroke();
+      gCtx.beginPath(); gCtx.arc(0, 0, 5, 0, Math.PI * 2);
+      gCtx.fillStyle = '#a855f7'; gCtx.fill();
+    } else { // Alien Fighter
+      gCtx.shadowColor = '#ff2d78';
+      gCtx.strokeStyle = '#ff2d78';
+      gCtx.fillStyle = 'rgba(60,0,20,0.9)';
+      gCtx.lineWidth = 2;
+      gCtx.beginPath();
+      gCtx.moveTo(0, 14); gCtx.lineTo(-16, -10); gCtx.lineTo(0, -4); gCtx.lineTo(16, -10);
+      gCtx.closePath(); gCtx.fill(); gCtx.stroke();
+      // engine glow
+      gCtx.beginPath(); gCtx.arc(-8, -10, 3, 0, Math.PI * 2); gCtx.fillStyle = '#ff2d78'; gCtx.fill();
+      gCtx.beginPath(); gCtx.arc(8, -10, 3, 0, Math.PI * 2); gCtx.fill();
+    }
+    // HP bar
+    if (e.hp < e.maxHp) {
+      const bw = e.w; const bh = 3;
+      gCtx.fillStyle = 'rgba(255,0,0,0.5)';
+      gCtx.fillRect(-bw / 2, e.h / 2 + 4, bw, bh);
+      gCtx.fillStyle = '#0f0';
+      gCtx.fillRect(-bw / 2, e.h / 2 + 4, bw * e.hp / e.maxHp, bh);
+    }
+    gCtx.restore();
+  });
+}
+
+function drawBoss() {
+  const boss = game.boss;
+  gCtx.save();
+  gCtx.translate(boss.x, boss.y);
+  gCtx.shadowColor = '#ff2d78';
+  gCtx.shadowBlur = 30 + Math.sin(boss.angle * 3) * 10;
+
+  // Body
+  gCtx.fillStyle = 'rgba(40,0,15,0.95)';
+  gCtx.strokeStyle = '#ff2d78';
+  gCtx.lineWidth = 3;
+  gCtx.beginPath();
+  gCtx.moveTo(0, -40);
+  gCtx.lineTo(60, -10);
+  gCtx.lineTo(70, 30);
+  gCtx.lineTo(40, 50);
+  gCtx.lineTo(0, 40);
+  gCtx.lineTo(-40, 50);
+  gCtx.lineTo(-70, 30);
+  gCtx.lineTo(-60, -10);
+  gCtx.closePath();
+  gCtx.fill(); gCtx.stroke();
+
+  // Center eye
+  gCtx.beginPath();
+  gCtx.arc(0, 0, 22, 0, Math.PI * 2);
+  gCtx.fillStyle = 'rgba(255,0,50,0.2)'; gCtx.fill();
+  gCtx.beginPath();
+  gCtx.arc(0, 0, 14, 0, Math.PI * 2);
+  gCtx.fillStyle = '#ff2d78'; gCtx.fill();
+  gCtx.beginPath();
+  gCtx.arc(0, 0, 7, 0, Math.PI * 2);
+  gCtx.fillStyle = '#fff'; gCtx.fill();
+
+  // Rotating arms
+  for (let i = 0; i < 4; i++) {
+    const a = boss.angle + (i / 4) * Math.PI * 2;
+    gCtx.save();
+    gCtx.rotate(a);
+    gCtx.strokeStyle = '#ff6b00'; gCtx.lineWidth = 3; gCtx.shadowColor = '#ff6b00'; gCtx.shadowBlur = 10;
+    gCtx.beginPath(); gCtx.moveTo(20, 0); gCtx.lineTo(55, 0); gCtx.stroke();
+    gCtx.beginPath(); gCtx.arc(60, 0, 6, 0, Math.PI * 2); gCtx.fillStyle = '#ff6b00'; gCtx.fill();
+    gCtx.restore();
+  }
+
+  // Label
+  gCtx.fillStyle = '#ff2d78';
+  gCtx.font = 'bold 11px "Courier New"';
+  gCtx.textAlign = 'center';
+  gCtx.shadowBlur = 6;
+  gCtx.fillText('GALAXY DESTROYER', 0, -55);
+
+  gCtx.restore();
+}
+
+function drawPowerups() {
+  game.powerups.forEach(pw => {
+    gCtx.save();
+    gCtx.translate(pw.x, pw.y);
+    gCtx.shadowColor = pw.color;
+    gCtx.shadowBlur = 15;
+    gCtx.strokeStyle = pw.color;
+    gCtx.lineWidth = 2;
+    gCtx.beginPath();
+    gCtx.rect(-16, -16, 32, 32);
+    gCtx.fillStyle = 'rgba(0,10,30,0.8)';
+    gCtx.fill(); gCtx.stroke();
+    gCtx.font = '20px Arial';
+    gCtx.textAlign = 'center';
+    gCtx.textBaseline = 'middle';
+    gCtx.fillText(pw.icon, 0, 0);
+    gCtx.restore();
+  });
+}
+
+function drawExplosions() {
+  game.explosions.forEach(ex => {
+    gCtx.save();
+    gCtx.beginPath();
+    gCtx.arc(ex.x, ex.y, ex.r, 0, Math.PI * 2);
+    gCtx.strokeStyle = ex.color;
+    gCtx.lineWidth = 2;
+    gCtx.globalAlpha = ex.life / 20;
+    gCtx.shadowColor = ex.color;
+    gCtx.shadowBlur = 15;
+    gCtx.stroke();
+    gCtx.restore();
+  });
+}
+
+function drawParticles() {
+  game.particles.forEach(pt => {
+    gCtx.save();
+    gCtx.beginPath();
+    gCtx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+    gCtx.fillStyle = pt.color;
+    gCtx.globalAlpha = pt.life / 40;
+    gCtx.shadowColor = pt.color;
+    gCtx.shadowBlur = 6;
+    gCtx.fill();
+    gCtx.restore();
+  });
+}
+
+/* ---- HUD Updates ---- */
+function updateScoreHUD() {
+  document.getElementById('scoreDisplay').textContent = gameScore;
+  document.getElementById('hiScoreDisplay').textContent = hiScore.val;
+}
+
+function updateLivesHUD() {
+  const el = document.getElementById('livesDisplay');
+  el.innerHTML = '';
+  for (let i = 0; i < game.player.maxHp; i++) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.classList.add('life-icon');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M10 18 C10 18 2 12 2 7 A4 4 0 0 1 10 5 A4 4 0 0 1 18 7 C18 12 10 18 10 18Z');
+    path.setAttribute('fill', i < game.player.hp ? '#ff2d78' : 'rgba(255,255,255,0.15)');
+    path.setAttribute('stroke', i < game.player.hp ? '#ff2d78' : 'rgba(255,255,255,0.2)');
+    path.setAttribute('stroke-width', '1');
+    svg.appendChild(path);
+    el.appendChild(svg);
+  }
+}
+
+/* ==========================================
+   PAGE 6 — VICTORY
+   ========================================== */
+let confettiPieces = [];
+let confettiRunning = false;
+
+function onPage6Enter() {
+  const name = visitorName || document.getElementById('visitorName').value.trim();
+  const greeting = document.getElementById('victoryGreeting');
+  greeting.textContent = name ? `OUTSTANDING MISSION, ${name.toUpperCase()}!` : 'OUTSTANDING MISSION, PILOT!';
+
+  document.getElementById('victoryScore').textContent = gameScore;
+  const hn = document.getElementById('highScoreNote');
+  if (gameScore >= hiScore.val) {
+    hn.textContent = '★ NEW HIGH SCORE! ★';
+    hn.style.color = 'var(--neon-cyan)';
+  } else {
+    hn.textContent = 'HIGH SCORE: ' + hiScore.val;
+  }
+
+  unlockAchievement('🏆 GALAXY DESTROYER DEFEATED');
+  startConfetti();
+}
+
+function startConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  confettiPieces = [];
+  for (let i = 0; i < 140; i++) {
+    confettiPieces.push({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
+      vx: (Math.random() - 0.5) * 3, vy: Math.random() * 4 + 2,
+      w: Math.random() * 10 + 5, h: Math.random() * 5 + 3,
+      color: ['#00d4ff','#a855f7','#06ffd4','#ff2d78','#ffd700','#fff'][Math.floor(Math.random() * 6)],
+      rotation: Math.random() * Math.PI * 2, rotSpeed: (Math.random() - 0.5) * 0.2,
+      alpha: Math.random() * 0.5 + 0.5
+    });
+  }
+  confettiRunning = true;
+  function loop() {
+    if (!confettiRunning) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confettiPieces.forEach(c => {
+      c.x += c.vx; c.y += c.vy; c.rotation += c.rotSpeed;
+      if (c.y > canvas.height) { c.y = -10; c.x = Math.random() * canvas.width; }
+      ctx.save();
+      ctx.translate(c.x, c.y);
+      ctx.rotate(c.rotation);
+      ctx.globalAlpha = c.alpha;
+      ctx.fillStyle = c.color;
+      ctx.fillRect(-c.w / 2, -c.h / 2, c.w, c.h);
+      ctx.restore();
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+/* ==========================================
+   ACHIEVEMENTS
+   ========================================== */
+function unlockAchievement(text) {
+  const toast = document.getElementById('achieveToast');
+  document.getElementById('toastText').textContent = text;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+/* ==========================================
+   VISITOR NAME
+   ========================================== */
+document.getElementById('visitorName').addEventListener('change', function() {
+  visitorName = this.value.trim();
+  if (visitorName) localStorage.setItem('soniyas_visitor', visitorName);
+});
+// Load saved name
+const savedName = localStorage.getItem('soniyas_visitor');
+if (savedName) document.getElementById('visitorName').value = savedName;
+
+/* ==========================================
+   PAGE 2 INIT
+   ========================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  // hi score HUD
+  document.getElementById('hiScoreDisplay').textContent = hiScore.val;
+});
+</script>
+</body>
+</html>
