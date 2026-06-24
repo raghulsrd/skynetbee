@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Sky Class</title>
+<style>
+  :root{
+    --bg-deep: #060a18;
+    --bg-panel: #0f1530;
+    --bg-card: #141a38;
+    --bg-card-soft: #11163066;
+    --violet: #8b5cf6;
+    --violet-soft: #a78bfa;
+    --orange: #f59e0b;
+    --teal: #14b8a6;
+    --green: #22c55e;
+    --text-main: #f4f4f8;
+    --text-dim: #9aa0c0;
+    --text-faint: #6b7193;
+    --hairline: #232a4d;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg-deep);
+    background-image:
+      radial-gradient(circle at 12% 0%, #2a1f5d55 0%, transparent 45%),
+      radial-gradient(circle at 90% 18%, #1c2a5d4d 0%, transparent 40%);
+    color: var(--text-main);
+    font-family: 'Comic Neue', 'Baloo 2', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{
+      animation: rise .7s ease-out both;
+    }
+    @keyframes rise{
+      from{ opacity:0; transform: translateY(14px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+  }
+
+  a{ color: var(--violet-soft); text-decoration: none; }
+  a:hover{ text-decoration: underline; }
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--violet-soft);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Top bar (mirrors the in-app header) ---------- */
+  .topbar{
+    position: sticky;
+    top:0;
+    z-index: 20;
+    background: #060a18cc;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar-inner{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    font-size: 1.05rem;
+    color: var(--text-main);
+  }
+  .brand-mark{
+    width:30px; height:30px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--violet), #6d28d9);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 16px;
+    flex-shrink:0;
+  }
+  .topbar-tag{
+    font-size: .8rem;
+    color: var(--text-dim);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 64px 0 40px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size: .78rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--violet-soft);
+    background: #8b5cf61a;
+    border: 1px solid #8b5cf640;
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  h1{
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    line-height: 1.08;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+  .hero p.lede{
+    color: var(--text-dim);
+    font-size: 1.08rem;
+    max-width: 620px;
+    margin: 0 0 26px;
+  }
+  .meta-row{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .meta-chip{
+    font-size: .82rem;
+    color: var(--text-dim);
+    background: var(--bg-card);
+    border: 1px solid var(--hairline);
+    padding: 7px 13px;
+    border-radius: 999px;
+  }
+  .meta-chip b{ color: var(--text-main); font-weight: 700;}
+
+  /* ---------- Nav / table of contents ---------- */
+  .toc{
+    background: var(--bg-card);
+    border: 1px solid var(--hairline);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin: 28px 0 56px;
+  }
+  .toc h2{
+    font-size: .95rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-faint);
+    margin: 0 0 14px;
+  }
+  .toc ol{
+    list-style: none;
+    margin:0; padding:0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 24px;
+  }
+  @media (max-width: 620px){
+    .toc ol{ grid-template-columns: 1fr; }
+  }
+  .toc li a{
+    display:flex;
+    align-items:baseline;
+    gap: 10px;
+    color: var(--text-main);
+    font-size: .95rem;
+    padding: 6px 0;
+  }
+  .toc li a:hover{ text-decoration:none; color: var(--violet-soft); }
+  .toc-num{
+    color: var(--violet-soft);
+    font-weight: 700;
+    font-size: .85rem;
+    min-width: 22px;
+  }
+
+  /* ---------- Sections ---------- */
+  section.policy-section{
+    padding: 0 0 52px;
+    border-bottom: 1px solid var(--hairline);
+    scroll-margin-top: 90px;
+  }
+  section.policy-section:last-of-type{ border-bottom: none; }
+
+  .section-head{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .section-icon{
+    width: 42px; height:42px;
+    border-radius: 12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 20px;
+    flex-shrink:0;
+  }
+  h2.section-title{
+    font-size: 1.5rem;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .section-sub{
+    color: var(--text-dim);
+    font-size: .95rem;
+    margin: -6px 0 18px 56px;
+  }
+
+  p{ color: #d3d6ea; margin: 0 0 14px; }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 18px 0 6px;
+  }
+  @media (max-width: 620px){ .card-grid{ grid-template-columns: 1fr; } }
+
+  .data-card{
+    background: var(--bg-card);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .data-card .tag{
+    display:inline-block;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .tag-orange{ background:#f59e0b22; color:#fbbf6a; }
+  .tag-violet{ background:#8b5cf622; color:var(--violet-soft); }
+  .tag-teal{ background:#14b8a622; color:#5eead4; }
+  .tag-green{ background:#22c55e22; color:#86efac; }
+
+  .data-card h3{
+    margin: 0 0 6px;
+    font-size: 1.02rem;
+    color: var(--text-main);
+  }
+  .data-card p{
+    margin:0;
+    font-size: .9rem;
+    color: var(--text-dim);
+  }
+
+  .flow-strip{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: var(--bg-card-soft);
+    border: 1px dashed var(--hairline);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 8px 0 20px;
+    font-size: .9rem;
+    color: var(--text-dim);
+  }
+  .flow-strip .node{
+    background: var(--bg-panel);
+    border: 1px solid var(--hairline);
+    color: var(--text-main);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: .85rem;
+  }
+  .flow-strip .arrow{ color: var(--violet-soft); }
+
+  ul.bullet-list{
+    margin: 0 0 16px;
+    padding-left: 0;
+    list-style: none;
+  }
+  ul.bullet-list li{
+    position: relative;
+    padding-left: 26px;
+    margin-bottom: 12px;
+    color: #d3d6ea;
+  }
+  ul.bullet-list li::before{
+    content: "";
+    position: absolute;
+    left: 0; top: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+  ul.bullet-list li b{ color: var(--text-main); }
+
+  .role-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: .92rem;
+  }
+  .role-table th, .role-table td{
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .role-table th{
+    color: var(--text-faint);
+    text-transform: uppercase;
+    font-size: .75rem;
+    letter-spacing: .04em;
+  }
+  .role-table td{ color: #d3d6ea; }
+  .role-pill{
+    display:inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+  }
+  .role-teacher{ background:#8b5cf622; color: var(--violet-soft); }
+  .role-student{ background:#14b8a622; color:#5eead4; }
+
+  .callout{
+    background: linear-gradient(135deg, #1b1340, #11163a);
+    border: 1px solid #3a2f70;
+    border-radius: 16px;
+    padding: 20px 22px;
+    margin: 18px 0;
+  }
+  .callout p{ color: #d8d9f0; margin:0; }
+  .callout p + p{ margin-top: 10px; }
+  .callout.warn{
+    background: linear-gradient(135deg, #3a2410, #241407);
+    border-color: #6b4416;
+  }
+  .callout.warn p{ color: #f3dcb8; }
+
+  .rights-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 18px 0;
+  }
+  @media (max-width: 720px){ .rights-grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 480px){ .rights-grid{ grid-template-columns: 1fr; } }
+  .right-pill{
+    background: var(--bg-card);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 16px;
+    text-align:center;
+  }
+  .right-pill .glyph{ font-size: 22px; margin-bottom: 8px; display:block; }
+  .right-pill span{ font-size: .88rem; color: var(--text-main); font-weight: 600; }
+
+  /* ---------- Contact ---------- */
+  .contact-card{
+    background: linear-gradient(160deg, #16203f, #0f1530);
+    border: 1px solid var(--hairline);
+    border-radius: 20px;
+    padding: 32px;
+    margin-top: 12px;
+    text-align:center;
+  }
+  .contact-card h2{
+    margin: 0 0 8px;
+    font-size: 1.4rem;
+  }
+  .contact-card p{
+    color: var(--text-dim);
+    max-width: 480px;
+    margin: 0 auto 18px;
+  }
+  .contact-pill{
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    background: var(--violet);
+    color: white;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: .95rem;
+  }
+  .contact-pill:hover{ text-decoration:none; background: #7c3aed; }
+
+  footer{
+    padding: 40px 0 60px;
+    text-align:center;
+    color: var(--text-faint);
+    font-size: .85rem;
+  }
+
+  /* back to top */
+  .top-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color: var(--text-faint);
+    font-size: .82rem;
+    margin-top: 28px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">🎓</span>
+      Sky Class
+    </div>
+    <span class="topbar-tag">Privacy Policy</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero reveal">
+    <h1>Your classroom data, handled with the same care as a roll-call register.</h1>
+    <p class="lede">Sky Class is a digital classroom app for teachers and students — handling chats, attendance, marks, and study materials. This page explains exactly what we collect, why, and how you stay in control of it.</p>
+
+  </section>
+  <section class="policy-section" id="overview">
+    <div class="section-head">
+      <div class="section-icon tag-violet" style="background:#8b5cf622;">🏠</div>
+      <h2 class="section-title">01. Overview</h2>
+    </div>
+    <p>Sky Class lets teachers create classrooms and lets students join them using a class code or invite link. Inside a classroom, people can chat, mark and view attendance, manage tests and marks, and share study materials such as notes, PDFs, and assignments.</p>
+    <p>This Privacy Policy applies to everyone who uses Sky Class — whether you've signed up as a teacher who creates classrooms, or a student who joins one. By using the app, you agree to the practices described here.</p>
+  </section>
+
+  <section class="policy-section" id="data-we-collect">
+    <div class="section-head">
+      <div class="section-icon" style="background:#f59e0b22;">🗂️</div>
+      <h2 class="section-title">02. Information we collect</h2>
+    </div>
+    <p class="section-sub" style="margin-left:0;">We only collect what's needed to run your classrooms — nothing else.</p>
+
+    <div class="card-grid">
+      <div class="data-card">
+        <span class="tag tag-orange">Profile</span>
+        <h3>Account &amp; profile details</h3>
+        <p>Name, phone number, college/school name, and an optional profile photo, as shown on your "My Profile" screen.</p>
+      </div>
+      <div class="data-card">
+        <span class="tag tag-violet">Classroom</span>
+        <h3>Classroom data</h3>
+        <p>Classroom names, class PINs/codes, subject names, and the list of members in each classroom you create or join.</p>
+      </div>
+      <div class="data-card">
+        <span class="tag tag-teal">Activity</span>
+        <h3>Chats &amp; messages</h3>
+        <p>Messages, announcements, and discussion content posted inside a classroom's chat section.</p>
+      </div>
+      <div class="data-card">
+        <span class="tag tag-green">Academic</span>
+        <h3>Attendance &amp; marks</h3>
+        <p>Attendance records (present/absent) and test names, subjects, and marks entered for each student.</p>
+      </div>
+      <div class="data-card">
+        <span class="tag tag-orange">Files</span>
+        <h3>Study materials</h3>
+        <p>Notes, PDFs, images, and assignments uploaded by teachers into a classroom's materials section.</p>
+      </div>
+      <div class="data-card">
+        <span class="tag tag-violet">Technical</span>
+        <h3>Device &amp; usage data</h3>
+        <p>Basic technical information like app version, device type, and crash logs, used to keep the app running smoothly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="policy-section" id="how-we-use">
+    <div class="section-head">
+      <div class="section-icon" style="background:#14b8a622;">⚙️</div>
+      <h2 class="section-title">03. How we use your information</h2>
+    </div>
+    <p>We use the information above strictly to run the features you see in the app:</p>
+    <div class="flow-strip">
+      <span class="node">Profile info</span><span class="arrow">→</span>
+      <span class="node">Identify you in classrooms</span><span class="arrow">→</span>
+      <span class="node">Chat, attendance &amp; marks</span><span class="arrow">→</span>
+      <span class="node">Progress tracking</span>
+    </div>
+    <ul class="bullet-list">
+      <li><b>Operate classrooms</b> — creating and joining classes, displaying member lists, and powering chat, attendance, and marks features.</li>
+      <li><b>Show your profile</b> — displaying your name, phone number, and college on your profile and to classmates/teachers where relevant.</li>
+      <li><b>Track academic progress</b> — recording attendance and test marks so teachers and students can monitor performance over time.</li>
+      <li><b>Share materials</b> — letting teachers upload and students access notes, assignments, and PDFs inside a classroom.</li>
+      <li><b>Maintain &amp; improve the app</b> — diagnosing crashes, fixing bugs, and understanding which features are used.</li>
+      <li><b>Communicate with you</b> — sending in-app notifications (like the bell icon) about classroom activity, such as new messages or announcements.</li>
+    </ul>
+    <p>We do not use your classroom data, chats, marks, or attendance records to build advertising profiles, and we do not sell this information to third parties.</p>
+  </section>
+
+  <section class="policy-section" id="roles">
+    <div class="section-head">
+      <div class="section-icon" style="background:#8b5cf622;">🧑‍🏫</div>
+      <h2 class="section-title">04. Teacher vs. student data</h2>
+    </div>
+    <p>Sky Class has two everyday roles, and what each role can see is different. Here's a quick breakdown:</p>
+    <table class="role-table">
+      <thead>
+        <tr><th>Data</th><th>Teacher (Admin)</th><th>Student</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Create / delete classroom</td>
+          <td><span class="role-pill role-teacher">Yes</span></td>
+          <td><span class="role-pill role-student">No</span></td>
+        </tr>
+        <tr>
+          <td>View full student list</td>
+          <td><span class="role-pill role-teacher">Yes</span></td>
+          <td><span class="role-pill role-student">Limited</span></td>
+        </tr>
+        <tr>
+          <td>Mark attendance</td>
+          <td><span class="role-pill role-teacher">Yes</span></td>
+          <td><span class="role-pill role-student">View only</span></td>
+        </tr>
+        <tr>
+          <td>Enter / edit marks</td>
+          <td><span class="role-pill role-teacher">Yes</span></td>
+          <td><span class="role-pill role-student">View own marks</span></td>
+        </tr>
+        <tr>
+          <td>Upload study materials</td>
+          <td><span class="role-pill role-teacher">Yes</span></td>
+          <td><span class="role-pill role-student">Download only</span></td>
+        </tr>
+        <tr>
+          <td>Post in classroom chat</td>
+          <td><span class="role-pill role-teacher">Yes</span></td>
+          <td><span class="role-pill role-student">Yes</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>A teacher who creates a classroom is shown as its <b>Admin</b> and can manage attendance, tests, marks, and materials for that classroom. Students who join only see the data relevant to classrooms they're a member of.</p>
+  </section>
+
+  <section class="policy-section" id="sharing">
+    <div class="section-head">
+      <div class="section-icon" style="background:#f59e0b22;">🔗</div>
+      <h2 class="section-title">05. Sharing &amp; classroom visibility</h2>
+    </div>
+    <p>Sky Class is built around classrooms, so some information is, by design, visible to other people in the same classroom:</p>
+    <ul class="bullet-list">
+      <li><b>Within a classroom:</b> your name, messages, attendance status, and marks may be visible to the teacher (admin) and, in some views, to fellow students — for example, a marks list showing every student's name.</li>
+      <li><b>Outside your classrooms:</b> people who are not members of a classroom cannot see its chats, attendance, marks, or materials.</li>
+      <li><b>Service providers:</b> we may use trusted infrastructure providers (such as cloud hosting and storage services) to operate the app. They process data only on our behalf and under confidentiality obligations.</li>
+      <li><b>Legal reasons:</b> we may disclose information if required by law, or to protect the rights, safety, or property of Sky Class, its users, or others.</li>
+    </ul>
+    <div class="callout">
+      <p>We do not share your personal data with advertisers, and we do not sell classroom data, chat content, attendance, or marks to any third party.</p>
+    </div>
+  </section>
+
+  <section class="policy-section" id="storage">
+    <div class="section-head">
+      <div class="section-icon" style="background:#14b8a622;">🔒</div>
+      <h2 class="section-title">06. Storage &amp; security</h2>
+    </div>
+    <p>Classroom data — including chats, attendance, marks, and materials — is stored on secure servers used to power the app. We apply reasonable technical and organizational measures (such as access controls and encrypted connections) to protect your information from unauthorized access, alteration, or loss.</p>
+    <p>That said, no method of storage or transmission over the internet is 100% secure. We encourage you to keep your account credentials private and to log out of shared devices.</p>
+  </section>
+
+  <section class="policy-section" id="children">
+    <div class="section-head">
+      <div class="section-icon" style="background:#8b5cf622;">🎒</div>
+      <h2 class="section-title">07. Children's privacy</h2>
+    </div>
+    <p>Sky Class is used in school and college settings, and some students may be minors. Where a student is a minor, we collect only the information needed for classroom features (such as name and attendance/marks records), and rely on the educational institution or a parent/guardian to oversee the student's use of the app in line with local laws.</p>
+    <p>If you are a parent or guardian and believe your child has provided us with information beyond what's needed for classroom use, please contact us using the details below so we can review and, where appropriate, remove it.</p>
+  </section>
+
+  <section class="policy-section" id="rights">
+    <div class="section-head">
+      <div class="section-icon" style="background:#f59e0b22;">🛡️</div>
+      <h2 class="section-title">08. Your rights &amp; choices</h2>
+    </div>
+    <p>Depending on where you live, you may have some or all of the following rights over your personal information:</p>
+    <div class="rights-grid">
+      <div class="right-pill"><span class="glyph">👁️</span><span>Access your data</span></div>
+      <div class="right-pill"><span class="glyph">✏️</span><span>Correct inaccurate info</span></div>
+      <div class="right-pill"><span class="glyph">🗑️</span><span>Request deletion</span></div>
+      <div class="right-pill"><span class="glyph">📦</span><span>Export your data</span></div>
+      <div class="right-pill"><span class="glyph">🚪</span><span>Leave a classroom</span></div>
+      <div class="right-pill"><span class="glyph">🔕</span><span>Manage notifications</span></div>
+    </div>
+    <p>You can update your name, phone number, and college directly from the <b>Edit Profile</b> screen at any time. For anything else — like deleting your account or removing classroom records — reach out to us via the contact section below.</p>
+  </section>
+
+  <section class="policy-section" id="retention">
+    <div class="section-head">
+      <div class="section-icon" style="background:#14b8a622;">⏳</div>
+      <h2 class="section-title">09. Data retention &amp; deletion</h2>
+    </div>
+    <p>We retain classroom data — including attendance, marks, chats, and materials — for as long as the classroom exists or as needed to provide the app's features, such as tracking academic progress across a term.</p>
+    <ul class="bullet-list">
+      <li>When a teacher <b>deletes a classroom</b>, its associated attendance, marks, chat, and materials data is removed from active use.</li>
+      <li>When you <b>delete your account</b>, we remove or anonymize your personal profile information, except where we're required to retain it for legal or legitimate administrative purposes.</li>
+      <li>Backups may persist for a limited period after deletion before being permanently purged from our systems.</li>
+    </ul>
+  </section>
+
+  <section class="policy-section" id="changes">
+    <div class="section-head">
+      <div class="section-icon" style="background:#8b5cf622;">🔄</div>
+      <h2 class="section-title">10. Changes to this policy</h2>
+    </div>
+    <p>We may update this Privacy Policy from time to time to reflect changes in the app, our practices, or legal requirements. When we make material changes, we'll update the "Last updated" date at the top of this page, and where appropriate, notify you in-app.</p>
+    <p>We encourage you to review this page periodically to stay informed about how we protect your information.</p>
+  </section>
+</body>
+</html>
