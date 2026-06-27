@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — XO Game</title>
+<style>
+  :root{
+    --bg: #0D0010;
+    --bg-card: #150018;
+    --bg-card2: #11001a;
+    --fire: #FF3300;
+    --fire2: #FF7700;
+    --ice: #00AAFF;
+    --ice2: #00FFEE;
+    --gold: #FFD700;
+    --muted: #9C8AB0;
+    --text: #F1ECF6;
+    --line: rgba(255,255,255,0.08);
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: var(--ice2); text-decoration: none; }
+  a:hover{ text-decoration: underline; }
+  a:focus-visible, button:focus-visible{ outline: 2px solid var(--ice2); outline-offset: 3px; border-radius: 4px; }
+
+  /* ── Background atmosphere ───────────────────────── */
+  .glow{
+    position: fixed; inset: 0; z-index: 0; pointer-events:none;
+    background:
+      radial-gradient(circle at 12% -5%, rgba(255,51,0,0.16), transparent 38%),
+      radial-gradient(circle at 92% 8%, rgba(0,170,255,0.14), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(204,68,255,0.07), transparent 50%);
+  }
+
+  .wrap{
+    position: relative; z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ── Header ───────────────────────────────────────── */
+  header{
+    padding: 64px 0 36px;
+    text-align: center;
+  }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+    color: var(--muted); text-transform: uppercase;
+    padding: 7px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.02);
+  }
+  .badge .x{ color: var(--fire); }
+  .badge .o{ color: var(--ice); }
+
+  h1{
+    margin: 22px 0 10px;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    background: linear-gradient(90deg, var(--fire2), var(--ice2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.15;
+  }
+
+  .updated{
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .lede{
+    max-width: 540px;
+    margin: 22px auto 0;
+    color: #C9BEDA;
+    font-size: 16px;
+  }
+
+  /* ── TL;DR strip — the signature element ─────────── */
+  .tldr{
+    margin: 40px 0 48px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(255,51,0,0.07), rgba(0,170,255,0.07));
+    padding: 26px 26px 22px;
+  }
+  .tldr-title{
+    display:flex; align-items:center; gap:10px;
+    font-size: 13px; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .tldr-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 520px){ .tldr-grid{ grid-template-columns: 1fr; } }
+
+  .tldr-item{
+    display:flex; gap: 12px; align-items:flex-start;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.18);
+  }
+  .tldr-icon{
+    flex-shrink:0;
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 15px;
+  }
+  .tldr-icon.fire{ background: rgba(255,51,0,0.16); border:1px solid rgba(255,51,0,0.35); }
+  .tldr-icon.ice{ background: rgba(0,170,255,0.16); border:1px solid rgba(0,170,255,0.35); }
+  .tldr-text{ font-size: 14px; color: #DCD3E8; }
+  .tldr-text strong{ color: #fff; display:block; font-size: 14px; margin-bottom: 2px; }
+
+  /* ── Section nav ──────────────────────────────────── */
+  nav.toc{
+    display:flex; flex-wrap:wrap; gap: 8px;
+    margin-bottom: 48px;
+  }
+  nav.toc a{
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  nav.toc a:hover{
+    border-color: rgba(0,255,238,0.4);
+    color: var(--ice2);
+    text-decoration: none;
+  }
+
+  /* ── Sections ─────────────────────────────────────── */
+  section{
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
+  }
+  section:first-of-type{ border-top: none; }
+
+  .num{
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  h2{
+    font-size: 21px;
+    font-weight: 750;
+    margin: 6px 0 14px;
+    color: #fff;
+    display:flex; align-items:center; gap:10px;
+  }
+  h2 .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: linear-gradient(90deg,var(--fire),var(--ice));
+    flex-shrink:0;
+  }
+
+  p{ margin: 0 0 14px; color: #D9D0E4; font-size: 15.5px; }
+  p:last-child{ margin-bottom: 0; }
+
+  ul{ margin: 0 0 14px; padding-left: 0; list-style:none; }
+  ul li{
+    position:relative;
+    padding-left: 22px;
+    margin-bottom: 9px;
+    color: #D9D0E4;
+    font-size: 15.5px;
+  }
+  ul li::before{
+    content:"";
+    position:absolute; left:0; top: 9px;
+    width:8px; height:8px;
+    border-radius:2px;
+    background: linear-gradient(135deg,var(--fire2),var(--ice));
+    transform: rotate(45deg);
+  }
+
+  strong{ color:#fff; font-weight: 650; }
+
+  code{
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: var(--ice2);
+  }
+
+  .callout{
+    margin-top: 16px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,215,0,0.25);
+    background: rgba(255,215,0,0.06);
+    font-size: 14.5px;
+    color: #EDE2B8;
+  }
+  .callout strong{ color: var(--gold); }
+
+  /* ── Contact card ─────────────────────────────────── */
+  .contact-card{
+    margin-top: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    padding: 22px;
+    display:flex; align-items:center; gap:16px;
+    flex-wrap: wrap;
+  }
+  .contact-avatar{
+    width: 48px; height:48px; border-radius:50%;
+    background: linear-gradient(135deg, var(--fire), var(--ice));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:16px; color:#fff;
+    flex-shrink:0;
+  }
+  .contact-meta{ font-size: 14px; color: var(--muted); }
+  .contact-meta a{ color:#fff; font-weight:650; }
+
+  /* ── Footer ───────────────────────────────────────── */
+  footer{
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    text-align:center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer .vs{
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+  footer .vs .x{ color: var(--fire); }
+  footer .vs .o{ color: var(--ice); }
+
+  @media (prefers-reduced-motion: no-preference){
+    .tldr, section, header{ animation: rise 0.5s ease both; }
+  }
+  @keyframes rise{
+    from{ opacity:0; transform: translateY(8px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow"></div>
+
+<div class="wrap">
+
+  <header>
+    <span class="badge"><span class="x">X</span> &amp; <span class="o">O</span> &nbsp;·&nbsp; PRIVACY POLICY</span>
+    <h1>XOTix</h1>
+  </header>
+
+  <div class="tldr">
+    <div class="tldr-title">⚡ The short version</div>
+    <div class="tldr-grid">
+      <div class="tldr-item">
+        <div class="tldr-icon fire">🔥</div>
+        <div class="tldr-text"><strong>No data collected</strong>The app doesn't gather, store, or transmit any personal information.</div>
+      </div>
+      <div class="tldr-item">
+        <div class="tldr-icon ice">❄️</div>
+        <div class="tldr-text"><strong>No internet needed</strong>XO Game runs entirely on your device and never connects to the internet.</div>
+      </div>
+      <div class="tldr-item">
+        <div class="tldr-icon fire">🚫</div>
+        <div class="tldr-text"><strong>No ads or tracking</strong>There are no ad networks, analytics SDKs, or third-party trackers built in.</div>
+      </div>
+      <div class="tldr-item">
+        <div class="tldr-icon ice">🔐</div>
+        <div class="tldr-text"><strong>No accounts</strong>There's no sign-up, login, or profile of any kind — just open the app and play.</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#info-we-collect">Information We Collect</a>
+    <a href="#permissions">Permissions</a>
+    <a href="#data-storage">Local Data &amp; Storage</a>
+    <a href="#third-parties">Third Parties</a>
+    <a href="#children">Children's Privacy</a>
+    <a href="#changes">Changes to This Policy</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="info-we-collect">
+    <div class="num">01</div>
+    <h2><span class="dot"></span>Information We Collect</h2>
+    <p>XO Game does not collect, store, or transmit any personal information, device identifiers, or usage data — from you or anyone else who plays on your device.</p>
+    <p>The game has no account system, no sign-in, no analytics, and no network connection of any kind. There's simply nowhere for your information to go, because the app never sends anything anywhere.</p>
+  </section>
+
+  <section id="permissions">
+    <div class="num">02</div>
+    <h2><span class="dot"></span>App Permissions</h2>
+    <p>XO Game does not request access to your contacts, location, camera, microphone, photos, or any other sensitive device permission. It only needs standard display access to render the game on your screen.</p>
+  </section>
+
+  <section id="data-storage">
+    <div class="num">03</div>
+    <h2><span class="dot"></span>Local Data &amp; Storage</h2>
+    <p>The app keeps a small amount of information directly on your device to make gameplay convenient — for example:</p>
+    <ul>
+      <li>Your current match score (Fire wins, Ice wins, and Draws)</li>
+      <li>Your selected level / grid size</li>
+      <li>In-progress board state, so undo and new-game work correctly</li>
+    </ul>
+    <p>This information stays entirely on your device. It is never uploaded, backed up to a server, or shared with us or anyone else. Uninstalling the app removes it completely.</p>
+  </section>
+
+  <section id="third-parties">
+    <div class="num">04</div>
+    <h2><span class="dot"></span>Third-Party Services</h2>
+    <p>XO Game does not integrate any third-party SDKs — no advertising networks, no analytics platforms, no crash reporting tools, and no social logins. The app you install is the entire app; nothing else runs alongside it.</p>
+    <div class="callout"><strong>Note:</strong> if a future update ever introduces a third-party service (for instance, optional analytics to fix bugs), this policy will be updated first, and the change will be described clearly here before it takes effect.</div>
+  </section>
+
+  <section id="children">
+    <div class="num">05</div>
+    <h2><span class="dot"></span>Children's Privacy</h2>
+    <p>XO Game is suitable for players of all ages, including children, precisely because it collects nothing. Since no personal information is gathered from anyone, there is no personal information collected from children either, consistent with regulations such as COPPA.</p>
+  </section>
+
+  <section id="changes">
+    <div class="num">06</div>
+    <h2><span class="dot"></span>Changes to This Policy</h2>
+    <p>If this privacy policy ever changes — for example, if a future version of the app adds a new feature that uses data differently — the updated policy will be posted on this page with a revised "Last updated" date above. We'd encourage you to check back here occasionally if you'd like to stay informed.</p>
+  </section>
+
+  <section id="contact">
+    <div class="num">07</div>
+    <h2><span class="dot"></span>Contact</h2>
+    <p>If you have any questions about this privacy policy or about XO Game, feel free to reach out.</p>
+    <div class="contact-card">
+      <div class="contact-avatar">XO</div>
+      <div class="contact-meta">
+        Developer &nbsp;·&nbsp; <a href="https://github.com/Skynetmonika" target="_blank" rel="noopener">github.com/Skynetmonika</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="vs"><span class="x">FIRE</span> vs <span class="o">ICE</span> — The Ultimate Battle ⚔️</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
