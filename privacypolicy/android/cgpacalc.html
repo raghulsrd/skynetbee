@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - CGPA Calculator</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+    }
+
+    body{
+        min-height:100vh;
+        color:#ffffff;
+        padding:40px 20px;
+
+        /* App-like background */
+        background:
+            radial-gradient(circle at top left,
+                rgba(88,199,255,0.25),
+                transparent 30%),
+            radial-gradient(circle at bottom right,
+                rgba(123,97,255,0.25),
+                transparent 30%),
+            linear-gradient(180deg,
+                #020617 0%,
+                #051937 100%);
+    }
+
+    .container{
+        max-width:900px;
+        margin:auto;
+        background:rgba(12,18,45,0.55);
+        backdrop-filter:blur(10px);
+        border:1px solid rgba(255,255,255,0.08);
+        border-radius:25px;
+        padding:35px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h1{
+        color:#58C7FF;
+        margin-bottom:10px;
+        font-size:38px;
+    }
+
+    .updated{
+        color:#a0aec0;
+        margin-bottom:30px;
+    }
+
+    h2{
+        color:#58C7FF;
+        margin-top:30px;
+        margin-bottom:12px;
+        font-size:24px;
+    }
+
+    p, li{
+        color:#d1d5db;
+        line-height:1.8;
+        font-size:17px;
+    }
+
+    ul{
+        padding-left:25px;
+        margin-top:10px;
+    }
+
+    .footer{
+        margin-top:40px;
+        padding-top:20px;
+        border-top:1px solid rgba(255,255,255,0.1);
+        color:#9ca3af;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Privacy Policy</h1>
+    
+
+    <p>
+        CGPA Calculator ("we", "our", or "the app") respects your privacy.
+        This application is designed to calculate your CGPA quickly and accurately
+        without collecting or storing your personal information.
+    </p>
+
+    <h2>Information Collection</h2>
+    <p>
+        The app does not collect, store, or share any personal information.
+        The following data entered by users remains only on the device:
+    </p>
+
+    <ul>
+        <li>Total number of subjects</li>
+        <li>Subject credits</li>
+        <li>Subject grades</li>
+        <li>Calculated CGPA results</li>
+    </ul>
+
+    <h2>Data Processing</h2>
+    <p>
+        All CGPA calculations are performed locally on your device.
+        No academic information is transmitted to any server or external service.
+    </p>
+
+    <h2>Permissions</h2>
+    <p>
+        CGPA Calculator does not require access to sensitive permissions such as
+        contacts, location, camera, microphone, or storage for its core functionality.
+    </p>
+
+    <h2>Third-Party Services</h2>
+    <p>
+        This application does not use third-party services to collect personal data.
+        If future versions include analytics or advertisements, this Privacy Policy
+        will be updated accordingly.
+    </p>
+
+    <h2>Children's Privacy</h2>
+    <p>
+        The app does not knowingly collect personal information from children
+        under the age of 13.
+    </p>
+
+    <h2>Changes to This Privacy Policy</h2>
+    <p>
+        We may update this Privacy Policy from time to time.
+        Any modifications will be reflected on this page along with the updated date.
+    </p>
+
+    <h2>Contact Us</h2>
+    <p>
+        If you have any questions regarding this Privacy Policy, please contact:
+    </p>
+
+    <div class="footer">
+        <strong>Developer:</strong> Jana Vijayavel<br>
+        <strong>Application:</strong> CGPA Calculator<br>
+        <strong>Email:</strong> janavijayavel@gmail.com
+    </div>
+
+</div>
+
+<script>
+    // Automatically update the year
+    const footer = document.querySelector(".updated");
+    footer.innerText = "Last Updated: " + new Date().toLocaleDateString();
+</script>
+
+</body>
+</html>
