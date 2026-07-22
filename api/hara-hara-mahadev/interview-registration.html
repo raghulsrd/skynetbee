@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration</title>
+
+    <!-- Image uploader widget (S3 crop/upload) -->
+    <script src="/neural-engine/uiux/media-uploaders/image/gallery-crop.js?v=6"></script>
+
+    <style>
+      :root {
+        --ink: #1a2238;
+        --muted: #6b7280;
+        --line: #e2e5ec;
+        --field: #f6f7f9;
+        --accent: #3b5bdb;
+        --accent-soft: #eef2ff;
+        --danger: #d64545;
+        --ok: #2f9e6f;
+        --radius: 12px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background: #eef0f4;
+        color: var(--ink);
+        line-height: 1.5;
+        padding: 32px 16px;
+      }
+      .card {
+        max-width: 760px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 12px 40px rgba(26, 34, 56, 0.08);
+      }
+      .head {
+        padding: 28px 32px 22px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, #fbfcfe, #fff);
+      }
+      .head h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: -0.01em;
+      }
+      .head p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      form {
+        padding: 26px 32px 32px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px 18px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      .field.full {
+        grid-column: 1 / -1;
+      }
+      label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      label .req {
+        color: var(--danger);
+      }
+      input,
+      select {
+        font: inherit;
+        font-size: 14px;
+        color: var(--ink);
+        padding: 11px 12px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--field);
+        outline: none;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s,
+          background 0.15s;
+        width: 100%;
+      }
+      input::placeholder {
+        color: #9aa2b1;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--accent);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.14);
+      }
+      input.bad {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 3px rgba(214, 69, 69, 0.12);
+      }
+      .actions {
+        margin-top: 28px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .submit {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        padding: 13px 26px;
+        border-radius: var(--radius);
+        font-size: 15px;
+        font-weight: 600;
+        transition:
+          background 0.15s,
+          transform 0.05s;
+      }
+      .submit:hover {
+        background: #2f49b8;
+      }
+      .submit:active {
+        transform: translateY(1px);
+      }
+      .status {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .status.ok {
+        color: var(--ok);
+      }
+      .status.err {
+        color: var(--danger);
+      }
+      @media (max-width: 560px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        form,
+        .head {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="head">
+        <h1>Student Registration</h1>
+        <p>
+          Fill in your details below. Fields marked
+          <span style="color: var(--danger)">*</span> are required.
+        </p>
+      </div>
+
+      <form id="regForm" novalidate>
+        <!-- Photo uploader widget mounts here -->
+        <div class="field full" style="margin-bottom: 26px">
+          <label>Profile Photo <span class="req">*</span></label>
+          <div id="studentPhoto"></div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label for="rno">Roll No <span class="req">*</span></label>
+            <input
+              type="text"
+              id="rno"
+              name="rno"
+              maxlength="10"
+              placeholder="e.g. 21CS045" />
+          </div>
+          <div class="field">
+            <label for="official_name"
+              >Official Name <span class="req">*</span></label
+            >
+            <input
+              type="text"
+              id="official_name"
+              name="official_name"
+              placeholder="Full name" />
+          </div>
+
+          <div class="field">
+            <label for="phno1">Primary Number <span class="req">*</span></label>
+            <input
+              type="tel"
+              id="phno1"
+              name="phno1"
+              inputmode="numeric"
+              maxlength="10"
+              placeholder="10 digit number" />
+          </div>
+          <div class="field">
+            <label for="phno2"
+              >Secondary Number <span class="req">*</span></label
+            >
+            <input
+              type="tel"
+              id="phno2"
+              name="phno2"
+              inputmode="numeric"
+              maxlength="10"
+              placeholder="10 digit number" />
+          </div>
+
+          <div class="field">
+            <label for="personalemail"
+              >Primary Email <span class="req">*</span></label
+            >
+            <input
+              type="email"
+              id="personalemail"
+              name="personalemail"
+              placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="collegeemail"
+              >College Email <span class="req">*</span></label
+            >
+            <input
+              type="email"
+              id="collegeemail"
+              name="collegeemail"
+              placeholder="you@college.edu" />
+          </div>
+
+          <div class="field">
+            <label for="gender">Gender <span class="req">*</span></label>
+            <select id="gender" name="gender">
+              <option value="">Select…</option>
+              <option value="m">Male</option>
+              <option value="f">Female</option>
+              <option value="o">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="dob">Date of Birth <span class="req">*</span></label>
+            <input id="dob" name="dob" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="stream">Stream <span class="req">*</span></label>
+            <select id="stream" name="stream">
+              <option value="">Select…</option>
+              <option value="arts">Arts</option>
+              <option value="engineering">Engineering</option>
+              <option value="medical">Medical</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="dept">Department <span class="req">*</span></label>
+            <input
+              id="dept"
+              name="dept"
+              type="text"
+              placeholder="e.g. Computer Science" />
+          </div>
+
+          <div class="field">
+            <label for="currentCarrier"
+              >Current Status <span class="req">*</span></label
+            >
+            <select id="currentCarrier" name="currentCarrier">
+              <option value="">Select…</option>
+              <option value="studying">Studying</option>
+              <option value="working">Working</option>
+              <option value="vip">VIP</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="studyornot"
+              >Study or Work At <span class="req">*</span></label
+            >
+            <input
+              type="text"
+              id="studyornot"
+              name="studyornot"
+              placeholder="Which place you worked or studied" />
+          </div>
+
+          <div class="field">
+            <label for="currentsemorexp"
+              >Current Sem or Experience <span class="req">*</span></label
+            >
+            <input
+              type="number"
+              id="currentsemorexp"
+              name="currentsemorexp"
+              placeholder="Sem no. or years"
+              min="0" />
+          </div>
+          <div class="field">
+            <label for="cgpa">CGPA <span class="req">*</span></label>
+            <input
+              type="number"
+              id="cgpa"
+              name="cgpa"
+              placeholder="e.g. 8.4"
+              step="0.01"
+              min="0"
+              max="10" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="submit" onclick="send_to_api()">
+            Register
+          </button>
+          <span class="status" id="status"></span>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // ---------- Mount the photo uploader widget ----------
+      imageUploader(
+        "studentPhoto",
+        "students/interview/photos",
+        "1",
+        "1",
+        "1900x1060",
+      );
+
+      // ---------- Restrict phone fields to digits only, max 10 ----------
+      const phno1El = document.getElementById("phno1");
+      const phno2El = document.getElementById("phno2");
+      function restrictToDigits(el) {
+        el.addEventListener("input", () => {
+          el.value = el.value.replace(/\D/g, "").slice(0, 10);
+        });
+      }
+      restrictToDigits(phno1El);
+      restrictToDigits(phno2El);
+
+      function setStatus(msg, kind) {
+        const el = document.getElementById("status");
+        el.textContent = msg;
+        el.className = "status" + (kind ? " " + kind : "");
+      }
+
+      async function send_to_api() {
+        const ids = [
+          "rno",
+          "official_name",
+          "phno1",
+          "phno2",
+          "personalemail",
+          "collegeemail",
+          "gender",
+          "dob",
+          "stream",
+          "dept",
+          "currentCarrier",
+          "studyornot",
+          "currentsemorexp",
+          "cgpa",
+        ];
+
+        ids.forEach((id) =>
+          document.getElementById(id).classList.remove("bad"),
+        );
+
+        const payload = {};
+        ids.forEach((id) => {
+          payload[id] = document.getElementById(id).value.trim();
+        });
+
+        // ✅ CORRECT: Get photo URL from the widget using the correct ID
+        const photoUrls = imageUploader.getPublicUrls("studentPhoto");
+        const photoUrl = photoUrls.length ? photoUrls[0] : null;
+
+        // ✅ You can also get the folder name
+        const folderNames = imageUploader.getPaths("studentPhoto");
+        const folderName = folderNames.length ? folderNames[0] : null;
+
+        // ✅ Get the complete result with all URLs
+        const result = imageUploader.getLastResult("studentPhoto");
+        console.log("📸 Upload Result:", result);
+
+        let firstBad = null;
+        const markBad = (id, message) => {
+          const el = document.getElementById(id);
+          el.classList.add("bad");
+          if (!firstBad) {
+            firstBad = el;
+            if (message) setStatus(message, "err");
+          }
+        };
+
+        // All fields mandatory
+        ids.forEach((id) => {
+          if (!payload[id]) markBad(id, "Please fill all required fields.");
+        });
+
+        // Photo mandatory
+        if (!photoUrl) {
+          setStatus("Please upload and crop your profile photo first.", "err");
+          return;
+        }
+
+        if (firstBad) {
+          firstBad.focus();
+          return;
+        }
+
+        // Roll No: max 10 chars
+        if (payload.rno.length > 10) {
+          markBad("rno", "Roll No must be at most 10 characters.");
+        }
+
+        // Official Name: letters only, single spaces, min 3 letters, min one space
+        const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+        const letterCount = payload.official_name.replace(/ /g, "").length;
+        if (!nameRegex.test(payload.official_name)) {
+          markBad(
+            "official_name",
+            "Name should have single spaces between words and letters only (no leading/trailing/double spaces).",
+          );
+        } else if (payload.official_name.indexOf(" ") === -1) {
+          markBad(
+            "official_name",
+            "Name must contain at least one space (first and last name).",
+          );
+        } else if (letterCount < 3) {
+          markBad("official_name", "Name must have at least 3 letters.");
+        }
+
+        // Phone numbers: exactly 10 digits
+        const digitsOnly = (v) => v.replace(/\D/g, "");
+        const phno1Digits = digitsOnly(payload.phno1);
+        const phno2Digits = digitsOnly(payload.phno2);
+
+        if (phno1Digits.length !== 10)
+          markBad("phno1", "Primary Number must be exactly 10 digits.");
+        if (phno2Digits.length !== 10)
+          markBad("phno2", "Secondary Number must be exactly 10 digits.");
+
+        if (
+          phno1Digits.length === 10 &&
+          phno2Digits.length === 10 &&
+          phno1Digits === phno2Digits
+        ) {
+          markBad("phno1", "Primary and Secondary numbers cannot be the same.");
+          markBad("phno2");
+        }
+
+        // Primary email: must end with .com or .icloud
+        const personalEmailRegex = /^[^\s@]+@[^\s@]+\.(com|icloud)$/i;
+        if (!personalEmailRegex.test(payload.personalemail)) {
+          markBad(
+            "personalemail",
+            "Primary Email must end with .com or .icloud",
+          );
+        }
+
+        // College email: must NOT end with .com or .icloud
+        const bannedCollegeEndingRegex = /\.(com|icloud)$/i;
+        if (bannedCollegeEndingRegex.test(payload.collegeemail)) {
+          markBad(
+            "collegeemail",
+            "College Email cannot end with .com or .icloud",
+          );
+        }
+
+        // Emails must not be the same
+        if (
+          payload.personalemail.toLowerCase() ===
+          payload.collegeemail.toLowerCase()
+        ) {
+          markBad(
+            "collegeemail",
+            "College Email and Primary Email cannot be the same.",
+          );
+          markBad("personalemail");
+        }
+
+        if (firstBad) {
+          firstBad.focus();
+          return;
+        }
+
+        // Prepend +91
+        payload.phno1 = "+91" + phno1Digits;
+        payload.phno2 = "+91" + phno2Digits;
+
+        // ✅ Add both folder name and photo URL to payload
+        payload.photo = photoUrl;
+        payload.photo_folder = folderName;
+
+        // ✅ You can also add all variants if needed
+        if (result && result.all_urls) {
+          payload.photo_original = result.all_urls.original;
+          payload.photo_cropped_full = result.all_urls.cropped_full;
+          payload.photo_cropped_medium = result.all_urls.cropped_medium;
+          payload.photo_cropped_low = result.all_urls.cropped_low;
+          payload.photo_cropped_full_blurred =
+            result.all_urls.cropped_full_blurred;
+        }
+
+        // Numbers
+        payload.cgpa = payload.cgpa ? Number(payload.cgpa) : null;
+        payload.currentsemorexp = payload.currentsemorexp
+          ? Number(payload.currentsemorexp)
+          : null;
+
+        console.log("📤 Submitting payload:", payload);
+        setStatus("Submitting…");
+
+        try {
+          const res = await fetch(
+            "https://www.skynetbee.org/skynetbee/api/interviewregistration/hara-hara-mahadev.php",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            },
+          );
+
+          const text = await res.text();
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            throw new Error(
+              "Server didn't return JSON (status " +
+                res.status +
+                "). Raw: " +
+                text.slice(0, 200),
+            );
+          }
+
+          if (!res.ok) {
+            throw new Error(data.message || "Request failed: " + res.status);
+          }
+
+          setStatus(
+            "Registered successfully! Member ID: " +
+              (data.unique_member_id ?? data.id ?? "ok"),
+            "ok",
+          );
+        } catch (e) {
+          setStatus("Error: " + e.message, "err");
+        }
+      }
+    </script>
+  </body>
+</html>
