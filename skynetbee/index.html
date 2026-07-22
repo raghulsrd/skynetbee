@@ -1,105 +1,800 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="5;url=https://www.skynetbee.org/skynetbee" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Redirecting...</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration</title>
 
-    body {
-      background: #0a0a0a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-    }
+    <!-- Image uploader widget (S3 crop/upload) -->
+    <script src="/neural-engine/uiux/media-uploaders/image/gallery-crop.js?v=11"></script>
 
-    .box {
-      text-align: center;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet" />
 
-    /* Spinner */
-    .spinner {
-      width: 80px;
-      height: 80px;
-      border: 4px solid rgba(255,255,255,0.1);
-      border-top: 4px solid #00d4ff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 30px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    <style>
+      :root {
+        color-scheme: dark;
 
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: #eee;
-      margin-bottom: 10px;
-      letter-spacing: 0.05em;
-    }
+        --bg: #0b0e16;
+        --bg-glow: #141a2e;
+        --surface: #12151f;
+        --surface-2: #171b28;
+        --field: #10131c;
+        --field-focus: #141826;
+        --line: #262c3b;
+        --line-soft: #1e2230;
 
-    p {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 28px;
-    }
+        --ink: #eaecf4;
+        --ink-dim: #c3c8d8;
+        --muted: #7e879e;
+        --faint: #565f76;
 
-    /* Progress bar */
-    .bar-track {
-      width: 280px;
-      height: 4px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 4px;
-      overflow: hidden;
-      margin: 0 auto;
-    }
-    .bar-fill {
-      height: 100%;
-      width: 0%;
-      background: #00d4ff;
-      border-radius: 4px;
-      animation: fill 5s linear forwards;
-    }
-    @keyframes fill {
-      to { width: 100%; }
-    }
+        --accent: #7c8bff;
+        --accent-strong: #6473ff;
+        --accent-deep: #4a58e0;
+        --accent-soft: rgba(124, 139, 255, 0.14);
 
-    .count {
-      margin-top: 14px;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.08em;
-    }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <div class="spinner"></div>
-    <h2>Redirecting you...</h2>
-    <p>Taking you to skynetbee.org</p>
-    <div class="bar-track">
-      <div class="bar-fill"></div>
-    </div>
-    <div class="count" id="count">5 seconds</div>
-  </div>
+        --danger: #ff6b7a;
+        --danger-soft: rgba(255, 107, 122, 0.14);
+        --ok: #4fd6a3;
 
-  <script>
-    let t = 5;
-    const el = document.getElementById('count');
-    const iv = setInterval(() => {
-      t--;
-      el.textContent = t + (t === 1 ? ' second' : ' seconds');
-      if (t <= 0) {
-        clearInterval(iv);
-        window.location.href = 'https://www.skynetbee.org/skynetbee';
+        --radius: 12px;
+        --radius-lg: 20px;
+        --display: "Space Grotesk", -apple-system, sans-serif;
+        --body:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
       }
-    }, 1000);
-  </script>
-</body>
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: var(--body);
+        color: var(--ink);
+        line-height: 1.5;
+        padding: 44px 18px;
+        background:
+          radial-gradient(
+            1100px 620px at 78% -8%,
+            var(--bg-glow),
+            transparent 60%
+          ),
+          radial-gradient(900px 520px at 8% 108%, #101625, transparent 55%),
+          var(--bg);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        max-width: 780px;
+        margin: 0 auto;
+        background: linear-gradient(180deg, var(--surface-2), var(--surface));
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.03) inset,
+          0 30px 70px -30px rgba(0, 0, 0, 0.75);
+        position: relative;
+      }
+      /* signature: thin luminous rail across the top */
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent) 30%,
+          #a58bff 55%,
+          var(--accent-deep) 80%,
+          transparent
+        );
+        opacity: 0.9;
+      }
+
+      .head {
+        padding: 34px 38px 26px;
+        border-bottom: 1px solid var(--line-soft);
+        background: radial-gradient(
+          600px 200px at 88% -60%,
+          var(--accent-soft),
+          transparent 70%
+        );
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 22px;
+        height: 1.5px;
+        background: var(--accent);
+        opacity: 0.6;
+      }
+      .head h1 {
+        margin: 0;
+        font-family: var(--display);
+        font-size: 27px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        color: #fff;
+      }
+      .head p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        max-width: 46ch;
+      }
+      .head .star {
+        color: var(--accent);
+      }
+
+      form {
+        padding: 30px 38px 38px;
+      }
+
+      /* Section grouping */
+      .section + .section {
+        margin-top: 30px;
+        padding-top: 26px;
+        border-top: 1px solid var(--line-soft);
+      }
+      .section-label {
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin: 0 0 16px;
+      }
+
+      .photo-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .photo-mount {
+        flex: 1;
+        min-width: 0;
+        border: 1px dashed var(--line);
+        border-radius: var(--radius);
+        padding: 14px;
+        background: var(--field);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px 20px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .field.full {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        color: var(--ink-dim);
+        margin-bottom: 7px;
+      }
+      label .req {
+        color: var(--accent);
+        margin-left: 2px;
+      }
+
+      input,
+      select {
+        font: inherit;
+        font-size: 14px;
+        color: var(--ink);
+        padding: 12px 13px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--field);
+        outline: none;
+        width: 100%;
+        transition:
+          border-color 0.16s ease,
+          box-shadow 0.16s ease,
+          background 0.16s ease;
+      }
+      input::placeholder {
+        color: var(--faint);
+      }
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237e879e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 13px center;
+        padding-right: 38px;
+      }
+      select option {
+        background: var(--surface-2);
+        color: var(--ink);
+      }
+
+      input:hover,
+      select:hover {
+        border-color: #313a4f;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--accent);
+        background: var(--field-focus);
+        box-shadow: 0 0 0 3.5px var(--accent-soft);
+      }
+
+      input.bad,
+      select.bad {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 3.5px var(--danger-soft);
+      }
+
+      /* date input tweaks */
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(0.7);
+        cursor: pointer;
+      }
+
+      .actions {
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line-soft);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+      .submit {
+        position: relative;
+        background: linear-gradient(
+          180deg,
+          var(--accent-strong),
+          var(--accent-deep)
+        );
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        padding: 13px 30px;
+        border-radius: var(--radius);
+        font-family: var(--display);
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.22) inset,
+          0 12px 26px -12px var(--accent-deep);
+        transition:
+          transform 0.06s ease,
+          box-shadow 0.16s ease,
+          filter 0.16s ease;
+      }
+      .submit:hover {
+        filter: brightness(1.08);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.22) inset,
+          0 16px 32px -12px var(--accent-deep);
+      }
+      .submit:active {
+        transform: translateY(1px);
+      }
+      .submit:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      .status {
+        font-size: 13px;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .status::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--faint);
+        flex: none;
+      }
+      .status:empty::before {
+        display: none;
+      }
+      .status.ok {
+        color: var(--ok);
+      }
+      .status.ok::before {
+        background: var(--ok);
+        box-shadow: 0 0 10px var(--ok);
+      }
+      .status.err {
+        color: var(--danger);
+      }
+      .status.err::before {
+        background: var(--danger);
+        box-shadow: 0 0 10px var(--danger);
+      }
+
+      *:focus-visible {
+        outline-offset: 1px;
+      }
+
+      @media (max-width: 560px) {
+        body {
+          padding: 24px 12px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        form,
+        .head {
+          padding-left: 22px;
+          padding-right: 22px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="head">
+        <span class="eyebrow">Interview Registration</span>
+        <h1>Student Registration</h1>
+        <p>
+          Enter your details below. Fields marked
+          <span class="star">*</span> are required.
+        </p>
+      </div>
+
+      <form id="regForm" novalidate>
+        <!-- Photo -->
+        <div class="section">
+          <p class="section-label">Profile</p>
+          <div class="field full">
+            <label>Profile Photo <span class="req">*</span></label>
+            <div class="photo-row">
+              <div class="photo-mount">
+                <!-- Photo uploader widget mounts here -->
+                <div id="studentPhoto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Identity -->
+        <div class="section">
+          <p class="section-label">Identity</p>
+          <div class="grid">
+            <div class="field">
+              <label for="rno">Roll No <span class="req">*</span></label>
+              <input
+                type="text"
+                id="rno"
+                name="rno"
+                maxlength="10"
+                placeholder="e.g. 21CS045" />
+            </div>
+            <div class="field">
+              <label for="official_name"
+                >Official Name <span class="req">*</span></label
+              >
+              <input
+                type="text"
+                id="official_name"
+                name="official_name"
+                placeholder="Full name" />
+            </div>
+
+            <div class="field">
+              <label for="gender">Gender <span class="req">*</span></label>
+              <select id="gender" name="gender">
+                <option value="">Select…</option>
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+                <!-- <option value="o">Other</option> -->
+              </select>
+            </div>
+            <div class="field">
+              <label for="dob">Date of Birth <span class="req">*</span></label>
+              <input id="dob" name="dob" type="date" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="section">
+          <p class="section-label">Contact</p>
+          <div class="grid">
+            <div class="field">
+              <label for="phno1"
+                >Primary Number <span class="req">*</span></label
+              >
+              <input
+                type="tel"
+                id="phno1"
+                name="phno1"
+                inputmode="numeric"
+                maxlength="10"
+                placeholder="10 digit number" />
+            </div>
+            <div class="field">
+              <label for="phno2"
+                >Secondary Number <span class="req">*</span></label
+              >
+              <input
+                type="tel"
+                id="phno2"
+                name="phno2"
+                inputmode="numeric"
+                maxlength="10"
+                placeholder="10 digit number" />
+            </div>
+
+            <div class="field">
+              <label for="personalemail"
+                >Primary Email <span class="req">*</span></label
+              >
+              <input
+                type="email"
+                id="personalemail"
+                name="personalemail"
+                placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label for="collegeemail"
+                >College Email <span class="req">*</span></label
+              >
+              <input
+                type="email"
+                id="collegeemail"
+                name="collegeemail"
+                placeholder="you@college.edu" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic -->
+        <div class="section">
+          <p class="section-label">Academic</p>
+          <div class="grid">
+            <div class="field">
+              <label for="stream">Stream <span class="req">*</span></label>
+              <select id="stream" name="stream">
+                <option value="">Select…</option>
+                <option value="arts">Arts</option>
+                <option value="engineering">Engineering</option>
+                <option value="medical">Medical</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="dept">Department <span class="req">*</span></label>
+              <input
+                id="dept"
+                name="dept"
+                type="text"
+                placeholder="e.g. Computer Science" />
+            </div>
+
+            <div class="field">
+              <label for="currentCarrier"
+                >Current Status <span class="req">*</span></label
+              >
+              <select id="currentCarrier" name="currentCarrier">
+                <option value="">Select…</option>
+                <option value="studying">Studying</option>
+                <option value="working">Working</option>
+                <option value="vip">VIP</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="studyornot"
+                >Study or Work At <span class="req">*</span></label
+              >
+              <input
+                type="text"
+                id="studyornot"
+                name="studyornot"
+                placeholder="Where you worked or studied" />
+            </div>
+
+            <div class="field">
+              <label for="currentsemorexp"
+                >Current Sem or Experience <span class="req">*</span></label
+              >
+              <input
+                type="number"
+                id="currentsemorexp"
+                name="currentsemorexp"
+                placeholder="Sem no. or years"
+                min="0" />
+            </div>
+            <div class="field">
+              <label for="cgpa">CGPA <span class="req">*</span></label>
+              <input
+                type="number"
+                id="cgpa"
+                name="cgpa"
+                placeholder="e.g. 8.4"
+                step="0.01"
+                min="0"
+                max="10" />
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="submit" onclick="send_to_api()">
+            Register
+          </button>
+          <span class="status" id="status"></span>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // ---------- Mount the photo uploader widget ----------
+      imageUploader(
+        "studentPhoto",
+        "students/interview/photos",
+        "1",
+        "1",
+        "1900x1060",
+      );
+
+      // ---------- Restrict phone fields to digits only, max 10 ----------
+      const phno1El = document.getElementById("phno1");
+      const phno2El = document.getElementById("phno2");
+      function restrictToDigits(el) {
+        el.addEventListener("input", () => {
+          el.value = el.value.replace(/\D/g, "").slice(0, 10);
+        });
+      }
+      restrictToDigits(phno1El);
+      restrictToDigits(phno2El);
+
+      function setStatus(msg, kind) {
+        const el = document.getElementById("status");
+        el.textContent = msg;
+        el.className = "status" + (kind ? " " + kind : "");
+      }
+
+      async function send_to_api() {
+        const ids = [
+          "rno",
+          "official_name",
+          "phno1",
+          "phno2",
+          "personalemail",
+          "collegeemail",
+          "gender",
+          "dob",
+          "stream",
+          "dept",
+          "currentCarrier",
+          "studyornot",
+          "currentsemorexp",
+          "cgpa",
+        ];
+
+        ids.forEach((id) =>
+          document.getElementById(id).classList.remove("bad"),
+        );
+
+        const payload = {};
+        ids.forEach((id) => {
+          payload[id] = document.getElementById(id).value.trim();
+        });
+
+        // ✅ CORRECT: Get photo URL from the widget using the correct ID
+        const photoUrls = imageUploader.getPublicUrls("studentPhoto");
+        const photoUrl = photoUrls.length ? photoUrls[0] : null;
+
+        // ✅ You can also get the folder name
+        const folderNames = imageUploader.getPaths("studentPhoto");
+        const folderName = folderNames.length ? folderNames[0] : null;
+
+        // ✅ Get the complete result with all URLs
+        const result = imageUploader.getLastResult("studentPhoto");
+        console.log("📸 Upload Result:", result);
+
+        let firstBad = null;
+        const markBad = (id, message) => {
+          const el = document.getElementById(id);
+          el.classList.add("bad");
+          if (!firstBad) {
+            firstBad = el;
+            if (message) setStatus(message, "err");
+          }
+        };
+
+        // All fields mandatory
+        ids.forEach((id) => {
+          if (!payload[id]) markBad(id, "Please fill all required fields.");
+        });
+
+        // Photo mandatory
+        if (!photoUrl) {
+          setStatus("Please upload and crop your profile photo first.", "err");
+          return;
+        }
+
+        if (firstBad) {
+          firstBad.focus();
+          return;
+        }
+
+        // Roll No: max 10 chars
+        if (payload.rno.length > 10) {
+          markBad("rno", "Roll No must be at most 10 characters.");
+        }
+
+        // Official Name: letters only, single spaces, min 3 letters, min one space
+        const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+        const letterCount = payload.official_name.replace(/ /g, "").length;
+        if (!nameRegex.test(payload.official_name)) {
+          markBad(
+            "official_name",
+            "Name should have single spaces between words and letters only (no leading/trailing/double spaces).",
+          );
+        } else if (payload.official_name.indexOf(" ") === -1) {
+          markBad(
+            "official_name",
+            "Name must contain at least one space (first and last name).",
+          );
+        } else if (letterCount < 3) {
+          markBad("official_name", "Name must have at least 3 letters.");
+        }
+
+        // Phone numbers: exactly 10 digits
+        const digitsOnly = (v) => v.replace(/\D/g, "");
+        const phno1Digits = digitsOnly(payload.phno1);
+        const phno2Digits = digitsOnly(payload.phno2);
+
+        if (phno1Digits.length !== 10)
+          markBad("phno1", "Primary Number must be exactly 10 digits.");
+        if (phno2Digits.length !== 10)
+          markBad("phno2", "Secondary Number must be exactly 10 digits.");
+
+        if (
+          phno1Digits.length === 10 &&
+          phno2Digits.length === 10 &&
+          phno1Digits === phno2Digits
+        ) {
+          markBad("phno1", "Primary and Secondary numbers cannot be the same.");
+          markBad("phno2");
+        }
+
+        // Primary email: must end with .com or .icloud
+        const personalEmailRegex = /^[^\s@]+@[^\s@]+\.(com|icloud)$/i;
+        if (!personalEmailRegex.test(payload.personalemail)) {
+          markBad(
+            "personalemail",
+            "Primary Email must end with .com or .icloud",
+          );
+        }
+
+        // College email: must NOT end with .com or .icloud
+        const bannedCollegeEndingRegex = /\.(com|icloud)$/i;
+        if (bannedCollegeEndingRegex.test(payload.collegeemail)) {
+          markBad(
+            "collegeemail",
+            "College Email cannot end with .com or .icloud",
+          );
+        }
+
+        // Emails must not be the same
+        if (
+          payload.personalemail.toLowerCase() ===
+          payload.collegeemail.toLowerCase()
+        ) {
+          markBad(
+            "collegeemail",
+            "College Email and Primary Email cannot be the same.",
+          );
+          markBad("personalemail");
+        }
+
+        if (firstBad) {
+          firstBad.focus();
+          return;
+        }
+
+        // Prepend +91
+        payload.phno1 = "+91" + phno1Digits;
+        payload.phno2 = "+91" + phno2Digits;
+
+        // ✅ Add both folder name and photo URL to payload
+        payload.photo = photoUrl;
+        payload.photo_folder = folderName;
+
+        // ✅ You can also add all variants if needed
+        if (result && result.all_urls) {
+          payload.photo_original = result.all_urls.original;
+          payload.photo_cropped_full = result.all_urls.cropped_full;
+          payload.photo_cropped_medium = result.all_urls.cropped_medium;
+          payload.photo_cropped_low = result.all_urls.cropped_low;
+          payload.photo_cropped_full_blurred =
+            result.all_urls.cropped_full_blurred;
+        }
+
+        // Numbers
+        payload.cgpa = payload.cgpa ? Number(payload.cgpa) : null;
+        payload.currentsemorexp = payload.currentsemorexp
+          ? Number(payload.currentsemorexp)
+          : null;
+
+        console.log("📤 Submitting payload:", payload);
+        setStatus("Submitting…");
+
+        try {
+          const res = await fetch(
+            "https://www.skynetbee.org/skynetbee/api/interviewregistration/hara-hara-mahadev.php",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            },
+          );
+
+          const text = await res.text();
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            throw new Error(
+              "Server didn't return JSON (status " +
+                res.status +
+                "). Raw: " +
+                text.slice(0, 200),
+            );
+          }
+
+          if (!res.ok) {
+            throw new Error(data.message || "Request failed: " + res.status);
+          }
+
+          setStatus(
+            "Registered successfully! Member ID: " +
+              (data.unique_member_id ?? data.id ?? "ok"),
+            "ok",
+          );
+        } catch (e) {
+          setStatus("Error: " + e.message, "err");
+        }
+      }
+    </script>
+  </body>
 </html>
