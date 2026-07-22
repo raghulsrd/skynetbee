@@ -6,153 +6,364 @@
     <title>Student Registration</title>
 
     <!-- Image uploader widget (S3 crop/upload) -->
-    <script src="/neural-engine/uiux/media-uploaders/image/gallery-crop.js?v=9"></script>
+    <script src="/neural-engine/uiux/media-uploaders/image/gallery-crop.js?v=11"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet" />
 
     <style>
       :root {
-        --ink: #1a2238;
-        --muted: #6b7280;
-        --line: #e2e5ec;
-        --field: #f6f7f9;
-        --accent: #3b5bdb;
-        --accent-soft: #eef2ff;
-        --danger: #d64545;
-        --ok: #2f9e6f;
+        color-scheme: dark;
+
+        --bg: #0b0e16;
+        --bg-glow: #141a2e;
+        --surface: #12151f;
+        --surface-2: #171b28;
+        --field: #10131c;
+        --field-focus: #141826;
+        --line: #262c3b;
+        --line-soft: #1e2230;
+
+        --ink: #eaecf4;
+        --ink-dim: #c3c8d8;
+        --muted: #7e879e;
+        --faint: #565f76;
+
+        --accent: #7c8bff;
+        --accent-strong: #6473ff;
+        --accent-deep: #4a58e0;
+        --accent-soft: rgba(124, 139, 255, 0.14);
+
+        --danger: #ff6b7a;
+        --danger-soft: rgba(255, 107, 122, 0.14);
+        --ok: #4fd6a3;
+
         --radius: 12px;
+        --radius-lg: 20px;
+        --display: "Space Grotesk", -apple-system, sans-serif;
+        --body:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
       }
+
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif;
-        background: #eef0f4;
+        min-height: 100vh;
+        font-family: var(--body);
         color: var(--ink);
         line-height: 1.5;
-        padding: 32px 16px;
+        padding: 44px 18px;
+        background:
+          radial-gradient(
+            1100px 620px at 78% -8%,
+            var(--bg-glow),
+            transparent 60%
+          ),
+          radial-gradient(900px 520px at 8% 108%, #101625, transparent 55%),
+          var(--bg);
+        -webkit-font-smoothing: antialiased;
       }
+
       .card {
-        max-width: 760px;
+        max-width: 780px;
         margin: 0 auto;
-        background: #fff;
+        background: linear-gradient(180deg, var(--surface-2), var(--surface));
         border: 1px solid var(--line);
-        border-radius: 18px;
+        border-radius: var(--radius-lg);
         overflow: hidden;
-        box-shadow: 0 12px 40px rgba(26, 34, 56, 0.08);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.03) inset,
+          0 30px 70px -30px rgba(0, 0, 0, 0.75);
+        position: relative;
       }
+      /* signature: thin luminous rail across the top */
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent) 30%,
+          #a58bff 55%,
+          var(--accent-deep) 80%,
+          transparent
+        );
+        opacity: 0.9;
+      }
+
       .head {
-        padding: 28px 32px 22px;
-        border-bottom: 1px solid var(--line);
-        background: linear-gradient(180deg, #fbfcfe, #fff);
+        padding: 34px 38px 26px;
+        border-bottom: 1px solid var(--line-soft);
+        background: radial-gradient(
+          600px 200px at 88% -60%,
+          var(--accent-soft),
+          transparent 70%
+        );
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 22px;
+        height: 1.5px;
+        background: var(--accent);
+        opacity: 0.6;
       }
       .head h1 {
         margin: 0;
-        font-size: 22px;
-        letter-spacing: -0.01em;
+        font-family: var(--display);
+        font-size: 27px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        color: #fff;
       }
       .head p {
-        margin: 4px 0 0;
+        margin: 8px 0 0;
         color: var(--muted);
         font-size: 14px;
+        max-width: 46ch;
       }
+      .head .star {
+        color: var(--accent);
+      }
+
       form {
-        padding: 26px 32px 32px;
+        padding: 30px 38px 38px;
       }
+
+      /* Section grouping */
+      .section + .section {
+        margin-top: 30px;
+        padding-top: 26px;
+        border-top: 1px solid var(--line-soft);
+      }
+      .section-label {
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin: 0 0 16px;
+      }
+
+      .photo-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .photo-mount {
+        flex: 1;
+        min-width: 0;
+        border: 1px dashed var(--line);
+        border-radius: var(--radius);
+        padding: 14px;
+        background: var(--field);
+      }
+
       .grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 16px 18px;
+        gap: 18px 20px;
       }
       .field {
         display: flex;
         flex-direction: column;
+        min-width: 0;
       }
       .field.full {
         grid-column: 1 / -1;
       }
+
       label {
-        font-size: 12.5px;
-        font-weight: 600;
-        color: var(--ink);
-        margin-bottom: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        color: var(--ink-dim);
+        margin-bottom: 7px;
       }
       label .req {
-        color: var(--danger);
+        color: var(--accent);
+        margin-left: 2px;
       }
+
       input,
       select {
         font: inherit;
         font-size: 14px;
         color: var(--ink);
-        padding: 11px 12px;
+        padding: 12px 13px;
         border: 1px solid var(--line);
         border-radius: var(--radius);
         background: var(--field);
         outline: none;
-        transition:
-          border-color 0.15s,
-          box-shadow 0.15s,
-          background 0.15s;
         width: 100%;
+        transition:
+          border-color 0.16s ease,
+          box-shadow 0.16s ease,
+          background 0.16s ease;
       }
       input::placeholder {
-        color: #9aa2b1;
+        color: var(--faint);
+      }
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237e879e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 13px center;
+        padding-right: 38px;
+      }
+      select option {
+        background: var(--surface-2);
+        color: var(--ink);
+      }
+
+      input:hover,
+      select:hover {
+        border-color: #313a4f;
       }
       input:focus,
       select:focus {
         border-color: var(--accent);
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.14);
+        background: var(--field-focus);
+        box-shadow: 0 0 0 3.5px var(--accent-soft);
       }
-      input.bad {
+
+      input.bad,
+      select.bad {
         border-color: var(--danger);
-        box-shadow: 0 0 0 3px rgba(214, 69, 69, 0.12);
+        box-shadow: 0 0 0 3.5px var(--danger-soft);
       }
+
+      /* date input tweaks */
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(0.7);
+        cursor: pointer;
+      }
+
       .actions {
-        margin-top: 28px;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line-soft);
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 18px;
+        flex-wrap: wrap;
       }
       .submit {
-        background: var(--accent);
+        position: relative;
+        background: linear-gradient(
+          180deg,
+          var(--accent-strong),
+          var(--accent-deep)
+        );
         color: #fff;
         border: none;
         cursor: pointer;
-        padding: 13px 26px;
+        padding: 13px 30px;
         border-radius: var(--radius);
+        font-family: var(--display);
         font-size: 15px;
         font-weight: 600;
+        letter-spacing: 0.01em;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.22) inset,
+          0 12px 26px -12px var(--accent-deep);
         transition:
-          background 0.15s,
-          transform 0.05s;
+          transform 0.06s ease,
+          box-shadow 0.16s ease,
+          filter 0.16s ease;
       }
       .submit:hover {
-        background: #2f49b8;
+        filter: brightness(1.08);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.22) inset,
+          0 16px 32px -12px var(--accent-deep);
       }
       .submit:active {
         transform: translateY(1px);
       }
+      .submit:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
       .status {
         font-size: 13px;
         color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .status::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--faint);
+        flex: none;
+      }
+      .status:empty::before {
+        display: none;
       }
       .status.ok {
         color: var(--ok);
       }
+      .status.ok::before {
+        background: var(--ok);
+        box-shadow: 0 0 10px var(--ok);
+      }
       .status.err {
         color: var(--danger);
       }
+      .status.err::before {
+        background: var(--danger);
+        box-shadow: 0 0 10px var(--danger);
+      }
+
+      *:focus-visible {
+        outline-offset: 1px;
+      }
+
       @media (max-width: 560px) {
+        body {
+          padding: 24px 12px;
+        }
         .grid {
           grid-template-columns: 1fr;
         }
         form,
         .head {
-          padding-left: 20px;
-          padding-right: 20px;
+          padding-left: 22px;
+          padding-right: 22px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
         }
       }
     </style>
@@ -160,160 +371,187 @@
   <body>
     <div class="card">
       <div class="head">
+        <span class="eyebrow">Interview Registration</span>
         <h1>Student Registration</h1>
         <p>
-          Fill in your details below. Fields marked
-          <span style="color: var(--danger)">*</span> are required.
+          Enter your details below. Fields marked
+          <span class="star">*</span> are required.
         </p>
       </div>
 
       <form id="regForm" novalidate>
-        <!-- Photo uploader widget mounts here -->
-        <div class="field full" style="margin-bottom: 26px">
-          <label>Profile Photo <span class="req">*</span></label>
-          <div id="studentPhoto"></div>
+        <!-- Photo -->
+        <div class="section">
+          <p class="section-label">Profile</p>
+          <div class="field full">
+            <label>Profile Photo <span class="req">*</span></label>
+            <div class="photo-row">
+              <div class="photo-mount">
+                <!-- Photo uploader widget mounts here -->
+                <div id="studentPhoto"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="grid">
-          <div class="field">
-            <label for="rno">Roll No <span class="req">*</span></label>
-            <input
-              type="text"
-              id="rno"
-              name="rno"
-              maxlength="10"
-              placeholder="e.g. 21CS045" />
-          </div>
-          <div class="field">
-            <label for="official_name"
-              >Official Name <span class="req">*</span></label
-            >
-            <input
-              type="text"
-              id="official_name"
-              name="official_name"
-              placeholder="Full name" />
-          </div>
+        <!-- Identity -->
+        <div class="section">
+          <p class="section-label">Identity</p>
+          <div class="grid">
+            <div class="field">
+              <label for="rno">Roll No <span class="req">*</span></label>
+              <input
+                type="text"
+                id="rno"
+                name="rno"
+                maxlength="10"
+                placeholder="e.g. 21CS045" />
+            </div>
+            <div class="field">
+              <label for="official_name"
+                >Official Name <span class="req">*</span></label
+              >
+              <input
+                type="text"
+                id="official_name"
+                name="official_name"
+                placeholder="Full name" />
+            </div>
 
-          <div class="field">
-            <label for="phno1">Primary Number <span class="req">*</span></label>
-            <input
-              type="tel"
-              id="phno1"
-              name="phno1"
-              inputmode="numeric"
-              maxlength="10"
-              placeholder="10 digit number" />
+            <div class="field">
+              <label for="gender">Gender <span class="req">*</span></label>
+              <select id="gender" name="gender">
+                <option value="">Select…</option>
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+                <!-- <option value="o">Other</option> -->
+              </select>
+            </div>
+            <div class="field">
+              <label for="dob">Date of Birth <span class="req">*</span></label>
+              <input id="dob" name="dob" type="date" />
+            </div>
           </div>
-          <div class="field">
-            <label for="phno2"
-              >Secondary Number <span class="req">*</span></label
-            >
-            <input
-              type="tel"
-              id="phno2"
-              name="phno2"
-              inputmode="numeric"
-              maxlength="10"
-              placeholder="10 digit number" />
-          </div>
+        </div>
 
-          <div class="field">
-            <label for="personalemail"
-              >Primary Email <span class="req">*</span></label
-            >
-            <input
-              type="email"
-              id="personalemail"
-              name="personalemail"
-              placeholder="you@example.com" />
-          </div>
-          <div class="field">
-            <label for="collegeemail"
-              >College Email <span class="req">*</span></label
-            >
-            <input
-              type="email"
-              id="collegeemail"
-              name="collegeemail"
-              placeholder="you@college.edu" />
-          </div>
+        <!-- Contact -->
+        <div class="section">
+          <p class="section-label">Contact</p>
+          <div class="grid">
+            <div class="field">
+              <label for="phno1"
+                >Primary Number <span class="req">*</span></label
+              >
+              <input
+                type="tel"
+                id="phno1"
+                name="phno1"
+                inputmode="numeric"
+                maxlength="10"
+                placeholder="10 digit number" />
+            </div>
+            <div class="field">
+              <label for="phno2"
+                >Secondary Number <span class="req">*</span></label
+              >
+              <input
+                type="tel"
+                id="phno2"
+                name="phno2"
+                inputmode="numeric"
+                maxlength="10"
+                placeholder="10 digit number" />
+            </div>
 
-          <div class="field">
-            <label for="gender">Gender <span class="req">*</span></label>
-            <select id="gender" name="gender">
-              <option value="">Select…</option>
-              <option value="m">Male</option>
-              <option value="f">Female</option>
-              <!-- <option value="o">Other</option> -->
-            </select>
+            <div class="field">
+              <label for="personalemail"
+                >Primary Email <span class="req">*</span></label
+              >
+              <input
+                type="email"
+                id="personalemail"
+                name="personalemail"
+                placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label for="collegeemail"
+                >College Email <span class="req">*</span></label
+              >
+              <input
+                type="email"
+                id="collegeemail"
+                name="collegeemail"
+                placeholder="you@college.edu" />
+            </div>
           </div>
-          <div class="field">
-            <label for="dob">Date of Birth <span class="req">*</span></label>
-            <input id="dob" name="dob" type="date" />
-          </div>
+        </div>
 
-          <div class="field">
-            <label for="stream">Stream <span class="req">*</span></label>
-            <select id="stream" name="stream">
-              <option value="">Select…</option>
-              <option value="arts">Arts</option>
-              <option value="engineering">Engineering</option>
-              <option value="medical">Medical</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="dept">Department <span class="req">*</span></label>
-            <input
-              id="dept"
-              name="dept"
-              type="text"
-              placeholder="e.g. Computer Science" />
-          </div>
+        <!-- Academic -->
+        <div class="section">
+          <p class="section-label">Academic</p>
+          <div class="grid">
+            <div class="field">
+              <label for="stream">Stream <span class="req">*</span></label>
+              <select id="stream" name="stream">
+                <option value="">Select…</option>
+                <option value="arts">Arts</option>
+                <option value="engineering">Engineering</option>
+                <option value="medical">Medical</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="dept">Department <span class="req">*</span></label>
+              <input
+                id="dept"
+                name="dept"
+                type="text"
+                placeholder="e.g. Computer Science" />
+            </div>
 
-          <div class="field">
-            <label for="currentCarrier"
-              >Current Status <span class="req">*</span></label
-            >
-            <select id="currentCarrier" name="currentCarrier">
-              <option value="">Select…</option>
-              <option value="studying">Studying</option>
-              <option value="working">Working</option>
-              <option value="vip">VIP</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="studyornot"
-              >Study or Work At <span class="req">*</span></label
-            >
-            <input
-              type="text"
-              id="studyornot"
-              name="studyornot"
-              placeholder="Which place you worked or studied" />
-          </div>
+            <div class="field">
+              <label for="currentCarrier"
+                >Current Status <span class="req">*</span></label
+              >
+              <select id="currentCarrier" name="currentCarrier">
+                <option value="">Select…</option>
+                <option value="studying">Studying</option>
+                <option value="working">Working</option>
+                <option value="vip">VIP</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="studyornot"
+                >Study or Work At <span class="req">*</span></label
+              >
+              <input
+                type="text"
+                id="studyornot"
+                name="studyornot"
+                placeholder="Where you worked or studied" />
+            </div>
 
-          <div class="field">
-            <label for="currentsemorexp"
-              >Current Sem or Experience <span class="req">*</span></label
-            >
-            <input
-              type="number"
-              id="currentsemorexp"
-              name="currentsemorexp"
-              placeholder="Sem no. or years"
-              min="0" />
-          </div>
-          <div class="field">
-            <label for="cgpa">CGPA <span class="req">*</span></label>
-            <input
-              type="number"
-              id="cgpa"
-              name="cgpa"
-              placeholder="e.g. 8.4"
-              step="0.01"
-              min="0"
-              max="10" />
+            <div class="field">
+              <label for="currentsemorexp"
+                >Current Sem or Experience <span class="req">*</span></label
+              >
+              <input
+                type="number"
+                id="currentsemorexp"
+                name="currentsemorexp"
+                placeholder="Sem no. or years"
+                min="0" />
+            </div>
+            <div class="field">
+              <label for="cgpa">CGPA <span class="req">*</span></label>
+              <input
+                type="number"
+                id="cgpa"
+                name="cgpa"
+                placeholder="e.g. 8.4"
+                step="0.01"
+                min="0"
+                max="10" />
+            </div>
           </div>
         </div>
 
