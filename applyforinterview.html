@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyneTBee | Apply for Interview</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css"
+    />
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/devil-breeze");
+      @import url("https://fonts.cdnfonts.com/css/poppins");
+      @import url("https://fonts.cdnfonts.com/css/cyborg-punk");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        list-style: none;
+      }
+      *::-webkit-scrollbar {
+        width: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #121212;
+        color: #1a1a1a;
+        overflow-x: hidden;
+        min-height: 100vh;
+        background-image:
+          linear-gradient(#b87420, #b87420),
+          repeating-linear-gradient(
+            60deg,
+            transparent 0 24px,
+            #a9660066 24px 25px
+          ),
+          repeating-linear-gradient(
+            -60deg,
+            transparent 0 24px,
+            #a9660066 24px 25px
+          ),
+          repeating-linear-gradient(
+            0deg,
+            transparent 0 24px,
+            #a9660066 24px 25px
+          );
+        background-blend-mode: normal;
+      }
+
+      /* ===== Header (identical structure/behaviour to index.html) ===== */
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        padding-block: 1em;
+        backdrop-filter: blur(20px);
+        background-color: #1b1b1b11;
+        background-image: repeating-linear-gradient(
+          to right,
+          transparent 0 500px,
+          #eee1 500px 501px
+        );
+      }
+      header .content-fit {
+        width: min(1200px, 90vw);
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: unset !important;
+        padding-block: unset !important;
+      }
+      header .content-fit nav ul {
+        display: flex;
+        gap: 2em;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-family: "devil breeze", sans-serif;
+        font-size: 2em;
+        font-weight: bold;
+        color: #ffe98a;
+        gap: 0em;
+      }
+      .logo-img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+      }
+
+      .hamburger {
+        display: none;
+        font-size: 2.5em;
+        cursor: pointer;
+        color: #ffe98a;
+        z-index: 999;
+      }
+      #mobileNav {
+        display: none;
+      }
+
+      @media screen and (max-width: 767px) {
+        .hamburger {
+          display: block;
+        }
+        #mobileNav {
+          display: block;
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 70vw;
+          height: 100vh;
+          background-color: #080808;
+          z-index: 998;
+          transition: right 0.4s ease;
+          padding-top: 5em;
+          visibility: hidden;
+        }
+        #mobileNav.open {
+          right: 0;
+          visibility: visible;
+        }
+        #mobileNav ul {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2em;
+          font-size: 1.5em;
+        }
+        #mobileNav ul li a {
+          color: #ffe343;
+          text-decoration: none;
+        }
+        nav:not(#mobileNav) {
+          display: none;
+        }
+      }
+
+      @media screen and (min-width: 768px) {
+        .hamburger {
+          display: none;
+        }
+        nav#mobileNav {
+          all: unset;
+        }
+        nav#mobileNav ul {
+          display: flex;
+          flex-direction: row;
+          gap: 3em;
+          font-size: 1em;
+          justify-content: flex-end;
+        }
+        nav#mobileNav ul li a {
+          color: #eef8ce;
+          text-decoration: none;
+          transition: color 0.3s;
+        }
+        nav#mobileNav ul li a:hover {
+          color: #ffd65c;
+        }
+      }
+
+      /* ===== Page wrapper ===== */
+      .wrap {
+        width: min(760px, 94vw);
+        margin: 0 auto 4em;
+        padding-top: 7em;
+      }
+      @media (max-width: 640px) {
+        .wrap {
+          padding-top: 6em;
+        }
+      }
+
+      .hero {
+        text-align: center;
+        margin-bottom: 2em;
+        color: #fff8e1;
+      }
+      .hero .eyebrow {
+        display: inline-block;
+        background: #1a1a1a;
+        color: #ffd65c;
+        padding: 0.3em 1em;
+        border-radius: 999px;
+        font-size: 0.75em;
+        letter-spacing: 2px;
+        font-weight: 700;
+        margin-bottom: 0.8em;
+      }
+      .hero h1 {
+        font-family: "cyborg punk", sans-serif;
+        font-size: 2.6em;
+        color: #ffe98a;
+        text-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+      }
+      .hero p {
+        color: #f4e6b8;
+        margin-top: 0.5em;
+        font-size: 1em;
+      }
+
+      /* ===== Honeycomb card ===== */
+      .card {
+        background: rgba(255, 255, 255, 0.94);
+        border-radius: 24px;
+        padding: 2.2em;
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.35),
+          0 0 0 6px #b8790022;
+        position: relative;
+        overflow: hidden;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, #ffd65c66, transparent 70%);
+        border-radius: 50%;
+      }
+
+      fieldset {
+        border: none;
+        margin-bottom: 1.6em;
+        padding-bottom: 1.6em;
+        border-bottom: 2px dashed #e3c37a;
+      }
+      fieldset:last-of-type {
+        border-bottom: none;
+      }
+
+      legend {
+        font-family: "devil breeze", sans-serif;
+        font-size: 1.3em;
+        color: #a9660a;
+        padding: 0 0.4em 0 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+      legend::before {
+        content: "⬡";
+        color: #f3b400;
+        font-size: 1.1em;
+      }
+
+      .field {
+        margin-bottom: 1.2em;
+        position: relative;
+      }
+      .field label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.85em;
+        color: #4a3a10;
+        margin-bottom: 0.4em;
+        letter-spacing: 0.3px;
+      }
+      .field label .req {
+        color: #c0392b;
+      }
+
+      .field input[type="text"],
+      .field input[type="date"],
+      .field input[type="tel"],
+      .field input[type="email"],
+      .field input[type="number"],
+      .field select {
+        width: 100%;
+        padding: 0.85em 1em;
+        border-radius: 12px;
+        border: 1.5px solid #e6d1a0;
+        background: #fffdf6;
+        font-size: 1em;
+        font-family: inherit;
+        color: #1a1a1a;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        appearance: none;
+      }
+      .field select {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23a9660a"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 1em center;
+        background-size: 1.1em;
+      }
+      .field input:focus,
+      .field select:focus {
+        outline: none;
+        border-color: #f3b400;
+        box-shadow: 0 0 0 4px #f3b40033;
+      }
+      .field .hint {
+        font-size: 0.75em;
+        color: #8a7444;
+        margin-top: 0.35em;
+      }
+      .field .err {
+        font-size: 0.78em;
+        color: #c0392b;
+        margin-top: 0.4em;
+        font-weight: 600;
+        display: none;
+      }
+      .field.invalid input,
+      .field.invalid select {
+        border-color: #c0392b;
+        background: #fff5f4;
+      }
+      .field.invalid .err {
+        display: block;
+      }
+      .field.valid input,
+      .field.valid select {
+        border-color: #3a9e5f;
+      }
+
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+      }
+      @media (max-width: 640px) {
+        .row2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ===== Photo uploader ===== */
+      .photo-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+        padding: 1.5em;
+        border: 2px dashed #e6d1a0;
+        border-radius: 16px;
+        background: #fffdf6;
+        text-align: center;
+      }
+      .photo-preview {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: #f3e6c4
+          url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23c9ad70"><path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.5c-3.3 0-9.8 1.6-9.8 4.9v2.4h19.6v-2.4c0-3.3-6.5-4.9-9.8-4.9z"/></svg>')
+          center/60% no-repeat;
+        border: 4px solid #ffd65c;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        background-size: cover, 60%;
+        background-position: center, center;
+        overflow: hidden;
+      }
+      .photo-preview {
+        position: relative;
+      }
+      .photo-preview img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+        border-radius: 50%;
+      }
+      .photo-btns {
+        display: flex;
+        gap: 0.7em;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .btn-outline {
+        background: transparent;
+        border: 2px solid #a9660a;
+        color: #a9660a;
+        padding: 0.6em 1.2em;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.85em;
+        font-family: inherit;
+        transition: all 0.2s;
+      }
+      .btn-outline:hover {
+        background: #a9660a;
+        color: #fff;
+      }
+      input[type="file"] {
+        display: none;
+      }
+
+      /* Crop modal */
+      .crop-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 1em;
+      }
+      .crop-modal.open {
+        display: flex;
+      }
+      .crop-modal-inner {
+        background: #1a1a1a;
+        border-radius: 16px;
+        padding: 1.2em;
+        width: min(500px, 95vw);
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+      .crop-container {
+        width: 100%;
+        max-height: 60vh;
+        overflow: hidden;
+        background: #000;
+        border-radius: 8px;
+      }
+      .crop-container img {
+        display: block;
+        max-width: 100%;
+      }
+      .crop-actions {
+        display: flex;
+        gap: 0.7em;
+        justify-content: flex-end;
+      }
+      .btn-solid {
+        background: #f3b400;
+        color: #1a1a1a;
+        border: none;
+        padding: 0.7em 1.4em;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 0.9em;
+      }
+      .btn-cancel {
+        background: transparent;
+        color: #eee;
+        border: 2px solid #555;
+        padding: 0.7em 1.4em;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9em;
+      }
+
+      /* ===== Submit ===== */
+      .submit-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8em;
+        margin-top: 1.5em;
+      }
+      .btn-submit {
+        background: linear-gradient(135deg, #ffd65c, #f3b400);
+        border: none;
+        color: #1a1a1a;
+        font-weight: 800;
+        font-size: 1.05em;
+        padding: 1em 2.5em;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 8px 25px #f3b40055;
+        transition: transform 0.15s;
+        width: 100%;
+        max-width: 320px;
+      }
+      .btn-submit:active {
+        transform: scale(0.97);
+      }
+      .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .status-msg {
+        text-align: center;
+        padding: 0.9em 1.2em;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9em;
+        display: none;
+        width: 100%;
+      }
+      .status-msg.show {
+        display: block;
+      }
+      .status-msg.error {
+        background: #ffe5e2;
+        color: #a63a2e;
+        border: 1.5px solid #e0857a;
+      }
+      .status-msg.success {
+        background: #e4f7ea;
+        color: #1e7a44;
+        border: 1.5px solid #7ecb9a;
+      }
+      .status-msg.loading {
+        background: #fff6e0;
+        color: #8a6100;
+        border: 1.5px solid #f3d888;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #8a6100;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        margin-right: 0.5em;
+        vertical-align: -2px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      footer.f {
+        text-align: center;
+        color: #f4e6b8;
+        font-size: 0.8em;
+        padding: 2em 1em 3em;
+      }
+
+      /* ===== Mobile specific ===== */
+      @media (max-width: 640px) {
+        header .content-fit {
+          padding-inline: 1em;
+        }
+        .logo-text {
+          font-size: 1.3em;
+        }
+        .badge {
+          display: none;
+        }
+        .hero h1 {
+          font-size: 1.9em;
+        }
+        .wrap {
+          margin-top: 1.5em;
+        }
+        .card {
+          padding: 1.3em;
+          border-radius: 18px;
+        }
+        legend {
+          font-size: 1.1em;
+        }
+        .photo-preview {
+          width: 120px;
+          height: 120px;
+        }
+        .btn-submit {
+          font-size: 1em;
+          padding: 0.9em 2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="content-fit">
+        <div class="logo">
+          <span class="logo-text">SkyneTBee</span>
+          <img src="img/skynetbeepng.png" alt="Bee Logo" class="logo-img" />
+        </div>
+
+        <div class="hamburger" id="hamburger">☰</div>
+
+        <nav id="mobileNav">
+          <ul class="nav-1" id="main-navbar">
+            <li class="navbro"><a href="index.html">HOME</a></li>
+            <li><a href="web.html">WEB</a></li>
+            <li><a href="robotics.html">ROBOTICS</a></li>
+            <li><a href="apple.html">APPLE</a></li>
+            <li><a href="android.html">ANDROID</a></li>
+            <li><a href="dotnet.html">DOTNET</a></li>
+            <li><a href="https://www.skynetbee.org/skynetbee/">DEVZONE</a></li>
+            <li><a href="spider.html">CONTACT</a></li>
+            <li><a href="applyforinterview.html">Join Us</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <div class="hero">
+        <h1>Apply for Interview</h1>
+        <p>Fill in your details carefully.</p>
+      </div>
+
+      <div class="card">
+        <form id="applyForm" novalidate>
+          <fieldset>
+            <legend>Registration</legend>
+
+            <div class="field" id="f-rno">
+              <label>Registration Number</label>
+              <input
+                type="text"
+                id="rno"
+                maxlength="30"
+                placeholder="e.g. ABC123"
+                autocomplete="off"
+              />
+              <div class="hint">Alphanumeric only, 3–30 characters.</div>
+              <div class="err">Please enter a valid registration number.</div>
+            </div>
+
+            <div class="field" id="f-name">
+              <label>Full Name</label>
+              <input
+                type="text"
+                id="name"
+                maxlength="50"
+                placeholder="e.g. S Shruthi"
+                autocomplete="off"
+              />
+              <div class="hint">
+                Letters and spaces only. At least one word must be 3+ letters.
+              </div>
+              <div class="err">Please enter a valid full name.</div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Contact Details</legend>
+
+            <div class="row2">
+              <div class="field" id="f-phno1">
+                <label>Primary Phone Number</label>
+                <input
+                  type="tel"
+                  id="phno1"
+                  placeholder="10-digit number"
+                  maxlength="14"
+                  autocomplete="off"
+                />
+                <div class="err">Enter a valid 10-digit number.</div>
+              </div>
+              <div class="field" id="f-phno2">
+                <label>Alternative Phone Number</label>
+                <input
+                  type="tel"
+                  id="phno2"
+                  placeholder="10-digit number"
+                  maxlength="14"
+                  autocomplete="off"
+                />
+                <div class="err">
+                  Enter a valid 10-digit number, different from primary.
+                </div>
+              </div>
+            </div>
+
+            <div class="field" id="f-personalemail">
+              <label>Personal Email</label>
+              <input
+                type="email"
+                id="personalemail"
+                placeholder="you@gmail.com"
+                autocomplete="off"
+              />
+              <div class="hint">Must end with @gmail.com or @icloud.com</div>
+              <div class="err">
+                Enter a valid Gmail or iCloud email address.
+              </div>
+            </div>
+
+            <div class="field" id="f-collegeemail">
+              <label>College / Work Email</label>
+              <input
+                type="email"
+                id="collegeemail"
+                placeholder="you@college.edu"
+                autocomplete="off"
+              />
+              <div class="hint">
+                Must NOT be a @gmail.com or @icloud.com address.
+              </div>
+              <div class="err">
+                Enter a valid email that is not Gmail/iCloud.
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Personal Details</legend>
+
+            <div class="row2">
+              <div class="field" id="f-sex">
+                <label>Gender</label>
+                <select id="sex">
+                  <option value="">Select Gender</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+                <div class="err">Please select a gender.</div>
+              </div>
+              <div class="field" id="f-dob">
+                <label>Date of Birth</label>
+                <input type="date" id="dob" />
+                <div class="hint">Age must be between 18 and 74.</div>
+                <div class="err">
+                  Enter a valid date of birth (18–74 years).
+                </div>
+              </div>
+            </div>
+
+            <div class="photo-box">
+              <div class="photo-preview" id="photoPreview">
+                <img id="photoImg" alt="Preview" />
+              </div>
+              <div class="photo-btns">
+                <button type="button" class="btn-outline" id="choosePhotoBtn">
+                  📷 Choose Photo
+                </button>
+                <button
+                  type="button"
+                  class="btn-outline"
+                  id="recropBtn"
+                  style="display: none"
+                >
+                  ✂️ Re-crop
+                </button>
+              </div>
+              <input
+                type="file"
+                id="photoInput"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
+              />
+              <div class="err" id="photoErr" style="display: none">
+                Please choose and crop a photo.
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Academic / Career</legend>
+
+            <div class="row2">
+              <div class="field" id="f-stream">
+                <label>Stream</label>
+
+                <select id="stream">
+                  <option value="">Select Stream</option>
+                  <option value="arts and science">Arts and Science</option>
+                  <option value="engineering">Engineering</option>
+                  <option value="medical">Medical</option>
+                  <option value="law - llb">Law - LLB</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+              <div class="field" id="f-department">
+                <label>Department</label>
+                <input
+                  type="text"
+                  id="department"
+                  maxlength="100"
+                  placeholder="e.g. B.E CSE"
+                />
+                <div class="err">Minimum 4 characters required.</div>
+              </div>
+            </div>
+
+            <div class="field" id="f-currnetcareer">
+              <label>Current Career</label>
+              <select id="currnetcareer">
+                <option value="">Select Career</option>
+                <option value="student">College Student</option>
+                <option value="work">Working Professional</option>
+              </select>
+            </div>
+
+            <div class="field" id="f-studyorworkintat">
+              <label>Studying / Working At</label>
+              <input
+                type="text"
+                id="studyorworkintat"
+                maxlength="100"
+                placeholder="Institute / Company name"
+              />
+              <div class="err">Minimum 4 characters required.</div>
+            </div>
+
+            <div class="row2">
+              <div class="field" id="f-currnetsemorexp">
+                <label>Current Sem / Years Exp</label>
+                <input
+                  type="number"
+                  id="currnetsemorexp"
+                  min="1"
+                  max="49"
+                  placeholder="e.g. 5"
+                />
+                <div class="err">Enter a positive number less than 50.</div>
+              </div>
+              <div class="field" id="f-cgpa">
+                <label>CGPA</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  id="cgpa"
+                  min="4.01"
+                  max="10"
+                  placeholder="e.g. 8.50"
+                />
+                <div class="err">CGPA must be greater than 4 and up to 10.</div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="submit-row">
+            <div class="status-msg" id="statusMsg"></div>
+            <button type="submit" class="btn-submit" id="submitBtn">
+              Submit Application
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="f">&copy; SkyneTBee — All rights reserved.</footer>
+
+    <!-- Crop Modal -->
+    <div class="crop-modal" id="cropModal">
+      <div class="crop-modal-inner">
+        <div class="crop-container">
+          <img id="cropImage" src="" alt="Crop" />
+        </div>
+        <div class="crop-actions">
+          <button type="button" class="btn-cancel" id="cropCancel">
+            Cancel
+          </button>
+          <button type="button" class="btn-solid" id="cropConfirm">
+            Use Photo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+    <script>
+      (function () {
+        "use strict";
+
+        const API_URL =
+          "https://www.skynetbee.org/skynetbee/api/interviewregistration/dracarys.php";
+        const SECRET_KEY =
+          "bdsu5%j2ni&k23n)ne93jz&*ghy3hiGr26gsisbb@1h!v476wh&U&w3bn";
+
+        const form = document.getElementById("applyForm");
+        const statusMsg = document.getElementById("statusMsg");
+        const submitBtn = document.getElementById("submitBtn");
+
+        function setFieldState(id, valid, focusOnError) {
+          const el = document.getElementById("f-" + id);
+          if (!el) return;
+          el.classList.remove("valid", "invalid");
+          el.classList.add(valid ? "valid" : "invalid");
+        }
+        function clearFieldState(id) {
+          const el = document.getElementById("f-" + id);
+          if (el) el.classList.remove("valid", "invalid");
+        }
+
+        // ---------- Validators (mirroring backend logic) ----------
+
+        function validateRno() {
+          const v = document.getElementById("rno").value.trim();
+          const ok =
+            v.length >= 3 && v.length <= 30 && /^[A-Za-z0-9]+$/.test(v);
+          setFieldState("rno", ok);
+          return ok;
+        }
+
+        function validateName() {
+          let v = document.getElementById("name").value.trim();
+          if (v.length > 50) {
+            setFieldState("name", false);
+            return false;
+          }
+          v = v.replace(/\./g, " ").replace(/\s+/g, " ").trim();
+          if (v.indexOf(" ") === -1) {
+            setFieldState("name", false);
+            return false;
+          }
+          if (!/^[A-Za-z ]+$/.test(v)) {
+            setFieldState("name", false);
+            return false;
+          }
+          const parts = v.split(" ");
+          const hasLongPart = parts.some((p) => p.length >= 3);
+          setFieldState("name", hasLongPart);
+          return hasLongPart;
+        }
+
+        function normalizePhoneClient(raw) {
+          let n = raw.trim().replace(/\s+/g, "");
+          if (n.startsWith("+91")) {
+            // ok
+          } else if (n.startsWith("91") && n.length === 12) {
+            n = "+" + n;
+          } else if (n.length === 10) {
+            n = "+91" + n;
+          }
+          if (n.length !== 13 || n.substring(0, 3) !== "+91") return null;
+          const digits = n.substring(3);
+          if (!/^[0-9]{10}$/.test(digits)) return null;
+          return n;
+        }
+
+        function validatePhones() {
+          const raw1 = document.getElementById("phno1").value;
+          const raw2 = document.getElementById("phno2").value;
+          const n1 = normalizePhoneClient(raw1);
+          const n2 = normalizePhoneClient(raw2);
+          const ok1 = n1 !== null;
+          const ok2 = n2 !== null && (n1 === null || n2 !== n1);
+          setFieldState("phno1", ok1);
+          setFieldState("phno2", ok2);
+          return ok1 && ok2;
+        }
+
+        function validatePersonalEmail() {
+          const v = document
+            .getElementById("personalemail")
+            .value.trim()
+            .toLowerCase();
+          const basicOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+          const domainOk =
+            v.endsWith("@gmail.com") || v.endsWith("@icloud.com");
+          const ok = basicOk && domainOk;
+          setFieldState("personalemail", ok);
+          return ok;
+        }
+
+        function validateCollegeEmail() {
+          const v = document
+            .getElementById("collegeemail")
+            .value.trim()
+            .toLowerCase();
+          const basicOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+          const domainOk = !(
+            v.endsWith("@gmail.com") || v.endsWith("@icloud.com")
+          );
+          const ok = basicOk && domainOk;
+          setFieldState("collegeemail", ok);
+          return ok;
+        }
+
+        function validateSex() {
+          const v = document.getElementById("sex").value;
+          const ok = v === "M" || v === "F";
+          setFieldState("sex", ok);
+          return ok;
+        }
+
+        function validateDob() {
+          const v = document.getElementById("dob").value;
+          if (!v) {
+            setFieldState("dob", false);
+            return false;
+          }
+          const d = new Date(v + "T00:00:00");
+          if (isNaN(d.getTime())) {
+            setFieldState("dob", false);
+            return false;
+          }
+          const today = new Date();
+          let age = today.getFullYear() - d.getFullYear();
+          const m = today.getMonth() - d.getMonth();
+          if (m < 0 || (m === 0 && today.getDate() < d.getDate())) age--;
+          const ok = age >= 18 && age < 75;
+          setFieldState("dob", ok);
+          return ok;
+        }
+
+        function validateGenericField(id) {
+          const v = document.getElementById(id).value.trim();
+          const ok = v.length >= 4 && v.length <= 100;
+          setFieldState(id, ok);
+          return ok;
+        }
+
+        function validateCgpa() {
+          const v = parseFloat(document.getElementById("cgpa").value);
+          const ok = !isNaN(v) && v > 4 && v <= 10;
+          setFieldState("cgpa", ok);
+          return ok;
+        }
+
+        function validateSemExp() {
+          const raw = document.getElementById("currnetsemorexp").value;
+          const v = parseInt(raw, 10);
+          const ok = /^[0-9]+$/.test(raw) && v > 0 && v < 50;
+          setFieldState("currnetsemorexp", ok);
+          return ok;
+        }
+
+        function validatePhoto() {
+          const ok = !!window.__croppedBlob;
+          document.getElementById("photoErr").style.display = ok
+            ? "none"
+            : "block";
+          return ok;
+        }
+
+        // live validation on blur/change
+        [
+          ["rno", validateRno],
+          ["name", validateName],
+          ["phno1", validatePhones],
+          ["phno2", validatePhones],
+          ["personalemail", validatePersonalEmail],
+          ["collegeemail", validateCollegeEmail],
+          ["sex", validateSex],
+          ["dob", validateDob],
+          ["stream", () => validateGenericField("stream")],
+          ["department", () => validateGenericField("department")],
+          ["currnetcareer", () => validateGenericField("currnetcareer")],
+          ["studyorworkintat", () => validateGenericField("studyorworkintat")],
+          ["cgpa", validateCgpa],
+          ["currnetsemorexp", validateSemExp],
+        ].forEach(([id, fn]) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener("blur", fn);
+            el.addEventListener("input", () => clearFieldState(id));
+            el.addEventListener("change", fn);
+          }
+        });
+
+        // ---------- Photo picker + Cropper ----------
+        const photoInput = document.getElementById("photoInput");
+        const choosePhotoBtn = document.getElementById("choosePhotoBtn");
+        const recropBtn = document.getElementById("recropBtn");
+        const cropModal = document.getElementById("cropModal");
+        const cropImage = document.getElementById("cropImage");
+        const cropCancel = document.getElementById("cropCancel");
+        const cropConfirm = document.getElementById("cropConfirm");
+        const photoImg = document.getElementById("photoImg");
+
+        let cropper = null;
+        let lastFileURL = null;
+
+        choosePhotoBtn.addEventListener("click", () => {
+          photoInput.value = ""; // ensures 'change' fires even if same file chosen again
+          photoInput.click();
+        });
+        recropBtn.addEventListener("click", () => {
+          if (lastFileURL) openCropModal(lastFileURL);
+        });
+
+        photoInput.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const allowed = [
+            "image/jpeg",
+            "image/png",
+            "image/jpg",
+            "image/webp",
+          ];
+          if (!allowed.includes(file.type)) {
+            alert("Please choose a JPG, PNG, or WEBP image.");
+            photoInput.value = "";
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            lastFileURL = ev.target.result;
+            openCropModal(lastFileURL);
+          };
+          reader.readAsDataURL(file);
+        });
+
+        function openCropModal(url) {
+          // Always tear down any existing cropper instance first
+          if (cropper) {
+            cropper.destroy();
+            cropper = null;
+          }
+
+          cropModal.classList.add("open");
+
+          // Reset src so 'load' reliably fires even if reusing the same image data
+          cropImage.removeAttribute("src");
+
+          const initCropper = () => {
+            cropper = new Cropper(cropImage, {
+              aspectRatio: 1,
+              viewMode: 1,
+              dragMode: "move",
+              autoCropArea: 1,
+              background: false,
+            });
+          };
+
+          cropImage.onload = initCropper;
+          cropImage.src = url;
+        }
+
+        cropCancel.addEventListener("click", () => {
+          cropModal.classList.remove("open");
+          if (cropper) {
+            cropper.destroy();
+            cropper = null;
+          }
+          if (!window.__croppedBlob) photoInput.value = "";
+        });
+
+        cropConfirm.addEventListener("click", () => {
+          if (!cropper) return;
+          cropper.getCroppedCanvas({ width: 500, height: 500 }).toBlob(
+            (blob) => {
+              window.__croppedBlob = blob;
+              const url = URL.createObjectURL(blob);
+              photoImg.src = url;
+              photoImg.style.display = "block";
+              recropBtn.style.display = "inline-block";
+              document.getElementById("photoErr").style.display = "none";
+              cropModal.classList.remove("open");
+              cropper.destroy();
+              cropper = null;
+            },
+            "image/jpeg",
+            0.92,
+          );
+        });
+
+        // ---------- Submit ----------
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const results = [
+            validateRno(),
+            validateName(),
+            validatePhones(),
+            validatePersonalEmail(),
+            validateCollegeEmail(),
+            validateSex(),
+            validateDob(),
+            validateGenericField("stream"),
+            validateGenericField("department"),
+            validateGenericField("currnetcareer"),
+            validateGenericField("studyorworkintat"),
+            validateCgpa(),
+            validateSemExp(),
+            validatePhoto(),
+          ];
+
+          const allOk = results.every(Boolean);
+
+          if (!allOk) {
+            showStatus(
+              "error",
+              "Please fix the highlighted fields before submitting.",
+            );
+            const firstInvalid = document.querySelector(
+              ".field.invalid, #photoErr[style*='block']",
+            );
+            if (firstInvalid)
+              firstInvalid.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            return;
+          }
+
+          submitBtn.disabled = true;
+          showStatus("loading", "Submitting your application, please wait...");
+
+          const phno1 = normalizePhoneClient(
+            document.getElementById("phno1").value,
+          );
+          const phno2 = normalizePhoneClient(
+            document.getElementById("phno2").value,
+          );
+
+          const fd = new FormData();
+          fd.append("secret", SECRET_KEY);
+          fd.append("rno", document.getElementById("rno").value.trim());
+          fd.append("name", document.getElementById("name").value.trim());
+          fd.append("phno1", phno1);
+          fd.append("phno2", phno2);
+          fd.append(
+            "personalemail",
+            document.getElementById("personalemail").value.trim(),
+          );
+          fd.append(
+            "collegeemail",
+            document.getElementById("collegeemail").value.trim(),
+          );
+          fd.append("sex", document.getElementById("sex").value);
+          fd.append("dob", document.getElementById("dob").value);
+          fd.append("stream", document.getElementById("stream").value.trim());
+          fd.append(
+            "department",
+            document.getElementById("department").value.trim(),
+          );
+          fd.append(
+            "currnetcareer",
+            document.getElementById("currnetcareer").value.trim(),
+          );
+          fd.append(
+            "studyorworkintat",
+            document.getElementById("studyorworkintat").value.trim(),
+          );
+          fd.append(
+            "currnetsemorexp",
+            document.getElementById("currnetsemorexp").value.trim(),
+          );
+          fd.append("cgpa", document.getElementById("cgpa").value.trim());
+          fd.append("photo", window.__croppedBlob, "photo.jpg");
+
+          try {
+            const resp = await fetch(API_URL, { method: "POST", body: fd });
+            const text = await resp.text();
+
+            let data;
+            try {
+              data = JSON.parse(text);
+            } catch (err) {
+              data = null;
+            }
+
+            if (data && data.success) {
+              showStatus(
+                "success",
+                "Application submitted successfully.",
+                "Your Member ID is <strong>" +
+                  data.unique_member_id.toUpperCase() +
+                  "</strong>. Please save this for reference.",
+              );
+              form.reset();
+              photoImg.style.display = "none";
+              recropBtn.style.display = "none";
+              window.__croppedBlob = null;
+              document
+                .querySelectorAll(".field")
+                .forEach((f) => f.classList.remove("valid", "invalid"));
+              submitBtn.disabled = false;
+            } else {
+              const msg = data ? data.message || text : text;
+              showStatus(
+                "error",
+                "We couldn't submit your application",
+                msg || "Something went wrong. Please try again.",
+              );
+              submitBtn.disabled = false;
+            }
+          } catch (err) {
+            showStatus(
+              "error",
+              "Network error",
+              "Please check your connection and try again.",
+            );
+            submitBtn.disabled = false;
+          }
+        });
+
+        function showStatus(type, title, detail) {
+          statusMsg.className = "status-msg show " + type;
+
+          let icon = "";
+          if (type === "loading") icon = '<span class="spinner"></span>';
+          else if (type === "success") icon = "✅ ";
+          else if (type === "error") icon = "⚠️ ";
+
+          statusMsg.innerHTML =
+            '<div class="status-title">' +
+            icon +
+            (title || "") +
+            "</div>" +
+            (detail ? '<div class="status-detail">' + detail + "</div>" : "");
+
+          statusMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      })();
+    </script>
+  </body>
+</html>
