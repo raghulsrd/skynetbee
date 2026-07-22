@@ -15,7 +15,7 @@ let bee;
 let mixer;
 
 const loader = new GLTFLoader();
-loader.load("models/bee2.glb", function (gltf) {
+loader.load("models/bee.glb", function (gltf) {
   bee = gltf.scene;
   const isMobile = window.innerWidth <= 767;
 
