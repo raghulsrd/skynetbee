@@ -109,7 +109,7 @@
 
       @media screen and (max-width: 767px) {
         .hamburger {
-          display: block;
+          : block;
         }
         #mobileNav {
           display: block;
@@ -765,7 +765,7 @@
                 <label>Stream</label>
 
                 <select id="stream">
-                  <option value="">Select Stream</option>
+                  <option value="">- - Stream - -</option>
                   <option value="arts and science">Arts and Science</option>
                   <option value="engineering">Engineering</option>
                   <option value="medical">Medical</option>
@@ -775,13 +775,9 @@
               </div>
               <div class="field" id="f-department">
                 <label>Department</label>
-                <input
-                  type="text"
-                  id="department"
-                  maxlength="100"
-                  placeholder="e.g. B.E CSE"
-                />
-                <div class="err">Minimum 4 characters required.</div>
+                <select id="department">
+                  <option value="">- - Department - -</option>
+                </select>
               </div>
             </div>
 
