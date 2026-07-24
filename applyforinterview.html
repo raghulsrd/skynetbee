@@ -764,8 +764,8 @@
               <div class="field" id="f-stream">
                 <label>Stream</label>
 
-                <select id="stream">
-                  <option value="">Select Stream</option>
+     <select id="stream" onchange="filldept(this.value)">
+                  <option value="">- - Stream - -</option>
                   <option value="arts and science">Arts and Science</option>
                   <option value="engineering">Engineering</option>
                   <option value="medical">Medical</option>
@@ -775,16 +775,115 @@
               </div>
               <div class="field" id="f-department">
                 <label>Department</label>
-                <input
-                  type="text"
-                  id="department"
-                  maxlength="100"
-                  placeholder="e.g. B.E CSE"
-                />
-                <div class="err">Minimum 4 characters required.</div>
+                <select id="department">
+                  <option value="">- - Department - -</option>
+                </select>
               </div>
             </div>
+            <script>
+              function filldept(chosen){
+  var deptSelect = document.getElementById("department");
 
+  // Clear existing options
+  deptSelect.innerHTML = "";
+
+  // Re-add the empty default option at the top
+  var defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.text = "- - Department - -";
+  deptSelect.appendChild(defaultOption);
+
+  if(chosen == "arts and science"){
+    var depts = [
+      "B.Sc Mathematics", "B.Sc Physics", "B.Sc Chemistry", "B.Sc Botany",
+      "B.Sc Zoology", "B.Sc Computer Science", "B.Sc Information Technology", "B.Sc AI & DS", "B.Sc AI & ML", "BCA",
+      "B.Sc Statistics", "B.Sc Biotechnology", "B.Sc Biochemistry",
+      "B.Sc Microbiology", "B.Sc Nutrition and Dietetics",
+      "B.Sc Visual Communication", "B.Sc Psychology", "B.A Economics",
+      "B.A English", "B.A History", "B.A Political Science",
+      "B.A Sociology", "B.A Tamil", "B.A Journalism and Mass Communication",
+      "B.Com General", "B.Com Computer Applications",
+      "B.Com Corporate Secretaryship", "BBA", "BSW Social Work",
+      "B.Sc Fashion Design"
+    ];
+    depts.forEach(function(d){
+      var opt = document.createElement("option");
+      opt.value = d;
+      opt.text = d;
+      deptSelect.appendChild(opt);
+    });
+
+  } else if(chosen == "engineering"){
+    var depts = [
+      "Computer Science and Engineering", "Information Technology",
+      "Electronics and Communication Engineering",
+      "Electrical and Electronics Engineering", "Mechanical Engineering",
+      "Civil Engineering", "Chemical Engineering", "Aeronautical Engineering",
+      "Automobile Engineering", "Biomedical Engineering",
+      "Biotechnology Engineering", "Instrumentation and Control Engineering",
+      "Production Engineering", "Industrial Engineering", "Mining Engineering",
+      "Metallurgical Engineering", "Marine Engineering", "Textile Engineering",
+      "Agricultural Engineering", "Petroleum Engineering",
+      "Artificial Intelligence and Data Science",
+      "Artificial Intelligence and Machine Learning",
+      "Robotics and Automation", "Computer Science and Business Systems",
+      "Cyber Security"
+    ];
+    depts.forEach(function(d){
+      var opt = document.createElement("option");
+      opt.value = d;
+      opt.text = d;
+      deptSelect.appendChild(opt);
+    });
+
+  } else if(chosen == "medical"){
+    var depts = [
+      "MBBS - General Medicine", "BDS - Dentistry", "BAMS - Ayurveda",
+      "BHMS - Homeopathy", "BSMS - Siddha", "BUMS - Unani",
+      "B.Sc Nursing", "B.Pharm Pharmacy", "BPT Physiotherapy",
+      "Anatomy", "Physiology", "Biochemistry", "Pharmacology", "Pathology",
+      "Microbiology", "Forensic Medicine", "Community Medicine",
+      "General Surgery", "General Medicine", "Obstetrics and Gynaecology",
+      "Paediatrics", "Orthopaedics", "ENT - Otorhinolaryngology",
+      "Ophthalmology", "Dermatology", "Psychiatry", "Radiology",
+      "Anaesthesiology"
+    ];
+    depts.forEach(function(d){
+      var opt = document.createElement("option");
+      opt.value = d;
+      opt.text = d;
+      deptSelect.appendChild(opt);
+    });
+
+  } else if(chosen == "law - llb"){
+    var depts = [
+      "Corporate Law", "Criminal Law", "Constitutional Law",
+      "International Law", "Civil Law", "Human Rights Law",
+      "Environmental Law", "Intellectual Property Law", "Family Law",
+      "Labour Law", "Tax Law", "Cyber Law", "Business Law"
+    ];
+    depts.forEach(function(d){
+      var opt = document.createElement("option");
+      opt.value = d;
+      opt.text = d;
+      deptSelect.appendChild(opt);
+    });
+
+  } else if(chosen == "others"){
+    var depts = [
+      "Hotel Management", "Aviation", "Animation and Multimedia",
+      "Interior Design", "Fine Arts", "Physical Education", "Agriculture",
+      "Veterinary Science", "Education (B.Ed)", "Architecture", "Design"
+    ];
+    depts.forEach(function(d){
+      var opt = document.createElement("option");
+      opt.value = d;
+      opt.text = d;
+      deptSelect.appendChild(opt);
+    });
+  }
+}
+            </script>
             <div class="field" id="f-currnetcareer">
               <label>Current Career</label>
               <select id="currnetcareer">
