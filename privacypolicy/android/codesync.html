@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - CodeSync</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B120F;
+    --card: #101B16;
+    --card-inner: #14211B;
+    --text-light: #F3EEE2;
+    --text-muted: #8FA79C;
+    --gold: #E4C05F;
+    --gold-deep: #B9872F;
+    --teal: #1F3B32;
+    --border: #24352D;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(228, 192, 95, 0.08), transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(31, 59, 50, 0.5), transparent 45%),
+      var(--bg);
+    color: var(--text-light);
+    line-height: 1.7;
+    padding: 48px 16px;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 44px clamp(20px, 6vw, 56px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .crest {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--gold);
+  }
+
+  .header h1 {
+    margin: 0 0 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+    color: #1B1204;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    margin-bottom: 14px;
+  }
+
+  .updated {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 36px;
+    margin-bottom: 10px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  p, li {
+    font-size: 15.5px;
+    color: var(--text-light);
+  }
+
+  ul {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+
+  li {
+    margin-bottom: 7px;
+    color: var(--text-muted);
+  }
+
+  li strong { color: var(--text-light); }
+
+  .highlight-box {
+    background: var(--card-inner);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+
+  .highlight-box p {
+    margin: 0;
+    color: var(--text-light);
+  }
+
+  .note-box {
+    background: var(--card-inner);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+
+  .note-box p { margin: 0; color: var(--text-muted); font-size: 14.5px; }
+
+  .contact-box {
+    background: var(--card-inner);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-top: 12px;
+  }
+
+  .contact-box p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .contact-box a {
+    color: var(--gold);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .contact-box a:hover {
+    text-decoration: underline;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 44px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  strong { color: var(--text-light); }
+
+  code {
+    background: var(--card-inner);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: var(--gold);
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="crest">C</div>
+      <span class="badge">CODESYNC</span>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: <span id="date"></span></p>
+    </div>
+
+    <p>
+      This Privacy Policy explains how the <strong>CodeSync</strong> mobile application
+      ("the App", "we", "us") collects, uses, and protects information when you use it.
+      CodeSync helps developers connect, chat, and share updates with each other — this
+      policy covers exactly what that involves.
+    </p>
+
+    <div class="highlight-box">
+      <p><strong>In short:</strong> CodeSync stores your profile and messages to make chatting
+      possible. Location and contact sharing only happen when you choose to share them inside
+      a chat, and "Delete for Everyone" removes a message from both sides only within 1 hour
+      of sending it.</p>
+    </div>
+
+    <h2>Information We Collect</h2>
+    <p>To create your profile and let you connect with other developers, CodeSync collects:</p>
+    <ul>
+      <li><strong>Profile details</strong> — your full name, phone number, role (e.g., Android app developer), and bio</li>
+      <li><strong>Messages</strong> — the text, media, and other content you send and receive in chats</li>
+      <li><strong>Connections and posts</strong> — developers you connect with, and posts or updates you create</li>
+    </ul>
+
+    <h2>Location Sharing</h2>
+    <p>
+      CodeSync does <strong>not</strong> track your location in the background. Your location
+      is only accessed and shared with another user when you actively choose to share it inside
+      a chat (for example, sharing your current location with a connection). Once sent, it is
+      delivered as a message like any other and is subject to the same deletion rules below.
+    </p>
+
+    <h2>Contact Sharing</h2>
+    <p>
+      You may choose to share a contact card from your device with another user inside a chat.
+      CodeSync only accesses your contacts when you open the contact-sharing feature and select
+      a contact to send — it does not read, upload, or store your full contact list otherwise.
+    </p>
+
+    <h2>Delete for Everyone</h2>
+    <div class="note-box">
+      <p>"Delete for Everyone" removes a message from both your chat and the recipient's chat,
+      but it is only available within <strong>1 hour</strong> of sending that message. After 1
+      hour, you can still delete the message from your own view, but it will remain visible to
+      the recipient.</p>
+    </div>
+
+    <h2>How We Use Information</h2>
+    <ul>
+      <li>To create and display your profile to other developers on the platform</li>
+      <li>To deliver messages, location shares, and contact shares between you and your connections</li>
+      <li>To show your posts and updates to the community</li>
+      <li>To operate features like connections, chat, and notifications</li>
+    </ul>
+
+    <h2>Data Storage and Retention</h2>
+    <p>
+      Messages, shared locations, and shared contacts are stored to keep your chat history
+      available across your devices. If you delete a message for everyone within the 1-hour
+      window, it is removed from both accounts. Uninstalling the App does not automatically
+      delete your account or chat history from our servers — contact us if you'd like your
+      account and data removed.
+    </p>
+
+    <h2>Permissions</h2>
+    <p>CodeSync may request the following device permissions:</p>
+    <ul>
+      <li><strong>Contacts</strong> — used only when you choose to share a contact in a chat</li>
+      <li><strong>Location</strong> — used only when you choose to share your location in a chat</li>
+      <li><strong>Notifications</strong> — used to alert you about new messages, connections, and updates</li>
+    </ul>
+
+    <h2>Age Requirement</h2>
+    <p>
+      CodeSync is intended for users aged <strong>16 and above</strong>. It is not directed at
+      children under 16, and we do not knowingly collect information from anyone under 16. If
+      we learn that a user under 16 has created an account, we will take steps to remove that
+      account and associated data.
+    </p>
+
+    <h2>Third-Party Services</h2>
+    <p>
+      CodeSync does not sell your information or share it with advertisers. If we introduce
+      any third-party analytics or services in the future, this Privacy Policy will be updated
+      accordingly.
+    </p>
+
+    <h2>Data Security</h2>
+    <p>
+      We take reasonable measures to protect your information, but no method of transmission
+      or storage is completely secure. Please avoid sharing sensitive personal information in
+      chats beyond what's necessary.
+    </p>
+
+    <h2>Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. Changes will be reflected by
+      updating the "Last updated" date at the top of this page. We encourage you to review
+      this policy periodically.
+    </p>
+
+    <h2>Contact Us</h2>
+    <div class="contact-box">
+      <p>
+        If you have any questions about this Privacy Policy, please contact us at:<br>
+        <a href="mailto:skynetkokila10@gmail.com">skynetkokila10@gmail.com</a>
+      </p>
+    </div>
+
+    <footer>
+      &copy; <span id="year"></span> CodeSync
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("date").textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  </script>
+
+</body>
+</html>
