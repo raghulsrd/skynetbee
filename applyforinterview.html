@@ -1119,13 +1119,13 @@
           return ok;
         }
 
-        function validatePhoto() {
-          const ok = !!window.__croppedBlob && !!window.__originalFile;
-          document.getElementById("photoErr").style.display = ok
-            ? "none"
-            : "block";
-          return ok;
-        }
+        // function validatePhoto() {
+        //   const ok = !!window.__croppedBlob && !!window.__originalFile;
+        //   document.getElementById("photoErr").style.display = ok
+        //     ? "none"
+        //     : "block";
+        //   return ok;
+        // }
 
         // live validation on blur/change
         [
@@ -1153,105 +1153,105 @@
         });
 
         // ---------- Photo picker + Cropper ----------
-        const photoInput = document.getElementById("photoInput");
-        const choosePhotoBtn = document.getElementById("choosePhotoBtn");
-        const recropBtn = document.getElementById("recropBtn");
-        const cropModal = document.getElementById("cropModal");
-        const cropImage = document.getElementById("cropImage");
-        const cropCancel = document.getElementById("cropCancel");
-        const cropConfirm = document.getElementById("cropConfirm");
-        const photoImg = document.getElementById("photoImg");
+        // const photoInput = document.getElementById("photoInput");
+        // const choosePhotoBtn = document.getElementById("choosePhotoBtn");
+        // const recropBtn = document.getElementById("recropBtn");
+        // const cropModal = document.getElementById("cropModal");
+        // const cropImage = document.getElementById("cropImage");
+        // const cropCancel = document.getElementById("cropCancel");
+        // const cropConfirm = document.getElementById("cropConfirm");
+        // const photoImg = document.getElementById("photoImg");
 
-        let cropper = null;
-        let lastFileURL = null;
+        // let cropper = null;
+        // let lastFileURL = null;
 
-        choosePhotoBtn.addEventListener("click", () => {
-          photoInput.value = ""; // ensures 'change' fires even if same file chosen again
-          photoInput.click();
-        });
-        recropBtn.addEventListener("click", () => {
-          if (lastFileURL) openCropModal(lastFileURL);
-        });
+        // choosePhotoBtn.addEventListener("click", () => {
+        //   photoInput.value = ""; // ensures 'change' fires even if same file chosen again
+        //   photoInput.click();
+        // });
+        // recropBtn.addEventListener("click", () => {
+        //   if (lastFileURL) openCropModal(lastFileURL);
+        // });
 
-        photoInput.addEventListener("change", (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          const allowed = [
-            "image/jpeg",
-            "image/png",
-            "image/jpg",
-            "image/webp",
-          ];
-          if (!allowed.includes(file.type)) {
-            alert("Please choose a JPG, PNG, or WEBP image.");
-            photoInput.value = "";
-            return;
-          }
-          window.__originalFile = file; // keep the full chosen file for fullphoto
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            lastFileURL = ev.target.result;
-            openCropModal(lastFileURL);
-          };
-          reader.readAsDataURL(file);
-        });
+        // photoInput.addEventListener("change", (e) => {
+        //   const file = e.target.files[0];
+        //   if (!file) return;
+        //   const allowed = [
+        //     "image/jpeg",
+        //     "image/png",
+        //     "image/jpg",
+        //     "image/webp",
+        //   ];
+        //   if (!allowed.includes(file.type)) {
+        //     alert("Please choose a JPG, PNG, or WEBP image.");
+        //     photoInput.value = "";
+        //     return;
+        //   }
+        //   window.__originalFile = file; // keep the full chosen file for fullphoto
+        //   const reader = new FileReader();
+        //   reader.onload = (ev) => {
+        //     lastFileURL = ev.target.result;
+        //     openCropModal(lastFileURL);
+        //   };
+        //   reader.readAsDataURL(file);
+        // });
 
-        function openCropModal(url) {
-          // Always tear down any existing cropper instance first
-          if (cropper) {
-            cropper.destroy();
-            cropper = null;
-          }
+        // function openCropModal(url) {
+        //   // Always tear down any existing cropper instance first
+        //   if (cropper) {
+        //     cropper.destroy();
+        //     cropper = null;
+        //   }
 
-          cropModal.classList.add("open");
+        //   cropModal.classList.add("open");
 
-          // Reset src so 'load' reliably fires even if reusing the same image data
-          cropImage.removeAttribute("src");
+        //   // Reset src so 'load' reliably fires even if reusing the same image data
+        //   cropImage.removeAttribute("src");
 
-          const initCropper = () => {
-            cropper = new Cropper(cropImage, {
-              aspectRatio: 1,
-              viewMode: 1,
-              dragMode: "move",
-              autoCropArea: 1,
-              background: false,
-            });
-          };
+        //   const initCropper = () => {
+        //     cropper = new Cropper(cropImage, {
+        //       aspectRatio: 1,
+        //       viewMode: 1,
+        //       dragMode: "move",
+        //       autoCropArea: 1,
+        //       background: false,
+        //     });
+        //   };
 
-          cropImage.onload = initCropper;
-          cropImage.src = url;
-        }
+        //   cropImage.onload = initCropper;
+        //   cropImage.src = url;
+        // }
 
-        cropCancel.addEventListener("click", () => {
-          cropModal.classList.remove("open");
-          if (cropper) {
-            cropper.destroy();
-            cropper = null;
-          }
-          if (!window.__croppedBlob) {
-            photoInput.value = "";
-            window.__originalFile = null;
-          }
-        });
+        // cropCancel.addEventListener("click", () => {
+        //   cropModal.classList.remove("open");
+        //   if (cropper) {
+        //     cropper.destroy();
+        //     cropper = null;
+        //   }
+        //   if (!window.__croppedBlob) {
+        //     photoInput.value = "";
+        //     window.__originalFile = null;
+        //   }
+        // });
 
-        cropConfirm.addEventListener("click", () => {
-          if (!cropper) return;
-          cropper.getCroppedCanvas({ width: 500, height: 500 }).toBlob(
-            (blob) => {
-              window.__croppedBlob = blob;
-              const url = URL.createObjectURL(blob);
-              photoImg.src = url;
-              photoImg.style.display = "block";
-              recropBtn.style.display = "inline-block";
-              document.getElementById("photoErr").style.display = "none";
-              cropModal.classList.remove("open");
-              cropper.destroy();
-              cropper = null;
-            },
-            "image/jpeg",
-            0.92,
-          );
-        });
+        // cropConfirm.addEventListener("click", () => {
+        //   if (!cropper) return;
+        //   cropper.getCroppedCanvas({ width: 500, height: 500 }).toBlob(
+        //     (blob) => {
+        //       window.__croppedBlob = blob;
+        //       const url = URL.createObjectURL(blob);
+        //       photoImg.src = url;
+        //       photoImg.style.display = "block";
+        //       recropBtn.style.display = "inline-block";
+        //       document.getElementById("photoErr").style.display = "none";
+        //       cropModal.classList.remove("open");
+        //       cropper.destroy();
+        //       cropper = null;
+        //     },
+        //     "image/jpeg",
+        //     0.92,
+        //   );
+        // });
 
         // ---------- Submit ----------
         form.addEventListener("submit", async function (e) {
@@ -1271,7 +1271,7 @@
             validateGenericField("studyorworkintat"),
             validateCgpa(),
             validateSemExp(),
-            validatePhoto(),
+            // validatePhoto(),
           ];
 
           const allOk = results.every(Boolean);
@@ -1336,12 +1336,12 @@
             document.getElementById("currnetsemorexp").value.trim(),
           );
           fd.append("cgpa", document.getElementById("cgpa").value.trim());
-          fd.append("photo", window.__croppedBlob, "photo.jpg");
-          fd.append(
-            "fullphoto",
-            window.__originalFile,
-            window.__originalFile.name,
-          );
+          // fd.append("photo", window.__croppedBlob, "photo.jpg");
+          // fd.append(
+          //   "fullphoto",
+          //   window.__originalFile,
+          //   window.__originalFile.name,
+          // );
 
           try {
             const resp = await fetch(API_URL, { method: "POST", body: fd });
@@ -1363,10 +1363,10 @@
                   "</strong>. Please save this for reference.",
               );
               form.reset();
-              photoImg.style.display = "none";
-              recropBtn.style.display = "none";
-              window.__croppedBlob = null;
-              window.__originalFile = null;
+              // photoImg.style.display = "none";
+              // recropBtn.style.display = "none";
+              // window.__croppedBlob = null;
+              // window.__originalFile = null;
               document
                 .querySelectorAll(".field")
                 .forEach((f) => f.classList.remove("valid", "invalid"));
